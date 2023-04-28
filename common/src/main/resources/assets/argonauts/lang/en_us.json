@@ -1,0 +1,20 @@
+{
+    "argonauts.member.settings": "Settings",
+    "argonauts.member.status.invited": "§6ℹ Invited",
+    "argonauts.member.status.accepted": "§a ✔ Accepted",
+    "argonauts.member.status.text": "Member Status: ",
+    "argonauts.member.permissions": "Permissions",
+    "argonauts.permission.manage.members": "Manage Members",
+    "argonauts.permission.roles.members": "Manage Member Role",
+    "argonauts.permission.permissions.members": "Manage Member Permissions",
+    "argonauts.permission.manage.settings": "Manage Party Settings",
+    "argonauts.permission.tp.members": "Teleport Members",
+    "argonauts.member.actions": "Actions",
+    "argonauts.member.remove": "Remove Member",
+    "argonauts.member.remove.button": "Remove",
+
+
+    "argonauts.setting.passive_tp": "Passive Teleport",
+    "argonauts.setting.friendly_fire": "Friendly Fire",
+    "argonauts.setting.public": "Public Party"
+}
