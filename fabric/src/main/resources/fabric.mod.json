@@ -1,0 +1,28 @@
+{
+    "schemaVersion": 1,
+    "id": "argonauts",
+    "version": "${version}",
+    "name": "argonauts",
+    "description": "",
+    "authors": [],
+    "contact": {},
+    "license": "MIT",
+    "icon": "icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "earth.terrarium.argonauts.fabric.ArgonautsFabric"
+        ],
+        "client": [
+            "earth.terrarium.argonauts.client.ArgonautsClient::init"
+        ]
+    },
+    "mixins": [
+        "argonauts.mixins.json",
+        "argonauts-common.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.14.19",
+        "minecraft": ">=1.19.4"
+    }
+}
