@@ -2,12 +2,11 @@ package earth.terrarium.argonauts.client;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
-import earth.terrarium.argonauts.client.screens.party.settings.PartySettingsScreen;
 import earth.terrarium.argonauts.client.screens.party.members.PartyMembersScreen;
+import earth.terrarium.argonauts.client.screens.party.settings.PartySettingsScreen;
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;

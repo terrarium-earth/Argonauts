@@ -88,11 +88,4 @@ public class BooleanEntry extends ListEntry {
         return false;
     }
 
-    public boolean getValue() {
-        return value;
-    }
-
-    public String getId() {
-        return id;
-    }
 }

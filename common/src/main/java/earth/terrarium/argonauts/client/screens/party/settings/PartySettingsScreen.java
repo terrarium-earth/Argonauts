@@ -33,9 +33,9 @@ public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySett
 
         var list = addRenderableWidget(new PartySettingList(this.leftPos + 8, this.topPos + 18, 184, 180));
         list.addEntry(new DividerEntry(Component.literal("Settings")));
-        this.menu.settings().forEach((setting, value) -> {
-            list.addEntry(new BooleanEntry("setting", setting, value, true));
-        });
+        this.menu.settings().forEach((setting, value) ->
+            list.addEntry(new BooleanEntry("setting", setting, value, true))
+        );
         if (!this.menu.isPartyScreen()) {
             list.addEntry(new DividerEntry(Component.literal("Actions")));
             list.addEntry(new CommandEntry(Component.literal("Leave Party"), Component.literal("Leave"), "party leave"));

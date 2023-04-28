@@ -6,8 +6,6 @@ import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
-import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
-import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

@@ -6,9 +6,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.utils.RenderUtils;
 import com.teamresourceful.resourcefullib.common.lib.Constants;
-import earth.terrarium.argonauts.client.rendering.UrlTexture;
-import earth.terrarium.argonauts.client.screens.chat.embeds.Embeder;
-import earth.terrarium.argonauts.client.screens.chat.embeds.ImageEmbeder;
 import earth.terrarium.argonauts.client.utils.ClientUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -17,12 +14,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 

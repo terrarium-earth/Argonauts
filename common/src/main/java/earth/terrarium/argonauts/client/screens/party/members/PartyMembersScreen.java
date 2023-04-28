@@ -12,7 +12,6 @@ import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMemberState;
 import earth.terrarium.argonauts.common.menus.PartyMembersMenu;
 import net.minecraft.Optionull;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;

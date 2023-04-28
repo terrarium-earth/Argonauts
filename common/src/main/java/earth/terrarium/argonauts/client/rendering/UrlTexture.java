@@ -4,7 +4,6 @@ import com.google.common.hash.Hashing;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.logging.LogUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.utils.ClientUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
@@ -16,12 +15,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
@@ -32,7 +29,6 @@ public class UrlTexture extends SimpleTexture {
     private static final Map<String, UrlTexture.Info> INFO = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
     private static final Info DEFAULT_INFO = new Info(24, 24, 24, 24);
 
-    private static final Logger LOGGER = LogUtils.getLogger();
     private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/hourglass.png");
 
     private final HttpRequest request;
