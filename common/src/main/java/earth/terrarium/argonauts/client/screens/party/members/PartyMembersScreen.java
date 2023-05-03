@@ -9,7 +9,7 @@ import earth.terrarium.argonauts.client.utils.ClientUtils;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.handlers.party.members.PartyMemberState;
+import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.menus.PartyMembersMenu;
 import net.minecraft.Optionull;
 import net.minecraft.network.chat.Component;
@@ -48,7 +48,7 @@ public class PartyMembersScreen extends AbstractContainerCursorScreen<PartyMembe
         if (member != null && self != null) {
             boolean cantModify = member.equals(self) || member.getState().isLeader();
 
-            Component status = member.getState() == PartyMemberState.INVITED ? Component.translatable("argonauts.member.status.invited") : Component.translatable("argonauts.member.status.accepted");
+            Component status = member.getState() == MemberState.INVITED ? Component.translatable("argonauts.member.status.invited") : Component.translatable("argonauts.member.status.accepted");
             list.addEntry(new TextEntry(Component.translatable("argonauts.member.status.text"), status));
 
             list.addEntry(new DividerEntry(Component.translatable("argonauts.member.settings")));

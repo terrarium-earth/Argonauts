@@ -5,7 +5,7 @@ import com.mojang.authlib.GameProfile;
 import com.teamresourceful.resourcefullib.common.menu.MenuContent;
 import com.teamresourceful.resourcefullib.common.menu.MenuContentSerializer;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.handlers.party.members.PartyMemberState;
+import earth.terrarium.argonauts.common.handlers.MemberState;
 import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public record PartyMembersContent(UUID partyId,
         public PartyMembersContent from(FriendlyByteBuf buffer) {
             List<PartyMember> members = buffer.readList(buf -> {
                 GameProfile profile = buf.readGameProfile();
-                PartyMemberState state = buf.readEnum(PartyMemberState.class);
+                MemberState state = buf.readEnum(MemberState.class);
                 Set<String> permissions = buf.readCollection(Sets::newHashSetWithExpectedSize, FriendlyByteBuf::readUtf);
                 String role = buf.readUtf();
                 PartyMember member = new PartyMember(profile, state, permissions);

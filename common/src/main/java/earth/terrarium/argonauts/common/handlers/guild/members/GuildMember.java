@@ -1,25 +1,23 @@
-package earth.terrarium.argonauts.common.handlers.party.members;
+package earth.terrarium.argonauts.common.handlers.guild.members;
 
 import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.common.handlers.MemberState;
-import earth.terrarium.argonauts.common.handlers.party.settings.PartySettings;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class PartyMember {
+public class GuildMember {
 
     private final GameProfile profile;
     private final Set<String> permissions = new HashSet<>();
-    private final PartySettings settings = new PartySettings();
     private MemberState state;
     private String role = "Member";
 
-    public PartyMember(GameProfile profile, MemberState state) {
+    public GuildMember(GameProfile profile, MemberState state) {
         this(profile, state, new HashSet<>());
     }
 
-    public PartyMember(GameProfile profile, MemberState state, Set<String> permissions) {
+    public GuildMember(GameProfile profile, MemberState state, Set<String> permissions) {
         this.profile = profile;
         this.state = state;
         this.permissions.addAll(permissions);
@@ -31,10 +29,6 @@ public class PartyMember {
 
     public Set<String> permissions() {
         return permissions;
-    }
-
-    public PartySettings settings() {
-        return settings;
     }
 
     public boolean hasPermission(String permission) {

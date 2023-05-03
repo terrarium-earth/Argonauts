@@ -37,7 +37,14 @@ public class PartyHandler {
      * Returns the party the player is in.
      */
     public static Party get(Player player) {
-        return get(PLAYER_PARTIES.get(player.getUUID()));
+        return getPlayerParty(player.getUUID());
+    }
+
+    /**
+     * Returns the party the player is in.
+     */
+    public static Party getPlayerParty(UUID player) {
+        return get(PLAYER_PARTIES.get(player));
     }
 
     public static void join(Party party, Player player) throws PartyException {

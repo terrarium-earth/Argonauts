@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.handlers.party.members;
 
 import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import net.minecraft.Optionull;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ public class PartyMembers implements Iterable<PartyMember> {
 
     public PartyMembers(GameProfile leader) {
         this.leader = leader.getId();
-        this.members.put(leader.getId(), new PartyMember(leader, PartyMemberState.LEADER));
+        this.members.put(leader.getId(), new PartyMember(leader, MemberState.OWNER));
     }
 
     public PartyMember get(UUID uuid) {
@@ -22,17 +23,17 @@ public class PartyMembers implements Iterable<PartyMember> {
     }
 
     public void add(GameProfile profile) {
-        if (Optionull.map(this.members.get(profile.getId()), PartyMember::getState) != PartyMemberState.LEADER) {
+        if (Optionull.map(this.members.get(profile.getId()), PartyMember::getState) != MemberState.OWNER) {
             if (this.members.containsKey(profile.getId())) {
-                this.members.get(profile.getId()).setState(PartyMemberState.MEMBER);
+                this.members.get(profile.getId()).setState(MemberState.MEMBER);
                 return;
             }
-            this.members.put(profile.getId(), new PartyMember(profile, PartyMemberState.MEMBER));
+            this.members.put(profile.getId(), new PartyMember(profile, MemberState.MEMBER));
         }
     }
 
     public void invite(GameProfile profile) {
-        this.members.put(profile.getId(), new PartyMember(profile, PartyMemberState.INVITED));
+        this.members.put(profile.getId(), new PartyMember(profile, MemberState.INVITED));
     }
 
     public void remove(UUID uuid) {
@@ -46,8 +47,8 @@ public class PartyMembers implements Iterable<PartyMember> {
         if (this.leader.equals(uuid)) {
             throw new PartyException("Cannot set leader to the current leader");
         }
-        forEach(member -> member.setState(PartyMemberState.MEMBER));
-        this.members.get(uuid).setState(PartyMemberState.LEADER);
+        forEach(member -> member.setState(MemberState.MEMBER));
+        this.members.get(uuid).setState(MemberState.OWNER);
         this.leader = uuid;
     }
 
@@ -56,10 +57,10 @@ public class PartyMembers implements Iterable<PartyMember> {
     }
 
     public boolean isMember(UUID uuid) {
-        return this.members.containsKey(uuid) && this.members.get(uuid).getState() != PartyMemberState.INVITED;
+        return this.members.containsKey(uuid) && this.members.get(uuid).getState() != MemberState.INVITED;
     }
     public boolean isInvited(UUID uuid) {
-        return this.members.containsKey(uuid) && this.members.get(uuid).getState() == PartyMemberState.INVITED;
+        return this.members.containsKey(uuid) && this.members.get(uuid).getState() == MemberState.INVITED;
     }
 
     public boolean isLeader(UUID uuid) {
@@ -74,7 +75,7 @@ public class PartyMembers implements Iterable<PartyMember> {
     @Override
     public Iterator<PartyMember> iterator() {
         List<PartyMember> members = new ArrayList<>(this.members.values());
-        members.removeIf((member) -> member.getState() == PartyMemberState.INVITED);
+        members.removeIf((member) -> member.getState() == MemberState.INVITED);
         return members.iterator();
     }
 }
