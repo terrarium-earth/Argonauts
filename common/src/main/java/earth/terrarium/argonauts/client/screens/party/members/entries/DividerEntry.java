@@ -20,7 +20,7 @@ public class DividerEntry extends ListEntry {
 
     @Override
     protected void render(@NotNull ScissorBoxStack scissorStack, @NotNull PoseStack stack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
-        int center = (int)(height / 2f);
+        int center = (int) (height / 2f);
         if (text != null) {
             Gui.fill(stack, left + 5, top + center - 1, left + 9, top + center, 0xFFFFFFFF);
             int lineHeight = Minecraft.getInstance().font.lineHeight;

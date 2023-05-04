@@ -14,7 +14,8 @@ import earth.terrarium.argonauts.common.menus.PartyMembersMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public record ServerboundSetPermissionPacket(String permission, boolean value) implements Packet<ServerboundSetPermissionPacket> {
+public record ServerboundSetPermissionPacket(String permission,
+                                             boolean value) implements Packet<ServerboundSetPermissionPacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "set_permission");
     public static final PacketHandler<ServerboundSetPermissionPacket> HANDLER = new Handler();

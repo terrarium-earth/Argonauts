@@ -14,6 +14,7 @@ public class ClientUtils {
     public static final HttpClient WEB = HttpClient.newBuilder().build();
 
     private static final Char2CharMap SMALL_NUMBERS = new Char2CharOpenHashMap();
+
     static {
         SMALL_NUMBERS.put('0', '₀');
         SMALL_NUMBERS.put('1', '₁');

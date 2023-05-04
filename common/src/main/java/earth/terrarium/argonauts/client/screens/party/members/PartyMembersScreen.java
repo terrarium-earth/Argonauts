@@ -7,9 +7,9 @@ import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.party.members.entries.*;
 import earth.terrarium.argonauts.client.utils.ClientUtils;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
+import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.menus.PartyMembersMenu;
 import net.minecraft.Optionull;
 import net.minecraft.network.chat.Component;
@@ -38,7 +38,7 @@ public class PartyMembersScreen extends AbstractContainerCursorScreen<PartyMembe
 
         addRenderableWidget(new PartyMembersList(this.leftPos + 8, this.topPos + 29, 70, 180, 20, item -> {
             this.menu.getId(Optionull.map(item, PartyMembersList.Entry::profile))
-                    .ifPresent(id -> ClientUtils.sendClick(this, id));
+                .ifPresent(id -> ClientUtils.sendClick(this, id));
         })).update(this.menu.members());
 
         var list = addRenderableWidget(new PartySettingList(this.leftPos + 84, this.topPos + 29, 184, 180));

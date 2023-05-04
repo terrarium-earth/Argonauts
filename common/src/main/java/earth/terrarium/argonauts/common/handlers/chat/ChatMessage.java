@@ -1,4 +1,3 @@
-
 package earth.terrarium.argonauts.common.handlers.chat;
 
 import com.mojang.authlib.GameProfile;

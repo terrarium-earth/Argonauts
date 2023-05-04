@@ -11,7 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public record ClientboundReceiveMessagePacket(UnsignedInteger id, ChatMessage message) implements Packet<ClientboundReceiveMessagePacket> {
+public record ClientboundReceiveMessagePacket(UnsignedInteger id,
+                                              ChatMessage message) implements Packet<ClientboundReceiveMessagePacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "receive_message");
     public static final PacketHandler<ClientboundReceiveMessagePacket> HANDLER = new Handler();

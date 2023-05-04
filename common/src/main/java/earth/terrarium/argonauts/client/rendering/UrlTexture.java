@@ -40,9 +40,9 @@ public class UrlTexture extends SimpleTexture {
         super(DEFAULT_TEXTURE);
         this.url = url;
         this.request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("User-Agent", "Argonauts (Minecraft Mod)")
-                .build();
+            .uri(URI.create(url))
+            .header("User-Agent", "Argonauts (Minecraft Mod)")
+            .build();
     }
 
     @SuppressWarnings({"deprecation"})

@@ -10,7 +10,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public record ChatContent(ChatMessageType type, int maxUsers, List<String> usernames, LinkedHashMap<UnsignedInteger, ChatMessage> messages) implements MenuContent<ChatContent> {
+public record ChatContent(ChatMessageType type, int maxUsers, List<String> usernames,
+                          LinkedHashMap<UnsignedInteger, ChatMessage> messages) implements MenuContent<ChatContent> {
 
     public static final MenuContentSerializer<ChatContent> SERIALIZER = new Serializer();
 

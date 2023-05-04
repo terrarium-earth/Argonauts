@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
 }
 
 architectury {
@@ -30,9 +30,15 @@ allprojects {
     group = rootProject.maven_group
 
     repositories {
+        maven { url = "https://maven.resourcefulbees.com/repository/maven-public/" }
         maven {
-            url = "https://maven.resourcefulbees.com/repository/maven-public/"
+            url = 'https://jitpack.io'
+            content {
+                includeGroup 'com.github.LlamaLad7'
+                includeGroup 'com.github.llamalad7.mixinextras'
+            }
         }
+        mavenLocal()
     }
 
     tasks.withType(JavaCompile) {

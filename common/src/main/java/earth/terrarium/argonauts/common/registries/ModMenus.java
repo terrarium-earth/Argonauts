@@ -13,7 +13,7 @@ public class ModMenus {
 
     public static final ResourcefulRegistry<MenuType<?>> MENUS = ResourcefulRegistries.create(BuiltInRegistries.MENU, Argonauts.MOD_ID);
 
-    public static final RegistryEntry<MenuType<PartyMembersMenu>> PARTY = MENUS.register("party", () -> MenuContentHelper.create(PartyMembersMenu::new,  PartyMembersContent.SERIALIZER));
+    public static final RegistryEntry<MenuType<PartyMembersMenu>> PARTY = MENUS.register("party", () -> MenuContentHelper.create(PartyMembersMenu::new, PartyMembersContent.SERIALIZER));
     public static final RegistryEntry<MenuType<PartySettingMenu>> PARTY_SETTINGS = MENUS.register("party_settings", () -> MenuContentHelper.create(PartySettingMenu::new, PartySettingContent.SERIALIZER));
     public static final RegistryEntry<MenuType<ChatMenu>> CHAT = MENUS.register("chat", () -> MenuContentHelper.create(ChatMenu::new, ChatContent.SERIALIZER));
 }

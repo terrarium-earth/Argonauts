@@ -33,7 +33,7 @@ public class YoutubeVideoEmbeder implements Embeder {
         String title = info.title;
         String author = info.author;
         String thumbnail = info.image;
-        if (title == null || author == null || thumbnail == null|| !info.future.isDone()) return;
+        if (title == null || author == null || thumbnail == null || !info.future.isDone()) return;
         ResourceLocation texture = ImageEmbeder.resolveImage(thumbnail);
         RenderSystem.setShaderTexture(0, texture);
         var mouse = Minecraft.getInstance().mouseHandler;
@@ -44,7 +44,7 @@ public class YoutubeVideoEmbeder implements Embeder {
         stack.translate(mouseX, mouseY, 200);
         Gui.blit(stack, 5, 5, 0, 0, info.width, info.height, info.width, info.height);
         Gui.fill(stack, 5, 5 + info.height - 25, 5 + info.width, 5 + info.height, 0x80000000);
-        try (var ignored = RenderUtils.createScissorBox(Minecraft.getInstance(), stack, 5, 5 + info.height - 25,  info.width, 25)) {
+        try (var ignored = RenderUtils.createScissorBox(Minecraft.getInstance(), stack, 5, 5 + info.height - 25, info.width, 25)) {
             Minecraft.getInstance().font.draw(stack, author, 8, 5 + info.height - 25 + 2, 0xFFFFFF);
             var split = Minecraft.getInstance().font.split(Component.literal(title), info.width - 20);
             if (!split.isEmpty()) {

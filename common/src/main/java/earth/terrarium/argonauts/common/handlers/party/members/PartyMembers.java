@@ -59,6 +59,7 @@ public class PartyMembers implements Iterable<PartyMember> {
     public boolean isMember(UUID uuid) {
         return this.members.containsKey(uuid) && this.members.get(uuid).getState() != MemberState.INVITED;
     }
+
     public boolean isInvited(UUID uuid) {
         return this.members.containsKey(uuid) && this.members.get(uuid).getState() == MemberState.INVITED;
     }

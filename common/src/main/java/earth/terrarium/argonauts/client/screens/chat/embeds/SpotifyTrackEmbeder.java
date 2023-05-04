@@ -43,7 +43,7 @@ public class SpotifyTrackEmbeder implements Embeder {
         stack.translate(mouseX, mouseY, 200);
         Gui.blit(stack, 5, 5, 0, 0, info.width, info.height, info.width, info.height);
         Gui.fill(stack, 5, 5 + info.height - 15, 5 + info.width, 5 + info.height, 0x80000000);
-        try (var ignored = RenderUtils.createScissorBox(Minecraft.getInstance(), stack, 5, 5 + info.height - 15,  info.width, 15)) {
+        try (var ignored = RenderUtils.createScissorBox(Minecraft.getInstance(), stack, 5, 5 + info.height - 15, info.width, 15)) {
             var split = Minecraft.getInstance().font.split(Component.literal(title), info.width - 20);
             if (!split.isEmpty()) {
                 var draw = Minecraft.getInstance().font.draw(stack, split.get(0), 8, 5 + info.height - 12, 0x00A8EF);

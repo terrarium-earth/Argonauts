@@ -57,7 +57,7 @@ public class PartyMembersList extends SelectionList<PartyMembersList.Entry> {
         @Override
         protected void render(@NotNull ScissorBoxStack scissorStack, @NotNull PoseStack stack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
             RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
-            blit(stack, left, top, 276, hovered ? 20 : 0, 70, 20, 512,512);
+            blit(stack, left, top, 276, hovered ? 20 : 0, 70, 20, 512, 512);
 
             RenderSystem.setShaderTexture(0, this.skin);
             PlayerFaceRenderer.draw(stack, left + 2, top + 2, 16);

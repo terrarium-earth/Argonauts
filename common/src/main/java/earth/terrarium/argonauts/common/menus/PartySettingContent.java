@@ -6,7 +6,8 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.network.FriendlyByteBuf;
 
-public record PartySettingContent(boolean partySettings, Object2BooleanMap<String> settings) implements MenuContent<PartySettingContent> {
+public record PartySettingContent(boolean partySettings,
+                                  Object2BooleanMap<String> settings) implements MenuContent<PartySettingContent> {
 
     public static final MenuContentSerializer<PartySettingContent> SERIALIZER = new Serializer();
 

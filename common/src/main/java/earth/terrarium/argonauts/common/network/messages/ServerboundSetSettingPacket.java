@@ -14,7 +14,8 @@ import earth.terrarium.argonauts.common.menus.PartySettingMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public record ServerboundSetSettingPacket(String setting, boolean value) implements Packet<ServerboundSetSettingPacket> {
+public record ServerboundSetSettingPacket(String setting,
+                                          boolean value) implements Packet<ServerboundSetSettingPacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "set_setting");
     public static final PacketHandler<ServerboundSetSettingPacket> HANDLER = new Handler();
