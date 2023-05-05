@@ -3,6 +3,8 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -40,7 +42,7 @@ public final class PartyModCommands {
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                    PartyCommandHelper.runPartyAction(() -> {
+                    CommandHelper.runAction(() -> {
                         Party party = PartyCommandHelper.getPartyOrThrow(player, false);
                         Party otherParty = PartyCommandHelper.getPartyOrThrow(target, true);
                         if (party != otherParty) {
@@ -71,7 +73,7 @@ public final class PartyModCommands {
         return Commands.literal("settings")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
-                PartyCommandHelper.runPartyAction(() -> openSettingsScreen(player));
+                CommandHelper.runAction(() -> openSettingsScreen(player));
                 return 1;
             });
     }
@@ -81,7 +83,7 @@ public final class PartyModCommands {
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     PartyMember member = party.getMember(player);
                     if (member.hasPermission(MemberPermissions.TP_MEMBERS)) {
                         tpAllMembers(party, player);
@@ -126,7 +128,7 @@ public final class PartyModCommands {
         }
         BasicContentMenuProvider.open(
             new PartySettingContent(true, settings),
-            Component.literal("Party Setting"),
+            ConstantComponents.PARTY_SETTING_TITLE,
             PartySettingMenu::new,
             player
         );

@@ -3,6 +3,8 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -28,7 +30,7 @@ public final class PartyMemberCommands {
                 .then(list())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
-                    PartyCommandHelper.runPartyAction(() -> openMemberScreen(player));
+                    CommandHelper.runAction(() -> openMemberScreen(player));
                     return 1;
                 })
             ));
@@ -38,7 +40,7 @@ public final class PartyMemberCommands {
         return Commands.literal("list")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
-                PartyCommandHelper.runPartyAction(() -> openMembersScreen(player, -1));
+                CommandHelper.runAction(() -> openMembersScreen(player, -1));
                 return 1;
             });
     }
@@ -51,7 +53,7 @@ public final class PartyMemberCommands {
         PartyMember member = party.getMember(player);
         BasicContentMenuProvider.open(
             new PartyMembersContent(party.id(), selected, party.members().allMembers(), member.hasPermission(MemberPermissions.MANAGE_MEMBERS), member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)),
-            Component.literal("Party Members"),
+            ConstantComponents.PARTY_MEMBERS_TITLE,
             PartyMembersMenu::new,
             player
         );
@@ -74,7 +76,7 @@ public final class PartyMemberCommands {
         }
         BasicContentMenuProvider.open(
             new PartySettingContent(false, settings),
-            Component.literal("Member Setting"),
+            ConstantComponents.MEMBER_SETTINGS_TITLE,
             PartySettingMenu::new,
             player
         );

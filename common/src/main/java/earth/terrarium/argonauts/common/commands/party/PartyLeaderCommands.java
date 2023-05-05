@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -25,9 +26,9 @@ public final class PartyLeaderCommands {
             .executes(context -> {
                 Player player = context.getSource().getPlayerOrException();
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     if (party.members().isLeader(player.getUUID())) {
-                        PartyCommandHelper.runPartyAction(() -> PartyHandler.remove(party));
+                        CommandHelper.runAction(() -> PartyHandler.remove(party));
                     } else {
                         throw PartyException.YOU_ARE_NOT_THE_LEADER;
                     }
@@ -42,9 +43,9 @@ public final class PartyLeaderCommands {
                 Player player = context.getSource().getPlayerOrException();
                 Player target = EntityArgument.getPlayer(context, "player");
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     if (party.members().isLeader(player.getUUID())) {
-                        PartyCommandHelper.runPartyAction(() -> party.members().setLeader(target.getUUID()));
+                        CommandHelper.runAction(() -> party.members().setLeader(target.getUUID()));
                     } else {
                         throw PartyException.YOU_ARE_NOT_THE_LEADER;
                     }

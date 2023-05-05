@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.commands.party;
 
 import com.mojang.brigadier.CommandDispatcher;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.handlers.party.Party;
@@ -25,7 +26,7 @@ public final class PartyChatCommands {
             .then(Commands.literal("chat")
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
-                    PartyCommandHelper.runPartyAction(() -> openChatScreen(player));
+                    CommandHelper.runAction(() -> openChatScreen(player));
                     return 1;
                 })));
     }

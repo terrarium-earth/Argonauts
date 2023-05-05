@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -28,7 +29,7 @@ public final class PartyManageCommands {
                 Player player = context.getSource().getPlayerOrException();
                 Player target = EntityArgument.getPlayer(context, "player");
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     PartyMember member = party.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         party.members().invite(target.getGameProfile());
@@ -47,7 +48,7 @@ public final class PartyManageCommands {
                 Player player = context.getSource().getPlayerOrException();
                 Player target = EntityArgument.getPlayer(context, "player");
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     PartyMember member = party.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         if (player.getUUID().equals(target.getUUID())) {

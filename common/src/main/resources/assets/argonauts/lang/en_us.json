@@ -13,8 +13,17 @@
     "argonauts.member.remove": "Remove Member",
     "argonauts.member.remove.button": "Remove",
 
-
     "argonauts.setting.passive_tp": "Passive Teleport",
     "argonauts.setting.friendly_fire": "Friendly Fire",
-    "argonauts.setting.public": "Public Party"
+    "argonauts.setting.public": "Public Party",
+
+    "gui.argonauts.party_chat.title": "Party Chat",
+    "gui.argonauts.party_members.title": "Party Members",
+    "gui.argonauts.party_settings.title": "Party Setting",
+
+    "gui.argonauts.guild_chat.title": "Guild Chat",
+    "gui.argonauts.guild_members.title": "Guild Members",
+    "gui.argonauts.guild_settings.title": "Guild Setting",
+
+    "gui.argonauts.member_settings.title": "Member Settings"
 }

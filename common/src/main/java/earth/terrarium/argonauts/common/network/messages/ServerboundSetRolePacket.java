@@ -4,7 +4,7 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.common.commands.party.PartyCommandHelper;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -44,7 +44,7 @@ public record ServerboundSetRolePacket(String role) implements Packet<Serverboun
         @Override
         public PacketContext handle(ServerboundSetRolePacket message) {
             return (player, level) ->
-                PartyCommandHelper.runPartyNetworkAction(player, () -> {
+                CommandHelper.runNetworkAction(player, () -> {
                     Party party = PartyHandler.get(player);
                     if (player.containerMenu instanceof PartyMembersMenu menu && party != null) {
                         PartyMember member = party.getMember(player);

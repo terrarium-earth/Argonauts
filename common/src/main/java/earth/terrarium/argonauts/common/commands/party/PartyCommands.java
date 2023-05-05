@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -33,7 +34,7 @@ public final class PartyCommands {
             .executes(context -> {
                 Player player = context.getSource().getPlayerOrException();
                 Party party = PartyCommandHelper.getPartyOrThrow(player, true);
-                PartyCommandHelper.runPartyAction(() -> PartyHandler.remove(party.id(), player));
+                CommandHelper.runAction(() -> PartyHandler.remove(party.id(), player));
                 return 1;
             });
     }
@@ -44,7 +45,7 @@ public final class PartyCommands {
                 Player player = context.getSource().getPlayerOrException();
                 Player target = EntityArgument.getPlayer(context, "player");
                 Party party = PartyCommandHelper.getPartyOrThrow(target, true);
-                PartyCommandHelper.runPartyAction(() -> PartyHandler.join(party, player));
+                CommandHelper.runAction(() -> PartyHandler.join(party, player));
                 return 1;
             }));
     }
@@ -55,7 +56,7 @@ public final class PartyCommands {
                 Player player = context.getSource().getPlayerOrException();
                 Collection<GameProfile> profiles = GameProfileArgument.getGameProfiles(context, "members");
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     PartyMember member = party.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         profiles.forEach(party.ignored()::add);
@@ -73,7 +74,7 @@ public final class PartyCommands {
                 Player player = context.getSource().getPlayerOrException();
                 Collection<GameProfile> profiles = GameProfileArgument.getGameProfiles(context, "members");
                 Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
+                CommandHelper.runAction(() -> {
                     PartyMember member = party.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         profiles.forEach(party.ignored()::remove);
