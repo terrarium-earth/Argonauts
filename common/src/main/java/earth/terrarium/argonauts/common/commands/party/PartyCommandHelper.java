@@ -1,7 +1,7 @@
 package earth.terrarium.argonauts.common.commands.party;
 
-import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.world.entity.player.Player;

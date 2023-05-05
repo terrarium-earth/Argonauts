@@ -5,10 +5,8 @@ import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
-import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public final class Guild extends Group<GuildMember> {

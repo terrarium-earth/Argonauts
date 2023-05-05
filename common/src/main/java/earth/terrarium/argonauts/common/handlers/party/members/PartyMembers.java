@@ -4,11 +4,9 @@ import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Members;
-import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import net.minecraft.Optionull;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.UUID;
 
 public class PartyMembers extends Members<PartyMember> {
 
