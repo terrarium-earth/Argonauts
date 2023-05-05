@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts.common.handlers.chat;
 
-import earth.terrarium.argonauts.common.handlers.party.Party;
+import earth.terrarium.argonauts.common.handlers.base.members.Group;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,21 +17,11 @@ public class ChatHandler {
         return CHANNELS.computeIfAbsent(type, t -> new HashMap<>());
     }
 
-    public static MessageChannel getPartyChannel(Party party) {
-        return getChannels(ChatMessageType.PARTY).computeIfAbsent(party.id(), i -> new MessageChannel());
+    public static MessageChannel getChannel(Group<?> group, ChatMessageType type) {
+        return getChannels(type).computeIfAbsent(group.id(), i -> new MessageChannel());
     }
 
-    public static MessageChannel getGuildChannel(UUID guild) {
-        return getChannels(ChatMessageType.GUILD).computeIfAbsent(guild, i -> new MessageChannel());
+    public static void remove(Group<?> group, ChatMessageType type) {
+        getChannels(type).remove(group.id());
     }
-
-    public static void removeParty(Party party) {
-        getChannels(ChatMessageType.PARTY).remove(party.id());
-    }
-
-    //TODO Change to guild id
-    public static void removeGuild(UUID guild) {
-        getChannels(ChatMessageType.GUILD).remove(guild);
-    }
-
 }

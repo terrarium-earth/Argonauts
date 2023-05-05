@@ -1,6 +1,8 @@
 package earth.terrarium.argonauts.common.handlers.party;
 
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
+import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
@@ -15,9 +17,9 @@ public class PartyHandler {
     private static final Map<UUID, Party> PARTIES = new HashMap<>();
     private static final Map<UUID, UUID> PLAYER_PARTIES = new HashMap<>();
 
-    public static UUID createParty(Player player) throws PartyException {
+    public static UUID createParty(Player player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
-            throw PartyException.ALREADY_IN_PARTY;
+            throw MemberException.ALREADY_IN_PARTY;
         }
         UUID id = ModUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
         PARTIES.put(id, new Party(id, player));
@@ -36,6 +38,7 @@ public class PartyHandler {
     /**
      * Returns the party the player is in.
      */
+    @Nullable
     public static Party get(Player player) {
         return getPlayerParty(player.getUUID());
     }
@@ -43,20 +46,21 @@ public class PartyHandler {
     /**
      * Returns the party the player is in.
      */
+    @Nullable
     public static Party getPlayerParty(UUID player) {
         return get(PLAYER_PARTIES.get(player));
     }
 
-    public static void join(Party party, Player player) throws PartyException {
+    public static void join(Party party, Player player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
-            throw PartyException.ALREADY_IN_PARTY;
+            throw MemberException.ALREADY_IN_PARTY;
         } else if (party.ignored().has(player.getUUID())) {
-            throw PartyException.NOT_ALLOWED_TO_JOIN_PARTY;
+            throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
         } else if (party.isPublic() || party.members().isInvited(player.getUUID())) {
             party.members().add(player.getGameProfile());
             PLAYER_PARTIES.put(player.getUUID(), party.id());
         } else {
-            throw PartyException.NOT_ALLOWED_TO_JOIN_PARTY;
+            throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
         }
     }
 
@@ -67,17 +71,17 @@ public class PartyHandler {
                 PLAYER_PARTIES.remove(member.profile().getId());
             }
         });
-        ChatHandler.removeParty(party);
+        ChatHandler.remove(party, ChatMessageType.PARTY);
     }
 
-    public static void remove(UUID id, Player player) throws PartyException {
+    public static void remove(UUID id, Player player) throws MemberException {
         Party party = get(id);
         if (party == null) {
-            throw PartyException.PARTY_DOES_NOT_EXIST;
+            throw MemberException.PARTY_DOES_NOT_EXIST;
         } else if (PLAYER_PARTIES.get(player.getUUID()) != id) {
-            throw PartyException.PLAYER_IS_NOT_IN_PARTY;
+            throw MemberException.PLAYER_IS_NOT_IN_PARTY;
         } else if (party.members().isLeader(player.getUUID())) {
-            throw PartyException.CANT_REMOVE_LEADER;
+            throw MemberException.CANT_REMOVE_PARTY_LEADER;
         }
         PLAYER_PARTIES.remove(player.getUUID());
         party.members().remove(player.getUUID());

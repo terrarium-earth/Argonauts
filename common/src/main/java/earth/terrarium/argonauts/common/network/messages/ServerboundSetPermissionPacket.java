@@ -6,7 +6,7 @@ import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
@@ -51,12 +51,12 @@ public record ServerboundSetPermissionPacket(String permission,
                     if (player.containerMenu instanceof PartyMembersMenu menu && party != null) {
                         PartyMember member = party.getMember(player);
                         if (!member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)) {
-                            throw PartyException.NO_PERMISSIONS;
+                            throw MemberException.NO_PERMISSIONS;
                         }
                         PartyMember selected = menu.getSelected();
                         if (selected != null && !selected.getState().isLeader()) {
                             if (!member.hasPermission(message.permission)) {
-                                throw PartyException.YOU_CANT_GIVE_PERMISSIONS;
+                                throw MemberException.YOU_CANT_GIVE_PERMISSIONS;
                             }
                             if (message.value) {
                                 selected.permissions().add(message.permission);

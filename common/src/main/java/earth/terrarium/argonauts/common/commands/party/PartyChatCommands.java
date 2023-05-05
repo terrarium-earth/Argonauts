@@ -2,10 +2,10 @@ package earth.terrarium.argonauts.common.commands.party;
 
 import com.mojang.brigadier.CommandDispatcher;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
@@ -31,10 +31,10 @@ public final class PartyChatCommands {
                 })));
     }
 
-    public static void openChatScreen(ServerPlayer player) throws PartyException {
+    public static void openChatScreen(ServerPlayer player) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         int partySize = 0;
         List<String> partyUsernames = new ArrayList<>();
@@ -51,7 +51,7 @@ public final class PartyChatCommands {
                 ChatMessageType.PARTY,
                 partySize,
                 partyUsernames,
-                ChatHandler.getPartyChannel(party).messages()
+                ChatHandler.getChannel(party, ChatMessageType.PARTY).messages()
             ),
             Component.literal("Party Chat"),
             ChatMenu::new,

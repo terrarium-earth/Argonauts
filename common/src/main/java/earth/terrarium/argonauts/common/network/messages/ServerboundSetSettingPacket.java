@@ -6,7 +6,7 @@ import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
@@ -52,7 +52,7 @@ public record ServerboundSetSettingPacket(String setting,
                         PartyMember member = party.getMember(player);
                         if (menu.isPartyScreen()) {
                             if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
-                                throw PartyException.NO_PERMISSIONS;
+                                throw MemberException.NO_PERMISSIONS;
                             }
                             party.settings().set(message.setting, message.value);
                         } else {

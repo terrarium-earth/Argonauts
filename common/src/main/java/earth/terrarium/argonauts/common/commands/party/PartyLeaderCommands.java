@@ -5,7 +5,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -30,7 +30,7 @@ public final class PartyLeaderCommands {
                     if (party.members().isLeader(player.getUUID())) {
                         CommandHelper.runAction(() -> PartyHandler.remove(party));
                     } else {
-                        throw PartyException.YOU_ARE_NOT_THE_LEADER;
+                        throw MemberException.YOU_ARE_NOT_THE_LEADER_OF_PARTY;
                     }
                 });
                 return 1;
@@ -47,7 +47,7 @@ public final class PartyLeaderCommands {
                     if (party.members().isLeader(player.getUUID())) {
                         CommandHelper.runAction(() -> party.members().setLeader(target.getUUID()));
                     } else {
-                        throw PartyException.YOU_ARE_NOT_THE_LEADER;
+                        throw MemberException.YOU_ARE_NOT_THE_LEADER_OF_PARTY;
                     }
                 });
                 return 1;

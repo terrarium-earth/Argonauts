@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
@@ -19,7 +19,6 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 
@@ -46,18 +45,18 @@ public final class PartyModCommands {
                         Party party = PartyCommandHelper.getPartyOrThrow(player, false);
                         Party otherParty = PartyCommandHelper.getPartyOrThrow(target, true);
                         if (party != otherParty) {
-                            throw PartyException.NOT_IN_SAME_PARTY;
+                            throw MemberException.NOT_IN_SAME_PARTY;
                         }
                         PartyMember member = party.getMember(player);
                         PartyMember targetMember = party.getMember(target);
                         if (!member.hasPermission(MemberPermissions.TP_MEMBERS)) {
-                            throw PartyException.YOU_CANT_TP_MEMBERS;
+                            throw MemberException.YOU_CANT_TP_MEMBERS_IN_PARTY;
                         }
                         if (!party.settings().has(DefaultPartySettings.PASSIVE_TP)) {
-                            throw PartyException.PARTY_HAS_PASSIVE_TP_DISABLED;
+                            throw MemberException.PARTY_HAS_PASSIVE_TP_DISABLED;
                         }
                         if (!targetMember.settings().has(DefaultPartySettings.PASSIVE_TP)) {
-                            throw PartyException.MEMBER_HAS_PASSIVE_TP_DISABLED;
+                            throw MemberException.MEMBER_HAS_PASSIVE_TP_DISABLED;
                         }
                         player.teleportTo(
                             target.getLevel(),
@@ -88,7 +87,7 @@ public final class PartyModCommands {
                     if (member.hasPermission(MemberPermissions.TP_MEMBERS)) {
                         tpAllMembers(party, player);
                     } else {
-                        throw PartyException.YOU_CANT_TP_MEMBERS;
+                        throw MemberException.YOU_CANT_TP_MEMBERS_IN_PARTY;
                     }
                 });
                 return 1;
@@ -108,14 +107,14 @@ public final class PartyModCommands {
         }
     }
 
-    public static void openSettingsScreen(ServerPlayer player) throws PartyException {
+    public static void openSettingsScreen(ServerPlayer player) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         PartyMember member = party.getMember(player);
         if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
-            throw PartyException.NO_PERMISSIONS;
+            throw MemberException.NO_PERMISSIONS;
         }
         Object2BooleanMap<String> settings = new Object2BooleanLinkedOpenHashMap<>();
         Set<String> oldSettings = new HashSet<>(party.settings().settings());

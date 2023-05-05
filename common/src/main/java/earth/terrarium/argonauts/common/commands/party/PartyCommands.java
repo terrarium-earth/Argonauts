@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
@@ -61,7 +61,7 @@ public final class PartyCommands {
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         profiles.forEach(party.ignored()::add);
                     } else {
-                        throw PartyException.YOU_CANT_MANAGE_MEMBERS;
+                        throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY;
                     }
                 });
                 return 1;
@@ -79,7 +79,7 @@ public final class PartyCommands {
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         profiles.forEach(party.ignored()::remove);
                     } else {
-                        throw PartyException.YOU_CANT_MANAGE_MEMBERS;
+                        throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY;
                     }
                 });
                 return 1;

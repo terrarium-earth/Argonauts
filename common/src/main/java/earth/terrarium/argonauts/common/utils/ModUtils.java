@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -53,12 +54,12 @@ public final class ModUtils {
     }
 
     public static GameProfile readBasicProfile(CompoundTag tag) {
-        return new GameProfile(tag.getUUID("id"), tag.getString("name"));
+        return new GameProfile(UUID.fromString(tag.getString("id")), tag.getString("name"));
     }
 
     public static CompoundTag writeBasicProfile(GameProfile profile) {
         CompoundTag tag = new CompoundTag();
-        tag.putUUID("id", profile.getId());
+        tag.putString("id", profile.getId().toString());
         tag.putString("name", profile.getName());
         return tag;
     }

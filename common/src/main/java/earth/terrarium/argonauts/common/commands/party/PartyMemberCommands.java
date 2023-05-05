@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
@@ -16,7 +16,6 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.HashSet;
@@ -45,10 +44,10 @@ public final class PartyMemberCommands {
             });
     }
 
-    public static void openMembersScreen(ServerPlayer player, int selected) throws PartyException {
+    public static void openMembersScreen(ServerPlayer player, int selected) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         PartyMember member = party.getMember(player);
         BasicContentMenuProvider.open(
@@ -59,10 +58,10 @@ public final class PartyMemberCommands {
         );
     }
 
-    public static void openMemberScreen(ServerPlayer player) throws PartyException {
+    public static void openMemberScreen(ServerPlayer player) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         PartyMember member = party.getMember(player);
         Object2BooleanMap<String> settings = new Object2BooleanLinkedOpenHashMap<>();

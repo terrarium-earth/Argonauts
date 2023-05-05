@@ -1,7 +1,7 @@
 package earth.terrarium.argonauts.common.commands.base;
 
 import com.mojang.brigadier.CommandDispatcher;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
@@ -9,11 +9,9 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.function.Consumer;
-
 public final class CommandHelper {
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, String command, String command2, Consumer<ServerPlayer> runAction) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, String command, String command2, CommandAction runAction) {
         dispatcher.register(Commands.literal(command)
             .then(Commands.literal(command2)
                 .executes(context -> {
@@ -26,7 +24,7 @@ public final class CommandHelper {
     public static void runAction(Action action) throws CommandRuntimeException {
         try {
             action.run();
-        } catch (PartyException e) {
+        } catch (MemberException e) {
             throw new CommandRuntimeException(e.message());
         }
     }
@@ -34,13 +32,18 @@ public final class CommandHelper {
     public static void runNetworkAction(Player player, Action action) {
         try {
             action.run();
-        } catch (PartyException e) {
+        } catch (MemberException e) {
             player.sendSystemMessage(e.message().copy().withStyle(ChatFormatting.RED));
         }
     }
 
     @FunctionalInterface
     public interface Action {
-        void run() throws PartyException;
+        void run() throws MemberException;
+    }
+
+    @FunctionalInterface
+    public interface CommandAction {
+        void accept(ServerPlayer player) throws MemberException;
     }
 }
