@@ -2,6 +2,7 @@ package earth.terrarium.argonauts.common.commands.base;
 
 import com.mojang.brigadier.CommandDispatcher;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
@@ -45,5 +46,10 @@ public final class CommandHelper {
     @FunctionalInterface
     public interface CommandAction {
         void accept(ServerPlayer player) throws MemberException;
+    }
+
+    @FunctionalInterface
+    public interface GetGroupAction {
+        Group<?> getGroup(ServerPlayer player);
     }
 }

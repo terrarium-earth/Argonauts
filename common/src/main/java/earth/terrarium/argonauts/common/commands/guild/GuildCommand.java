@@ -12,7 +12,7 @@ public final class GuildCommand {
             dispatcher,
             "guild",
             "create",
-            player -> CommandHelper.runAction(() -> GuildHandler.createGuild(player)));
+            GuildHandler::createGuild);
     }
 }
 

@@ -12,7 +12,7 @@ public final class PartyCommand {
             dispatcher,
             "party",
             "create",
-            player -> CommandHelper.runAction(() -> PartyHandler.createParty(player)));
+            PartyHandler::createParty);
     }
 }
 
