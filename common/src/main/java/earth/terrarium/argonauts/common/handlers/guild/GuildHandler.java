@@ -37,8 +37,8 @@ public class GuildHandler extends SavedData {
             CompoundTag membersTag = guildTag.getCompound("members");
             GuildSettings settings = new GuildSettings();
             settings.setHq(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
-            settings.setName(Component.Serializer.fromJson(settingsTag.getString("name")));
-            settings.setIsPublic(settingsTag.getBoolean("public"));
+            settings.setDisplayName(Component.Serializer.fromJson(settingsTag.getString("name")));
+            settings.setMotd(Component.Serializer.fromJson(settingsTag.getString("motd")));
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
             membersTag.getList("members", Tag.TAG_COMPOUND).forEach(memberTag ->
                 members.add(ModUtils.readBasicProfile((CompoundTag) memberTag))
@@ -57,8 +57,8 @@ public class GuildHandler extends SavedData {
             CompoundTag settingsTag = new CompoundTag();
             CompoundTag membersTag = new CompoundTag();
             settingsTag.put("hq", ModUtils.writeGlobalPos(guild.settings().hq()));
-            settingsTag.putString("name", Component.Serializer.toJson(guild.settings().name()));
-            settingsTag.putBoolean("public", guild.settings().isPublic());
+            settingsTag.putString("name", Component.Serializer.toJson(guild.settings().displayName()));
+            settingsTag.putString("motd", Component.Serializer.toJson(guild.settings().motd()));
             guildTag.put("settings", settingsTag);
             guildTag.put("owner", ModUtils.writeBasicProfile(guild.members().getLeader().profile()));
             guild.members().forEach(member -> membersTag.put(member.profile().getId().toString(), ModUtils.writeBasicProfile(member.profile())));
@@ -66,6 +66,11 @@ public class GuildHandler extends SavedData {
             tag.put(uuid.toString(), guildTag);
         });
         return tag;
+    }
+
+    @Override
+    public boolean isDirty() {
+        return true;
     }
 
     public static GuildHandler read(MinecraftServer server) {
@@ -80,9 +85,9 @@ public class GuildHandler extends SavedData {
         UUID id = ModUtils.generate(Predicate.not(data.guilds::containsKey), UUID::randomUUID);
         Guild guild = new Guild(id, player);
         guild.settings().setHq(GlobalPos.of(player.level.dimension(), player.blockPosition()));
+        guild.settings().setDisplayName(Component.translatable("text.argonauts.guild_name", player.getName().getString()));
         data.guilds.put(id, guild);
         data.playerGuilds.put(player.getUUID(), id);
-        data.setDirty();
         return id;
     }
 
@@ -150,6 +155,8 @@ public class GuildHandler extends SavedData {
 
     private void updateInternal() {
         playerGuilds.clear();
-        guilds.values().forEach(team -> team.members().forEach(member -> playerGuilds.put(member.profile().getId(), team.id())));
+        guilds.values().forEach(team ->
+            team.members().forEach(member ->
+                playerGuilds.put(member.profile().getId(), team.id())));
     }
 }

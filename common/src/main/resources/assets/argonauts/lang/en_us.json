@@ -25,5 +25,10 @@
     "gui.argonauts.guild_members.title": "Guild Members",
     "gui.argonauts.guild_settings.title": "Guild Setting",
 
-    "gui.argonauts.member_settings.title": "Member Settings"
+    "gui.argonauts.member_settings.title": "Member Settings",
+
+    "text.argonauts.guild_name": "%s's Guild",
+
+    "text.argonauts.guild_settings.current": "Setting %s is currently set to: \"%s\"",
+    "text.argonauts.guild_settings.set": "Setting %s is now set to: \"%s\""
 }

@@ -21,7 +21,7 @@ public final class PartyManageCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite() {
         return ManageCommands.invite(
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY,
-            player -> PartyCommandHelper.getPartyOrThrow(player, false)
+            PartyCommandHelper::getPartyOrThrow
         );
     }
 
@@ -29,7 +29,7 @@ public final class PartyManageCommands {
         return ManageCommands.remove(
             MemberException.YOU_CANT_REMOVE_YOURSELF_FROM_PARTY,
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY,
-            player -> PartyCommandHelper.getPartyOrThrow(player, false),
+            PartyCommandHelper::getPartyOrThrow,
             PartyHandler::remove
         );
     }

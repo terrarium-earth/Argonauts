@@ -1,10 +1,10 @@
-package earth.terrarium.argonauts.common.menus;
+package earth.terrarium.argonauts.common.menus.party;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import com.teamresourceful.resourcefullib.common.menu.MenuContent;
 import com.teamresourceful.resourcefullib.common.menu.MenuContentSerializer;
-import earth.terrarium.argonauts.common.handlers.MemberState;
+import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import net.minecraft.network.FriendlyByteBuf;
 

@@ -21,7 +21,7 @@ public final class ManageCommands {
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                Group<?> group = groupAction.getGroup(player);
+                Group<?> group = groupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     Member member = group.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
@@ -40,7 +40,7 @@ public final class ManageCommands {
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                Group<?> group = groupAction.getGroup(player);
+                Group<?> group = groupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     Member member = group.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {

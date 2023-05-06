@@ -21,7 +21,7 @@ public final class GuildManageCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite() {
         return ManageCommands.invite(
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD,
-            player -> GuildCommandHelper.getGuildOrThrow(player, false)
+            GuildCommandHelper::getGuildOrThrow
         );
     }
 
@@ -29,7 +29,7 @@ public final class GuildManageCommands {
         return ManageCommands.remove(
             MemberException.YOU_CANT_REMOVE_YOURSELF_FROM_GUILD,
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD,
-            player -> GuildCommandHelper.getGuildOrThrow(player, false),
+            GuildCommandHelper::getGuildOrThrow,
             GuildHandler::remove
         );
     }

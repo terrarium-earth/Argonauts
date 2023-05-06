@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.common.menus;
+package earth.terrarium.argonauts.common.menus.party;
 
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
@@ -11,16 +11,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class PartySettingMenu extends AbstractContainerMenu {
+public class PartySettingsMenu extends AbstractContainerMenu {
 
-    private final PartySettingContent content;
+    private final PartySettingsContent content;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public PartySettingMenu(int i, Inventory ignored, Optional<PartySettingContent> content) {
+    public PartySettingsMenu(int i, Inventory ignored, Optional<PartySettingsContent> content) {
         this(i, content.orElse(null));
     }
 
-    public PartySettingMenu(int id, PartySettingContent content) {
+    public PartySettingsMenu(int id, PartySettingsContent content) {
         super(ModMenus.PARTY_SETTINGS.get(), id);
         this.content = content;
     }

@@ -50,6 +50,6 @@ public final class CommandHelper {
 
     @FunctionalInterface
     public interface GetGroupAction {
-        Group<?> getGroup(ServerPlayer player);
+        Group<?> getGroup(ServerPlayer player, boolean otherPlayer);
     }
 }

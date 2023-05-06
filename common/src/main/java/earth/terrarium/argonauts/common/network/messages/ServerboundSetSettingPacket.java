@@ -10,7 +10,7 @@ import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.menus.PartySettingMenu;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -48,7 +48,7 @@ public record ServerboundSetSettingPacket(String setting,
             return (player, level) ->
                 CommandHelper.runNetworkAction(player, () -> {
                     Party party = PartyHandler.get(player);
-                    if (player.containerMenu instanceof PartySettingMenu menu && party != null) {
+                    if (player.containerMenu instanceof PartySettingsMenu menu && party != null) {
                         PartyMember member = party.getMember(player);
                         if (menu.isPartyScreen()) {
                             if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {

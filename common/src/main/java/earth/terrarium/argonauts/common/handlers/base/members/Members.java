@@ -1,7 +1,6 @@
 package earth.terrarium.argonauts.common.handlers.base.members;
 
 import com.mojang.authlib.GameProfile;
-import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import org.jetbrains.annotations.NotNull;
 

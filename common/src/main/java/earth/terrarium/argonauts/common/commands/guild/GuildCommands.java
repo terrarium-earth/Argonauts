@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.commands.guild;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.BaseCommands;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
@@ -21,23 +22,14 @@ public final class GuildCommands {
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> leave() {
-        return Commands.literal("leave")
-            .executes(context -> {
-                ServerPlayer player = context.getSource().getPlayerOrException();
-                Guild guild = GuildCommandHelper.getGuildOrThrow(player, true);
-                CommandHelper.runAction(() -> GuildHandler.remove(guild.id(), player));
-                return 1;
-            });
+        return BaseCommands.leave(
+            GuildCommandHelper::getGuildOrThrow,
+            GuildHandler::remove);
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> join() {
-        return Commands.literal("join").then(Commands.argument("player", EntityArgument.player())
-            .executes(context -> {
-                ServerPlayer player = context.getSource().getPlayerOrException();
-                ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                Guild guild = GuildCommandHelper.getGuildOrThrow(target, true);
-                CommandHelper.runAction(() -> GuildHandler.join(guild, player));
-                return 1;
-            }));
+        return BaseCommands.join(
+            GuildCommandHelper::getGuildOrThrow,
+            (group, player) -> GuildHandler.join((Guild) group, player));
     }
 }

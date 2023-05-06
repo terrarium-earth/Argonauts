@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.common.handlers;
+package earth.terrarium.argonauts.common.handlers.base.members;
 
 public enum MemberState {
     OWNER,

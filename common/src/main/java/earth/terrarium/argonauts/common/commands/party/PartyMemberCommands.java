@@ -11,7 +11,11 @@ import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
-import earth.terrarium.argonauts.common.menus.*;
+import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
+import earth.terrarium.argonauts.common.menus.party.PartyMembersContent;
+import earth.terrarium.argonauts.common.menus.party.PartyMembersMenu;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
@@ -74,9 +78,9 @@ public final class PartyMemberCommands {
             settings.put(setting, false);
         }
         BasicContentMenuProvider.open(
-            new PartySettingContent(false, settings),
+            new PartySettingsContent(false, settings),
             ConstantComponents.MEMBER_SETTINGS_TITLE,
-            PartySettingMenu::new,
+            PartySettingsMenu::new,
             player
         );
     }

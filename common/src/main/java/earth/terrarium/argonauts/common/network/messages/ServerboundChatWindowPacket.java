@@ -68,9 +68,7 @@ public record ServerboundChatWindowPacket(String message) implements Packet<Serv
                             MessageChannel channel = ChatHandler.getChannel(guild, menu.type());
                             sendMessage(serverPlayer, guild, message.message, channel);
                         }
-                        default -> {
-                            //TODO: Implement other chat types
-                        }
+                        default -> throw new IllegalStateException("Unexpected value: " + menu.type());
                     }
                 }
             };

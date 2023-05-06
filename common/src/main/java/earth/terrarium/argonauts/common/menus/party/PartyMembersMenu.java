@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.common.menus;
+package earth.terrarium.argonauts.common.menus.party;
 
 import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.common.commands.party.PartyMemberCommands;

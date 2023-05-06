@@ -1,18 +1,18 @@
-package earth.terrarium.argonauts.common.commands.party;
+package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.LeaderCommands;
-import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
+import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
-public final class PartyLeaderCommands {
+public final class GuildLeaderCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("party")
+        dispatcher.register(Commands.literal("guild")
             .then(disband())
             .then(transfer())
         );
@@ -20,12 +20,12 @@ public final class PartyLeaderCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband() {
         return LeaderCommands.disband(
-            PartyCommandHelper::getPartyOrThrow,
-            (group, server) -> PartyHandler.remove((Party) group));
+            GuildCommandHelper::getGuildOrThrow,
+            (group, server) -> GuildHandler.remove((Guild) group, server));
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> transfer() {
         return LeaderCommands.transfer(
-            PartyCommandHelper::getPartyOrThrow);
+            GuildCommandHelper::getGuildOrThrow);
     }
 }

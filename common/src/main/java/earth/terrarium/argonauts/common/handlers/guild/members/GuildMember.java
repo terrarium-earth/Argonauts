@@ -1,8 +1,8 @@
 package earth.terrarium.argonauts.common.handlers.guild.members;
 
 import com.mojang.authlib.GameProfile;
-import earth.terrarium.argonauts.common.handlers.MemberState;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
+import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 
 import java.util.Set;
 
