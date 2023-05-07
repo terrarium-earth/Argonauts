@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.common.handlers.party.members;
+package earth.terrarium.argonauts.common.handlers.base;
 
 import java.util.List;
 

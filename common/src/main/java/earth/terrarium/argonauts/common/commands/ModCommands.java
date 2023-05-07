@@ -22,6 +22,7 @@ public class ModCommands {
         GuildCommands.register(dispatcher);
         GuildLeaderCommands.register(dispatcher);
         GuildManageCommands.register(dispatcher);
+        GuildModCommands.register(dispatcher);
         GuildMemberCommands.register(dispatcher);
         GuildSettingsCommands.register(dispatcher);
         GuildChatCommands.register(dispatcher);

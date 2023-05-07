@@ -2,7 +2,6 @@ package earth.terrarium.argonauts.common.menus.base;
 
 import com.mojang.authlib.GameProfile;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
-import earth.terrarium.argonauts.common.commands.party.PartyMemberCommands;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.utils.ModUtils;

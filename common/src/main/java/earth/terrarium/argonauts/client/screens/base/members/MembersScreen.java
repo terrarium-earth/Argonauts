@@ -9,7 +9,7 @@ import earth.terrarium.argonauts.client.utils.ClientUtils;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.menus.base.MembersMenu;
 import net.minecraft.Optionull;
 import net.minecraft.client.Minecraft;

@@ -7,7 +7,7 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
 import earth.terrarium.argonauts.common.menus.guild.GuildMembersContent;
 import earth.terrarium.argonauts.common.menus.guild.GuildMembersMenu;

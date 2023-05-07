@@ -9,7 +9,7 @@ import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
