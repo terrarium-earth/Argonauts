@@ -35,6 +35,9 @@ public final class GuildSettingsCommands {
                     CommandHelper.runAction(() -> {
                         BlockPos pos = BlockPosArgument.getBlockPos(context, "value");
                         Guild guild = getGuild(player);
+                        if (!guild.members().isLeader(player.getUUID())) {
+                            throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
+                        }
                         guild.settings().setHq(GlobalPos.of(player.level.dimension(), pos));
                         player.displayClientMessage(setCurrentComponent("hq", player.level.dimension().location() + ", " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()), false);
                     });
@@ -59,6 +62,9 @@ public final class GuildSettingsCommands {
                     CommandHelper.runAction(() -> {
                         String pos = StringArgumentType.getString(context, "value");
                         Guild guild = getGuild(player);
+                        if (!guild.members().isLeader(player.getUUID())) {
+                            throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
+                        }
                         guild.settings().setDisplayName(Component.nullToEmpty(pos));
                         player.displayClientMessage(setCurrentComponent("displayName", pos), false);
                     });
@@ -82,6 +88,9 @@ public final class GuildSettingsCommands {
                     CommandHelper.runAction(() -> {
                         String pos = StringArgumentType.getString(context, "value");
                         Guild guild = getGuild(player);
+                        if (!guild.members().isLeader(player.getUUID())) {
+                            throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
+                        }
                         guild.settings().setMotd(Component.nullToEmpty(pos));
                         player.displayClientMessage(setCurrentComponent("motd", pos), false);
                     });

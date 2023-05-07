@@ -21,7 +21,7 @@ public final class PartyLeaderCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband() {
         return LeaderCommands.disband(
             PartyCommandHelper::getPartyOrThrow,
-            (group, server) -> PartyHandler.remove((Party) group));
+            (group, server) -> PartyHandler.remove((Party) group, server));
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> transfer() {

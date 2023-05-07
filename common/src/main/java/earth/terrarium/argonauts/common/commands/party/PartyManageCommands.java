@@ -20,6 +20,7 @@ public final class PartyManageCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite() {
         return ManageCommands.invite(
+            "party",
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY,
             PartyCommandHelper::getPartyOrThrow
         );

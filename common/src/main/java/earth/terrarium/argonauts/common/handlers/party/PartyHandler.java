@@ -4,6 +4,9 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.utils.ModUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +27,7 @@ public class PartyHandler {
         UUID id = ModUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
         PARTIES.put(id, new Party(id, player));
         PLAYER_PARTIES.put(player.getUUID(), id);
+        player.displayClientMessage(Component.translatable("text.argonauts.member.party_creat", player.getName().getString()), false);
         return id;
     }
 
@@ -59,12 +63,13 @@ public class PartyHandler {
         } else if (party.isPublic() || party.members().isInvited(player.getUUID())) {
             party.members().add(player.getGameProfile());
             PLAYER_PARTIES.put(player.getUUID(), party.id());
+            player.displayClientMessage(Component.translatable("text.argonauts.member.party_join", party.members().getLeader().profile().getName()), false);
         } else {
             throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
         }
     }
 
-    public static void remove(Party party) {
+    public static void remove(Party party, MinecraftServer server) {
         PARTIES.remove(party.id());
         party.members().forEach(member -> {
             if (PLAYER_PARTIES.get(member.profile().getId()) == party.id()) {
@@ -72,6 +77,9 @@ public class PartyHandler {
             }
         });
         ChatHandler.remove(party, ChatMessageType.PARTY);
+        ServerPlayer player = server.getPlayerList().getPlayer(party.members().getLeader().profile().getId());
+        if (player == null) return;
+        player.displayClientMessage(Component.translatable("text.argonauts.member.party_disband", player.getName().getString()), false);
     }
 
     public static void remove(UUID id, Player player) throws MemberException {

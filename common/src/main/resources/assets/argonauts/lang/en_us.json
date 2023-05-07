@@ -28,9 +28,27 @@
     "gui.argonauts.member_settings.title": "Member Settings",
 
     "text.argonauts.guild_name": "%s's Guild",
+    "text.argonauts.invited": "You've invited %s",
 
     "text.argonauts.guild_settings.current": "Setting %s is currently set to: \"%s\"",
     "text.argonauts.guild_settings.set": "Setting %s is now set to: \"%s\"",
+
+    "text.argonauts.member.party_invite": "You've been invited to join %s's Party",
+    "text.argonauts.member.guild_invite": "You've been invited to join guild: %s",
+    "text.argonauts.member.click_to_join": "Click here to join",
+
+    "text.argonauts.member.party_join": "You've join %s's Party",
+    "text.argonauts.member.guild_join": "You've joined guild: %s",
+
+    "text.argonauts.member.party_create": "You've created party: \"%s's Party\"",
+    "text.argonauts.member.guild_create": "You've created guild: \"%s\"",
+
+    "text.argonauts.member.party_disband": "You've disbanded party: \"%s's Party\"",
+    "text.argonauts.member.guild_disband": "You've disbanded guild: \"%s\"",
+
+    "text.argonauts.member.motd": "Message of the Day",
+    "text.argonauts.member.motd_1": "§m       §6[MOTD]§7§m       ",
+    "text.argonauts.member.motd_2": "                      ",
 
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
     "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",

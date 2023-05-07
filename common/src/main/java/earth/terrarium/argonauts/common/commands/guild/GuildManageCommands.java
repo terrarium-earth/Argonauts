@@ -20,6 +20,7 @@ public final class GuildManageCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite() {
         return ManageCommands.invite(
+            "guild",
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD,
             GuildCommandHelper::getGuildOrThrow
         );

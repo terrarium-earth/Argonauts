@@ -88,6 +88,7 @@ public class GuildHandler extends SavedData {
         guild.settings().setDisplayName(Component.translatable("text.argonauts.guild_name", player.getName().getString()));
         data.guilds.put(id, guild);
         data.playerGuilds.put(player.getUUID(), id);
+        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
         return id;
     }
 
@@ -123,6 +124,7 @@ public class GuildHandler extends SavedData {
         } else if (guild.isPublic() || guild.members().isInvited(player.getUUID())) {
             guild.members().add(player.getGameProfile());
             data.playerGuilds.put(player.getUUID(), guild.id());
+            player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
         } else {
             throw MemberException.NOT_ALLOWED_TO_JOIN_GUILD;
         }
@@ -136,7 +138,9 @@ public class GuildHandler extends SavedData {
                 data.playerGuilds.remove(member.profile().getId());
             }
         });
-        ChatHandler.remove(guild, ChatMessageType.GUILD);
+        ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
+        if (player == null) return;
+        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
     }
 
     public static void remove(UUID id, ServerPlayer player) throws MemberException {
