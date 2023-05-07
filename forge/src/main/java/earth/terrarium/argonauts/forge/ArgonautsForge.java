@@ -19,12 +19,19 @@ public class ArgonautsForge {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ArgonautsForge::onClientSetup);
         var bus = MinecraftForge.EVENT_BUS;
         bus.addListener(ArgonautsForge::onPlayerLoggedIn);
+        bus.addListener(ArgonautsForge::onPlayerLoggedOut);
         bus.addListener(ArgonautsForge::registerCommands);
     }
 
     private static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             Argonauts.onPlayerJoin(player);
+        }
+    }
+
+    private static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            Argonauts.onPlayerLeave(player);
         }
     }
 

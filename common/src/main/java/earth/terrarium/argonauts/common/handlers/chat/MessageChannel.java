@@ -1,15 +1,15 @@
 package earth.terrarium.argonauts.common.handlers.chat;
 
 import com.google.common.primitives.UnsignedInteger;
-import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
 
 public class MessageChannel {
     private UnsignedInteger nextId = UnsignedInteger.ZERO;
     private final LinkedHashMap<UnsignedInteger, ChatMessage> messages = new LinkedHashMap<>();
-    private final Logger LOGGER = LogUtils.getLogger();
+    private final Logger logger = LoggerFactory.getLogger("Argonauts Chat");
     private final ChatMessageType type;
 
     public MessageChannel(ChatMessageType type) {
@@ -22,7 +22,7 @@ public class MessageChannel {
         }
         messages.put(nextId, message);
         nextId = nextId.plus(UnsignedInteger.ONE);
-        LOGGER.info(String.format("[%s] <%s> %s", this.type.name(), message.profile().getName(), message.message()));
+        logger.info(String.format("[%s] <%s> %s", this.type.name(), message.profile().getName(), message.message()));
         return nextId.minus(UnsignedInteger.ONE);
     }
 

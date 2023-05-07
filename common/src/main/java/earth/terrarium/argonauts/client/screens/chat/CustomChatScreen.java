@@ -15,11 +15,14 @@ import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.menus.ChatMenu;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ServerboundChatWindowPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CustomChatScreen extends AbstractContainerCursorScreen<ChatMenu> {
 
@@ -29,6 +32,7 @@ public class CustomChatScreen extends AbstractContainerCursorScreen<ChatMenu> {
     private EditBox box;
 
     private String embedUrl = null;
+    private final Logger logger = LoggerFactory.getLogger("Argonauts Chat");
 
     public CustomChatScreen(ChatMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
@@ -59,6 +63,9 @@ public class CustomChatScreen extends AbstractContainerCursorScreen<ChatMenu> {
             this.messages.ensureVisible(entry);
         } else {
             this.messages.addMessage(id, message);
+        }
+        if (!Minecraft.getInstance().isLocalServer()) {
+            logger.info(String.format("[%s] <%s> %s", this.menu.type().name(), message.profile().getName(), message.message()));
         }
     }
 

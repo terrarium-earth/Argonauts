@@ -48,7 +48,7 @@
     "text.argonauts.member.party_perspective_leave": "%s has left %s's Party",
     "text.argonauts.member.guild_perspective_leave": "%s has left guild: %s",
 
-    "text.argonauts.member.party_create": "You've created party: /%s's Party\"",
+    "text.argonauts.member.party_create": "You've created party: \"%s's Party\"",
     "text.argonauts.member.guild_create": "You've created guild: \"%s\"",
 
     "text.argonauts.member.party_disband": "You've disbanded party: \"%s's Party\"",
@@ -90,5 +90,5 @@
     "command.argonauts.exception.you_cant_remove_yourself_from_guild": "You can't remove yourself from the guild.",
     "command.argonauts.exception.guild_has_passive_tp_disabled": "The guild has passive teleportation disabled.",
     "command.argonauts.exception.cant_set_owner_to_non_guild_member": "You can't set the owner to a non-guild member.",
-    "command.argonauts.exception.cant_set_owner_to_current_owner": "You can't set the owner to the current owner.",
+    "command.argonauts.exception.cant_set_owner_to_current_owner": "You can't set the owner to the current owner."
 }
