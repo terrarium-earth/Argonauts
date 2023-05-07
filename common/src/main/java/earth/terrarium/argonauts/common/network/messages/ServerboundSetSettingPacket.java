@@ -4,13 +4,13 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.common.commands.party.PartyCommandHelper;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.menus.PartySettingMenu;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -46,13 +46,13 @@ public record ServerboundSetSettingPacket(String setting,
         @Override
         public PacketContext handle(ServerboundSetSettingPacket message) {
             return (player, level) ->
-                PartyCommandHelper.runPartyNetworkAction(player, () -> {
+                CommandHelper.runNetworkAction(player, () -> {
                     Party party = PartyHandler.get(player);
-                    if (player.containerMenu instanceof PartySettingMenu menu && party != null) {
+                    if (player.containerMenu instanceof PartySettingsMenu menu && party != null) {
                         PartyMember member = party.getMember(player);
                         if (menu.isPartyScreen()) {
                             if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
-                                throw PartyException.NO_PERMISSIONS;
+                                throw MemberException.NO_PERMISSIONS;
                             }
                             party.settings().set(message.setting, message.value);
                         } else {

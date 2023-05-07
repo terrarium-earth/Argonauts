@@ -5,15 +5,20 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.common.handlers.base.members.Group;
+import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
+import earth.terrarium.argonauts.common.handlers.chat.MessageChannel;
+import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.menus.ChatMenu;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.time.Instant;
 
@@ -47,38 +52,44 @@ public record ServerboundChatWindowPacket(String message) implements Packet<Serv
         @Override
         public PacketContext handle(ServerboundChatWindowPacket message) {
             return (player, level) -> {
+                ServerPlayer serverPlayer = (ServerPlayer) player;
                 var containerMenu = player.containerMenu;
                 if (containerMenu instanceof ChatMenu menu) {
                     switch (menu.type()) {
                         case PARTY -> {
-                            Party party = PartyHandler.get(player);
-                            if (party != null && player.getServer() != null) {
-                                ChatMessage chatMessage = new ChatMessage(
-                                    player.getGameProfile(),
-                                    message.message,
-                                    Instant.now()
-                                );
-                                UnsignedInteger id = ChatHandler.getPartyChannel(party).add(chatMessage);
-
-                                ClientboundReceiveMessagePacket packet = new ClientboundReceiveMessagePacket(id, chatMessage);
-
-                                for (PartyMember member : party.members()) {
-                                    var memberPlayer = player.getServer().getPlayerList().getPlayer(member.profile().getId());
-                                    if (memberPlayer != null) {
-                                        NetworkHandler.CHANNEL.sendToPlayer(packet, memberPlayer);
-                                    }
-                                }
-                            }
+                            Party party = PartyHandler.get(serverPlayer);
+                            if (party == null) return;
+                            MessageChannel channel = ChatHandler.getChannel(party, menu.type());
+                            sendMessage(serverPlayer, party, message.message, channel);
                         }
                         case GUILD -> {
-                            //TODO: Implement other chat types
+                            Guild guild = GuildHandler.get(serverPlayer);
+                            if (guild == null) return;
+                            MessageChannel channel = ChatHandler.getChannel(guild, menu.type());
+                            sendMessage(serverPlayer, guild, message.message, channel);
                         }
-                        default -> {
-                            //TODO: Implement other chat types
-                        }
+                        default -> throw new IllegalStateException("Unexpected value: " + menu.type());
                     }
                 }
             };
+        }
+    }
+
+    private static void sendMessage(ServerPlayer player, Group<?> group, String message, MessageChannel channel) {
+        ChatMessage chatMessage = new ChatMessage(
+            player.getGameProfile(),
+            message,
+            Instant.now()
+        );
+        UnsignedInteger id = channel.add(chatMessage);
+
+        ClientboundReceiveMessagePacket packet = new ClientboundReceiveMessagePacket(id, chatMessage);
+
+        for (Member member : group.members()) {
+            var memberPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
+            if (memberPlayer != null) {
+                NetworkHandler.CHANNEL.sendToPlayer(packet, memberPlayer);
+            }
         }
     }
 }

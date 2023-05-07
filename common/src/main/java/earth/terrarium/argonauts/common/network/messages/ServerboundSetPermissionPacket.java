@@ -4,15 +4,18 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.common.commands.party.PartyCommandHelper;
-import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
+import earth.terrarium.argonauts.common.handlers.base.members.Group;
+import earth.terrarium.argonauts.common.handlers.base.members.Member;
+import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
-import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.menus.PartyMembersMenu;
+import earth.terrarium.argonauts.common.menus.base.MembersMenu;
+import earth.terrarium.argonauts.common.menus.guild.GuildMembersMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public record ServerboundSetPermissionPacket(String permission,
                                              boolean value) implements Packet<ServerboundSetPermissionPacket> {
@@ -46,17 +49,22 @@ public record ServerboundSetPermissionPacket(String permission,
         @Override
         public PacketContext handle(ServerboundSetPermissionPacket message) {
             return (player, level) ->
-                PartyCommandHelper.runPartyNetworkAction(player, () -> {
-                    Party party = PartyHandler.get(player);
-                    if (player.containerMenu instanceof PartyMembersMenu menu && party != null) {
-                        PartyMember member = party.getMember(player);
+                CommandHelper.runNetworkAction(player, () -> {
+                    Group<?> group = null;
+                    if (player.containerMenu instanceof GuildMembersMenu) {
+                        group = GuildHandler.get((ServerPlayer) player);
+                    } else if (player.containerMenu instanceof MembersMenu) {
+                        group = PartyHandler.get(player);
+                    }
+                    if (player.containerMenu instanceof MembersMenu menu && group != null) {
+                        Member member = group.getMember(player);
                         if (!member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)) {
-                            throw PartyException.NO_PERMISSIONS;
+                            throw MemberException.NO_PERMISSIONS;
                         }
-                        PartyMember selected = menu.getSelected();
+                        Member selected = menu.getSelected();
                         if (selected != null && !selected.getState().isLeader()) {
                             if (!member.hasPermission(message.permission)) {
-                                throw PartyException.YOU_CANT_GIVE_PERMISSIONS;
+                                throw MemberException.YOU_CANT_GIVE_PERMISSIONS;
                             }
                             if (message.value) {
                                 selected.permissions().add(message.permission);

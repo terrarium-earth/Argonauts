@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.client.screens.party.members.entries;
+package earth.terrarium.argonauts.client.screens.base.members.entries;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;

@@ -3,18 +3,23 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
-import earth.terrarium.argonauts.common.menus.*;
+import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
+import earth.terrarium.argonauts.common.menus.party.PartyMembersContent;
+import earth.terrarium.argonauts.common.menus.party.PartyMembersMenu;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.HashSet;
@@ -28,7 +33,7 @@ public final class PartyMemberCommands {
                 .then(list())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
-                    PartyCommandHelper.runPartyAction(() -> openMemberScreen(player));
+                    CommandHelper.runAction(() -> openMemberScreen(player));
                     return 1;
                 })
             ));
@@ -38,29 +43,29 @@ public final class PartyMemberCommands {
         return Commands.literal("list")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
-                PartyCommandHelper.runPartyAction(() -> openMembersScreen(player, -1));
+                CommandHelper.runAction(() -> openMembersScreen(player, -1));
                 return 1;
             });
     }
 
-    public static void openMembersScreen(ServerPlayer player, int selected) throws PartyException {
+    public static void openMembersScreen(ServerPlayer player, int selected) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         PartyMember member = party.getMember(player);
         BasicContentMenuProvider.open(
             new PartyMembersContent(party.id(), selected, party.members().allMembers(), member.hasPermission(MemberPermissions.MANAGE_MEMBERS), member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)),
-            Component.literal("Party Members"),
+            ConstantComponents.PARTY_MEMBERS_TITLE,
             PartyMembersMenu::new,
             player
         );
     }
 
-    public static void openMemberScreen(ServerPlayer player) throws PartyException {
+    public static void openMemberScreen(ServerPlayer player) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         PartyMember member = party.getMember(player);
         Object2BooleanMap<String> settings = new Object2BooleanLinkedOpenHashMap<>();
@@ -73,9 +78,9 @@ public final class PartyMemberCommands {
             settings.put(setting, false);
         }
         BasicContentMenuProvider.open(
-            new PartySettingContent(false, settings),
-            Component.literal("Member Setting"),
-            PartySettingMenu::new,
+            new PartySettingsContent(false, settings),
+            ConstantComponents.MEMBER_SETTINGS_TITLE,
+            PartySettingsMenu::new,
             player
         );
     }

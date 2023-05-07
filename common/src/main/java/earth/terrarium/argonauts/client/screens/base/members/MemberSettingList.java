@@ -1,15 +1,15 @@
-package earth.terrarium.argonauts.client.screens.party.members;
+package earth.terrarium.argonauts.client.screens.base.members;
 
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
 import com.teamresourceful.resourcefullib.client.components.selection.SelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import org.jetbrains.annotations.Nullable;
 
-public class PartySettingList extends SelectionList<ListEntry> {
+public class MemberSettingList extends SelectionList<ListEntry> {
 
     private ListEntry selected;
 
-    public PartySettingList(int x, int y, int width, int height) {
+    public MemberSettingList(int x, int y, int width, int height) {
         super(x, y, width, height, 20, entry -> {}, true);
     }
 

@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import earth.terrarium.argonauts.common.commands.guild.*;
 import earth.terrarium.argonauts.common.commands.party.*;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -16,5 +17,14 @@ public class ModCommands {
         PartyModCommands.register(dispatcher);
         PartyMemberCommands.register(dispatcher);
         PartyChatCommands.register(dispatcher);
+
+        GuildCommand.register(dispatcher);
+        GuildCommands.register(dispatcher);
+        GuildLeaderCommands.register(dispatcher);
+        GuildManageCommands.register(dispatcher);
+        GuildHqCommands.register(dispatcher);
+        GuildMemberCommands.register(dispatcher);
+        GuildSettingsCommands.register(dispatcher);
+        GuildChatCommands.register(dispatcher);
     }
 }

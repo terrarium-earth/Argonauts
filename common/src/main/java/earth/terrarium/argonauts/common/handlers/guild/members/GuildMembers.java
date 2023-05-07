@@ -1,25 +1,19 @@
 package earth.terrarium.argonauts.common.handlers.guild.members;
 
 import com.mojang.authlib.GameProfile;
-import earth.terrarium.argonauts.common.handlers.MemberState;
-import org.jetbrains.annotations.NotNull;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
+import earth.terrarium.argonauts.common.handlers.base.members.Members;
 
-import java.util.*;
+import java.util.UUID;
 
-public class GuildMembers implements Iterable<GuildMember> {
+public class GuildMembers extends Members<GuildMember> {
 
-    private final Map<UUID, GuildMember> members = new HashMap<>();
-    private UUID owner;
-
-    public GuildMembers(GameProfile owner) {
-        this.owner = owner.getId();
-        this.members.put(owner.getId(), new GuildMember(owner, MemberState.OWNER));
+    public GuildMembers(GameProfile leader) {
+        super(leader, GuildMember::new);
     }
 
-    public GuildMember get(UUID uuid) {
-        return this.members.get(uuid);
-    }
-
+    @Override
     public void add(GameProfile profile) {
         if (this.members.containsKey(profile.getId())) {
             this.members.get(profile.getId()).setState(MemberState.MEMBER);
@@ -28,51 +22,16 @@ public class GuildMembers implements Iterable<GuildMember> {
         this.members.put(profile.getId(), new GuildMember(profile, MemberState.MEMBER));
     }
 
-    public void invite(GameProfile profile) {
-        this.members.put(profile.getId(), new GuildMember(profile, MemberState.INVITED));
-    }
-
-    public void remove(UUID uuid) {
-        this.members.remove(uuid);
-    }
-
-    public void setOwner(UUID uuid) {
+    @Override
+    public void setLeader(UUID uuid) throws MemberException {
         if (!isMember(uuid)) {
-            throw new RuntimeException("Cannot set owner to a member that is not in the guild");
+            throw MemberException.CANT_SET_OWNER_TO_NON_GUILD_MEMBER;
         }
-        if (this.owner.equals(uuid)) {
-            throw new RuntimeException("Cannot set owner to the current owner");
+        if (this.leader.equals(uuid)) {
+            throw MemberException.CANT_SET_OWNER_TO_CURRENT_OWNER;
         }
         forEach(member -> member.setState(MemberState.MEMBER));
         this.members.get(uuid).setState(MemberState.OWNER);
-        this.owner = uuid;
-    }
-
-    public GuildMember getOwner() {
-        return this.members.get(this.owner);
-    }
-
-    public boolean isMember(UUID uuid) {
-        return this.members.containsKey(uuid) && this.members.get(uuid).getState() != MemberState.INVITED;
-    }
-
-    public boolean isInvited(UUID uuid) {
-        return this.members.containsKey(uuid) && this.members.get(uuid).getState() == MemberState.INVITED;
-    }
-
-    public boolean isOwner(UUID uuid) {
-        return this.owner.equals(uuid);
-    }
-
-    public List<GuildMember> allMembers() {
-        return new ArrayList<>(this.members.values());
-    }
-
-    @NotNull
-    @Override
-    public Iterator<GuildMember> iterator() {
-        List<GuildMember> members = new ArrayList<>(this.members.values());
-        members.removeIf(member -> member.getState() == MemberState.INVITED);
-        return members.iterator();
+        this.leader = uuid;
     }
 }

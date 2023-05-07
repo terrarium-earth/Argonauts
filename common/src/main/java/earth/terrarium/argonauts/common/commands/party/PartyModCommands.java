@@ -3,23 +3,23 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.common.commands.base.BaseModCommands;
+import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyException;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
-import earth.terrarium.argonauts.common.handlers.party.members.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
 import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
-import earth.terrarium.argonauts.common.menus.PartySettingContent;
-import earth.terrarium.argonauts.common.menus.PartySettingMenu;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.PlayerList;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,85 +35,44 @@ public final class PartyModCommands {
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> tp() {
-        return Commands.literal("tp")
-            .then(Commands.argument("player", EntityArgument.player())
-                .executes(context -> {
-                    ServerPlayer player = context.getSource().getPlayerOrException();
-                    ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                    PartyCommandHelper.runPartyAction(() -> {
-                        Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                        Party otherParty = PartyCommandHelper.getPartyOrThrow(target, true);
-                        if (party != otherParty) {
-                            throw PartyException.NOT_IN_SAME_PARTY;
-                        }
-                        PartyMember member = party.getMember(player);
-                        PartyMember targetMember = party.getMember(target);
-                        if (!member.hasPermission(MemberPermissions.TP_MEMBERS)) {
-                            throw PartyException.YOU_CANT_TP_MEMBERS;
-                        }
-                        if (!party.settings().has(DefaultPartySettings.PASSIVE_TP)) {
-                            throw PartyException.PARTY_HAS_PASSIVE_TP_DISABLED;
-                        }
-                        if (!targetMember.settings().has(DefaultPartySettings.PASSIVE_TP)) {
-                            throw PartyException.MEMBER_HAS_PASSIVE_TP_DISABLED;
-                        }
-                        player.teleportTo(
-                            target.getLevel(),
-                            target.getX(), target.getY(), target.getZ(),
-                            target.getYRot(), target.getXRot()
-                        );
-                    });
-                    return 1;
-                }));
+        return BaseModCommands.tp(
+            PartyCommandHelper::getPartyOrThrow,
+            MemberException.NOT_IN_SAME_PARTY,
+            MemberException.YOU_CANT_TP_MEMBERS_IN_PARTY,
+            (group, targetMember) -> {
+                if (!group.settings().has(DefaultPartySettings.PASSIVE_TP)) {
+                    throw MemberException.PARTY_HAS_PASSIVE_TP_DISABLED;
+                }
+                if (!((PartyMember) targetMember).settings().has(DefaultPartySettings.PASSIVE_TP)) {
+                    throw MemberException.MEMBER_HAS_PASSIVE_TP_DISABLED;
+                }
+            }
+        );
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> settings() {
         return Commands.literal("settings")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
-                PartyCommandHelper.runPartyAction(() -> openSettingsScreen(player));
+                CommandHelper.runAction(() -> openSettingsScreen(player));
                 return 1;
             });
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> warp() {
-        return Commands.literal("warp")
-            .executes(context -> {
-                ServerPlayer player = context.getSource().getPlayerOrException();
-                Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                PartyCommandHelper.runPartyAction(() -> {
-                    PartyMember member = party.getMember(player);
-                    if (member.hasPermission(MemberPermissions.TP_MEMBERS)) {
-                        tpAllMembers(party, player);
-                    } else {
-                        throw PartyException.YOU_CANT_TP_MEMBERS;
-                    }
-                });
-                return 1;
-            });
+        return BaseModCommands.warp(
+            PartyCommandHelper::getPartyOrThrow,
+            MemberException.YOU_CANT_TP_MEMBERS_IN_PARTY);
     }
 
-    private static void tpAllMembers(Party party, ServerPlayer target) {
-        PlayerList list = target.server.getPlayerList();
-        for (PartyMember member : party.members()) {
-            if (member.profile().getId().equals(target.getUUID())) {
-                continue;
-            }
-            ServerPlayer player = list.getPlayer(member.profile().getId());
-            if (player != null) {
-                player.teleportTo(target.getLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
-            }
-        }
-    }
-
-    public static void openSettingsScreen(ServerPlayer player) throws PartyException {
+    public static void openSettingsScreen(ServerPlayer player) throws MemberException {
         Party party = PartyHandler.get(player);
         if (party == null) {
-            throw PartyException.YOU_ARE_NOT_IN_PARTY;
+            throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }
         PartyMember member = party.getMember(player);
         if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
-            throw PartyException.NO_PERMISSIONS;
+            throw MemberException.NO_PERMISSIONS;
         }
         Object2BooleanMap<String> settings = new Object2BooleanLinkedOpenHashMap<>();
         Set<String> oldSettings = new HashSet<>(party.settings().settings());
@@ -125,9 +84,9 @@ public final class PartyModCommands {
             settings.put(setting, false);
         }
         BasicContentMenuProvider.open(
-            new PartySettingContent(true, settings),
-            Component.literal("Party Setting"),
-            PartySettingMenu::new,
+            new PartySettingsContent(true, settings),
+            ConstantComponents.PARTY_SETTING_TITLE,
+            PartySettingsMenu::new,
             player
         );
     }

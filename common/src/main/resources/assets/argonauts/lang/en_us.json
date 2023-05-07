@@ -4,17 +4,91 @@
     "argonauts.member.status.accepted": "§a ✔ Accepted",
     "argonauts.member.status.text": "Member Status: ",
     "argonauts.member.permissions": "Permissions",
+
     "argonauts.permission.manage.members": "Manage Members",
     "argonauts.permission.roles.members": "Manage Member Role",
     "argonauts.permission.permissions.members": "Manage Member Permissions",
     "argonauts.permission.manage.settings": "Manage Party Settings",
     "argonauts.permission.tp.members": "Teleport Members",
+
     "argonauts.member.actions": "Actions",
     "argonauts.member.remove": "Remove Member",
     "argonauts.member.remove.button": "Remove",
-
-
     "argonauts.setting.passive_tp": "Passive Teleport",
     "argonauts.setting.friendly_fire": "Friendly Fire",
-    "argonauts.setting.public": "Public Party"
+    "argonauts.setting.public": "Public Party",
+
+    "gui.argonauts.party_chat.title": "Party Chat",
+    "gui.argonauts.party_members.title": "Party Members",
+    "gui.argonauts.party_settings.title": "Party Setting",
+    "gui.argonauts.guild_chat.title": "Guild Chat",
+    "gui.argonauts.guild_members.title": "Guild Members",
+    "gui.argonauts.guild_settings.title": "Guild Setting",
+    "gui.argonauts.member_settings.title": "Member Settings",
+
+    "text.argonauts.guild_name": "%s's Guild",
+    "text.argonauts.invited": "You've invited %s",
+
+    "text.argonauts.guild_settings.current": "Setting %s is currently set to: \"%s\"",
+    "text.argonauts.guild_settings.set": "Setting %s is now set to: \"%s\"",
+
+    "text.argonauts.member.party_invite": "You've been invited to join %s's Party",
+    "text.argonauts.member.guild_invite": "You've been invited to join guild: %s",
+    "text.argonauts.member.click_to_join": "§bClick here to join",
+
+    "text.argonauts.member.party_join": "You've join %s's Party",
+    "text.argonauts.member.guild_join": "You've joined guild: %s",
+
+    "text.argonauts.member.party_leave": "You've left %s's Party",
+    "text.argonauts.member.guild_leave": "You've left guild: %s",
+
+    "text.argonauts.member.party_perspective_join": "%s has joined %s's Party",
+    "text.argonauts.member.guild_perspective_join": "%s has joined guild: %s",
+
+    "text.argonauts.member.party_perspective_leave": "%s has left %s's Party",
+    "text.argonauts.member.guild_perspective_leave": "%s has left guild: %s",
+
+    "text.argonauts.member.party_create": "You've created party: \"%s's Party\"",
+    "text.argonauts.member.guild_create": "You've created guild: \"%s\"",
+
+    "text.argonauts.member.party_disband": "You've disbanded party: \"%s's Party\"",
+    "text.argonauts.member.guild_disband": "You've disbanded guild: \"%s\"",
+
+    "text.argonauts.member.motd": "Message of the Day",
+    "text.argonauts.member.motd_header": "§m       §7[§6MOTD§7]§m       ",
+    "text.argonauts.member.motd_footer": "                      ",
+
+    "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
+    "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",
+    "command.argonauts.exception.member_has_passive_tp_disabled": "The member has passive teleportation disabled.",
+
+    "command.argonauts.exception.already_in_party": "You are already in a party.",
+    "command.argonauts.exception.you_are_not_in_party": "You are not in a party.",
+    "command.argonauts.exception.player_is_not_in_party": "The player is not in a party.",
+    "command.argonauts.exception.party_does_not_exist": "The party does not exist.",
+    "command.argonauts.exception.not_allowed_to_join_party": "You are not allowed to join this party.",
+    "command.argonauts.exception.you_are_not_in_this_party": "You are not in this party.",
+    "command.argonauts.exception.you_cant_manage_members_in_party": "You can't manage members in this party.",
+    "command.argonauts.exception.you_cant_tp_members_in_party": "You can't teleport members in this party.",
+    "command.argonauts.exception.you_are_not_the_leader_of_party": "You are not the leader of this party.",
+    "command.argonauts.exception.not_in_same_party": "You are not in the same party.",
+    "command.argonauts.exception.cant_remove_party_leader": "You can't remove the leader of the party.",
+    "command.argonauts.exception.you_cant_remove_yourself_from_party": "You can't remove yourself from the party.",
+    "command.argonauts.exception.party_has_passive_tp_disabled": "The party has passive teleportation disabled.",
+    "command.argonauts.exception.cant_set_leader_to_non_party_member": "You can't set the leader to a non-party member.",
+    "command.argonauts.exception.cant_set_leader_to_current_leader": "You can't set the leader to the current leader.",
+
+    "command.argonauts.exception.already_in_guild": "You are already in a guild.",
+    "command.argonauts.exception.you_are_not_in_guild": "You are not in a guild.",
+    "command.argonauts.exception.player_is_not_in_guild": "The player is not in a guild.",
+    "command.argonauts.exception.guild_does_not_exist": "The guild does not exist.",
+    "command.argonauts.exception.not_allowed_to_join_guild": "You are not allowed to join this guild.",
+    "command.argonauts.exception.you_are_not_in_this_guild": "You are not in this guild.",
+    "command.argonauts.exception.you_cant_manage_members_in_guild": "You can't manage members in this guild.",
+    "command.argonauts.exception.you_are_not_the_owner_of_guild": "You are not the owner of this guild.",
+    "command.argonauts.exception.cant_remove_guild_owner": "You can't remove the owner of the guild.",
+    "command.argonauts.exception.you_cant_remove_yourself_from_guild": "You can't remove yourself from the guild.",
+    "command.argonauts.exception.guild_has_passive_tp_disabled": "The guild has passive teleportation disabled.",
+    "command.argonauts.exception.cant_set_owner_to_non_guild_member": "You can't set the owner to a non-guild member.",
+    "command.argonauts.exception.cant_set_owner_to_current_owner": "You can't set the owner to the current owner."
 }

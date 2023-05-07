@@ -3,35 +3,36 @@ package earth.terrarium.argonauts.common.handlers.guild.settings;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
 
 public class GuildSettings {
 
     private GlobalPos hq = null;
-    private Component name = CommonComponents.EMPTY;
-    private boolean isPublic = false;
+    private Component displayName = CommonComponents.EMPTY;
+    private Component motd = CommonComponents.EMPTY;
 
     public void setHq(GlobalPos hq) {
         this.hq = hq;
     }
 
+    @Nullable
     public GlobalPos hq() {
         return hq;
     }
 
-    public void setName(Component name) {
-        this.name = name;
+    public void setDisplayName(Component displayName) {
+        this.displayName = displayName;
     }
 
-    public Component name() {
-        return name;
+    public Component displayName() {
+        return displayName;
     }
 
-    public void setIsPublic(boolean isPublic) {
-        this.isPublic = isPublic;
+    public void setMotd(Component motd) {
+        this.motd = motd;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public Component motd() {
+        return motd;
     }
-
 }
