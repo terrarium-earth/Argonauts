@@ -40,7 +40,7 @@ public final class PartyModCommands {
             MemberException.NOT_IN_SAME_PARTY,
             MemberException.YOU_CANT_TP_MEMBERS_IN_PARTY,
             (group, targetMember) -> {
-                if (!((Party) group).settings().has(DefaultPartySettings.PASSIVE_TP)) {
+                if (!group.settings().has(DefaultPartySettings.PASSIVE_TP)) {
                     throw MemberException.PARTY_HAS_PASSIVE_TP_DISABLED;
                 }
                 if (!((PartyMember) targetMember).settings().has(DefaultPartySettings.PASSIVE_TP)) {

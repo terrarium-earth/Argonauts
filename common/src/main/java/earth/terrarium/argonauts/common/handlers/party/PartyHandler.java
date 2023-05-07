@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.handlers.party;
 
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.utils.ModUtils;
@@ -61,10 +62,10 @@ public class PartyHandler {
         } else if (party.ignored().has(player.getUUID())) {
             throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
         } else if (party.isPublic() || party.members().isInvited(player.getUUID())) {
-            for (ServerPlayer teamMember : player.server.getPlayerList().getPlayers()) {
-                if (party.members().isMember(teamMember.getUUID())) {
-                    teamMember.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_join", player.getName().getString(), party.members().getLeader().profile().getName()), false);
-                }
+            for (Member member : party.members()) {
+                ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
+                if (serverPlayer == null) continue;
+                serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_join", player.getName().getString(), party.members().getLeader().profile().getName()), false);
             }
 
             party.members().add(player.getGameProfile());
@@ -102,10 +103,10 @@ public class PartyHandler {
 
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_leave", party.members().getLeader().profile().getName()), false);
 
-        for (ServerPlayer teamMember : player.server.getPlayerList().getPlayers()) {
-            if (party.members().isMember(teamMember.getUUID())) {
-                teamMember.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_leave", player.getName().getString(), party.members().getLeader().profile().getName()), false);
-            }
+        for (Member member : party.members()) {
+            ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
+            if (serverPlayer == null) continue;
+            serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_leave", player.getName().getString(), party.members().getLeader().profile().getName()), false);
         }
     }
 }

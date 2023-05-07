@@ -18,7 +18,7 @@ public class ChatHandler {
     }
 
     public static MessageChannel getChannel(Group<?> group, ChatMessageType type) {
-        return getChannels(type).computeIfAbsent(group.id(), i -> new MessageChannel());
+        return getChannels(type).computeIfAbsent(group.id(), i -> new MessageChannel(type));
     }
 
     public static void remove(Group<?> group, ChatMessageType type) {

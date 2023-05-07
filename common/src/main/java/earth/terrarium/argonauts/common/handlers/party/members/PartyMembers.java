@@ -28,10 +28,10 @@ public class PartyMembers extends Members<PartyMember> {
     @Override
     public void setLeader(UUID uuid) throws MemberException {
         if (!isMember(uuid)) {
-            throw new MemberException("Cannot set leader to a member that is not in the party");
+            throw MemberException.CANT_SET_LEADER_TO_NON_PARTY_MEMBER;
         }
         if (this.leader.equals(uuid)) {
-            throw new MemberException("Cannot set leader to the current leader");
+            throw MemberException.CANT_SET_LEADER_TO_CURRENT_LEADER;
         }
         forEach(member -> member.setState(MemberState.MEMBER));
         this.members.get(uuid).setState(MemberState.OWNER);

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public abstract class Group<T extends Member> {
     private final UUID id;
-    protected final Members<T> members;
+    private final Members<T> members;
 
     public Group(UUID id, Members<T> members) {
         this.id = id;

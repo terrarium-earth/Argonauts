@@ -22,4 +22,12 @@ public class PartyMember extends Member {
     public PartySettings settings() {
         return settings;
     }
+
+    @Override
+    public String getRole() {
+        if (this.state.isLeader()) {
+            return "Leader";
+        }
+        return role;
+    }
 }

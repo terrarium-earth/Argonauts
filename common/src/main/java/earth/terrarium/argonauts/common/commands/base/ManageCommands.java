@@ -19,12 +19,12 @@ import java.util.UUID;
 
 public final class ManageCommands {
 
-    public static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite(String kind, MemberException exception, CommandHelper.GetGroupAction groupAction) {
+    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite(String kind, MemberException exception, CommandHelper.GetGroupAction<M, T> groupAction) {
         return Commands.literal("invite").then(Commands.argument("player", EntityArgument.player())
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                Group<?> group = groupAction.getGroup(player, false);
+                var group = groupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     Member member = group.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
@@ -32,7 +32,7 @@ public final class ManageCommands {
                         player.displayClientMessage(Component.translatable("text.argonauts.invited", target.getName().getString()), false);
                         target.displayClientMessage(Component.translatable("text.argonauts.member." + kind + "_invite", player.getName().getString()), false);
                         target.displayClientMessage(ConstantComponents.CLICK_HERE_TO_JOIN.copy().withStyle(Style.EMPTY
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + kind + " join " + player.getName().getString()))), false);
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + kind + " join " + player.getGameProfile().getName()))), false);
                     } else {
                         throw exception;
                     }
@@ -41,21 +41,21 @@ public final class ManageCommands {
             }));
     }
 
-    public static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> remove(MemberException exception1, MemberException exception2, CommandHelper.GetGroupAction groupAction, RemoveAction action) {
+    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> remove(MemberException youCantRemoveYourselfFromGroupException, MemberException youCantManageMembersInGroup, CommandHelper.GetGroupAction<M, T> groupAction, RemoveAction action) {
         return Commands.literal("remove").then(Commands.argument("player", EntityArgument.player())
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                Group<?> group = groupAction.getGroup(player, false);
+                var group = groupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     Member member = group.getMember(player);
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         if (player.getUUID().equals(target.getUUID())) {
-                            throw exception1;
+                            throw youCantRemoveYourselfFromGroupException;
                         }
                         action.remove(group.id(), target);
                     } else {
-                        throw exception2;
+                        throw youCantManageMembersInGroup;
                     }
                 });
                 return 1;

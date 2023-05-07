@@ -13,22 +13,22 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 
 public final class BaseModCommands {
-    public static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> tp(CommandHelper.GetGroupAction getGroupAction, MemberException exception1, MemberException exception2, AdditionalChecks additionalChecks) {
+    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> tp(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException notInSameGroupException, MemberException youCantTpMembersInGroupException, AdditionalChecks<M, T> additionalChecks) {
         return Commands.literal("tp")
             .then(Commands.argument("player", EntityArgument.player())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     ServerPlayer target = EntityArgument.getPlayer(context, "player");
                     CommandHelper.runAction(() -> {
-                        Group<?> group = getGroupAction.getGroup(player, false);
-                        Group<?> otherGroup = getGroupAction.getGroup(target, true);
+                        var group = getGroupAction.getGroup(player, false);
+                        var otherGroup = getGroupAction.getGroup(target, true);
                         if (group != otherGroup) {
-                            throw exception1;
+                            throw notInSameGroupException;
                         }
                         Member member = group.getMember(player);
                         Member targetMember = group.getMember(target);
                         if (!member.hasPermission(MemberPermissions.TP_MEMBERS)) {
-                            throw exception2;
+                            throw youCantTpMembersInGroupException;
                         }
                         additionalChecks.check(group, targetMember);
                         player.teleportTo(
@@ -41,17 +41,17 @@ public final class BaseModCommands {
                 }));
     }
 
-    public static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> warp(CommandHelper.GetGroupAction getGroupAction, MemberException exception1) {
+    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> warp(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException youCantTpMembersException) {
         return Commands.literal("warp")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
-                Group<?> group = getGroupAction.getGroup(player, false);
+                var group = getGroupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     Member member = group.getMember(player);
                     if (member.hasPermission(MemberPermissions.TP_MEMBERS)) {
                         tpAllMembers(group, player);
                     } else {
-                        throw exception1;
+                        throw youCantTpMembersException;
                     }
                 });
                 return 1;
@@ -72,7 +72,7 @@ public final class BaseModCommands {
     }
 
     @FunctionalInterface
-    public interface AdditionalChecks {
-        void check(Group<?> group, Member targetMember) throws MemberException;
+    public interface AdditionalChecks<M extends Member, T extends Group<M>> {
+        void check(T group, Member targetMember) throws MemberException;
     }
 }

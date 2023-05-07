@@ -24,15 +24,15 @@ public final class Guild extends Group<GuildMember> {
 
     @Override
     public boolean isPublic() {
-        return true;
+        return false;
     }
 
     @Override
     public GuildMember getMember(Player player) throws MemberException {
-        if (!this.members.isMember(player.getUUID())) {
+        if (!this.members().isMember(player.getUUID())) {
             throw MemberException.YOU_ARE_NOT_IN_THIS_GUILD;
         }
-        return this.members.get(player.getUUID());
+        return this.members().get(player.getUUID());
     }
 
     public GuildSettings settings() {return settings;}

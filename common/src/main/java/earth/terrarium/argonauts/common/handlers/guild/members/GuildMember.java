@@ -14,4 +14,12 @@ public class GuildMember extends Member {
     public GuildMember(GameProfile profile, MemberState state, Set<String> permissions) {
         super(profile, state, permissions);
     }
+
+    @Override
+    public String getRole() {
+        if (this.state.isLeader()) {
+            return "Owner";
+        }
+        return role;
+    }
 }

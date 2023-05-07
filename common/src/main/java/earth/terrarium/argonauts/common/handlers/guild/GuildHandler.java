@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.handlers.guild;
 
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
 import earth.terrarium.argonauts.common.utils.ModUtils;
@@ -120,10 +121,10 @@ public class GuildHandler extends SavedData {
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
         } else if (guild.isPublic() || guild.members().isInvited(player.getUUID())) {
-            for (ServerPlayer teamMember : player.server.getPlayerList().getPlayers()) {
-                if (guild.members().isMember(teamMember.getUUID())) {
-                    teamMember.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
-                }
+            for (Member member : guild.members()) {
+                ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
+                if (serverPlayer == null) continue;
+                serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
             }
 
             guild.members().add(player.getGameProfile());
@@ -162,10 +163,10 @@ public class GuildHandler extends SavedData {
 
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_leave", guild.settings().displayName().getString()), false);
 
-        for (ServerPlayer teamMember : player.server.getPlayerList().getPlayers()) {
-            if (guild.members().isMember(teamMember.getUUID())) {
-                teamMember.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
-            }
+        for (Member member : guild.members()) {
+            ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
+            if (serverPlayer == null) continue;
+            serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
     }
 

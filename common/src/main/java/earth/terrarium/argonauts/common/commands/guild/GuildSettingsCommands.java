@@ -86,13 +86,15 @@ public final class GuildSettingsCommands {
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        String pos = StringArgumentType.getString(context, "value");
+                        String name = StringArgumentType.getString(context, "value");
+                        name = name.replace("&&", "§").replace("\\n", "\n");
+
                         Guild guild = getGuild(player);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setMotd(Component.nullToEmpty(pos));
-                        player.displayClientMessage(setCurrentComponent("motd", pos), false);
+                        guild.settings().setMotd(Component.literal(name));
+                        player.displayClientMessage(setCurrentComponent("motd", name), false);
                     });
                     return 1;
                 }))

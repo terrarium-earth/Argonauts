@@ -10,6 +10,11 @@ public class MessageChannel {
     private UnsignedInteger nextId = UnsignedInteger.ZERO;
     private final LinkedHashMap<UnsignedInteger, ChatMessage> messages = new LinkedHashMap<>();
     private final Logger LOGGER = LogUtils.getLogger();
+    private final ChatMessageType type;
+
+    public MessageChannel(ChatMessageType type) {
+        this.type = type;
+    }
 
     public UnsignedInteger add(ChatMessage message) {
         if (messages.size() >= ChatHandler.MAX_MESSAGE_COUNT) {
@@ -17,7 +22,7 @@ public class MessageChannel {
         }
         messages.put(nextId, message);
         nextId = nextId.plus(UnsignedInteger.ONE);
-        LOGGER.info(String.format("<%s> %s", message.profile().getName(), message.message()));
+        LOGGER.info(String.format("[%s] <%s> %s", this.type.name(), message.profile().getName(), message.message()));
         return nextId.minus(UnsignedInteger.ONE);
     }
 

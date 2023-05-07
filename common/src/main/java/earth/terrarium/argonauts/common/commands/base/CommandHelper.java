@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.commands.base;
 import com.mojang.brigadier.CommandDispatcher;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
+import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
@@ -49,7 +50,7 @@ public final class CommandHelper {
     }
 
     @FunctionalInterface
-    public interface GetGroupAction {
-        Group<?> getGroup(ServerPlayer player, boolean otherPlayer);
+    public interface GetGroupAction<M extends Member, T extends Group<M>> {
+        T getGroup(ServerPlayer player, boolean otherPlayer);
     }
 }

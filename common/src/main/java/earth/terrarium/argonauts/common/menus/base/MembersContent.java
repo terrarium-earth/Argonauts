@@ -37,12 +37,14 @@ public abstract class MembersContent implements MenuContent<MembersContent> {
 
     public boolean canManagePermissions() {return canManagePermissions;}
 
-    public abstract static class Serializer implements MenuContentSerializer<MembersContent> {
+    public static class Serializer implements MenuContentSerializer<MembersContent> {
 
         private final Factory<?> factory;
+        private final CreateMemberFactory createMemberFactory;
 
-        public Serializer(Factory<?> factory) {
+        public Serializer(Factory<?> factory, CreateMemberFactory createMember) {
             this.factory = factory;
+            this.createMemberFactory = createMember;
         }
 
         @Override
@@ -52,7 +54,7 @@ public abstract class MembersContent implements MenuContent<MembersContent> {
                 MemberState state = buf.readEnum(MemberState.class);
                 Set<String> permissions = buf.readCollection(Sets::newHashSetWithExpectedSize, FriendlyByteBuf::readUtf);
                 String role = buf.readUtf();
-                Member member = createMember(profile, state, permissions);
+                Member member = createMemberFactory.createMember(profile, state, permissions);
                 member.setRole(role);
                 return member;
             });
@@ -77,11 +79,15 @@ public abstract class MembersContent implements MenuContent<MembersContent> {
             buffer.writeInt(content.selected());
         }
 
-        public abstract Member createMember(GameProfile profile, MemberState state, Set<String> permissions);
 
         @FunctionalInterface
         public interface Factory<T extends MembersContent> {
             T createMemberContent(UUID id, int selected, List<? extends Member> members, boolean canManageMembers, boolean canManagePermissions);
+        }
+
+        @FunctionalInterface
+        public interface CreateMemberFactory {
+            Member createMember(GameProfile profile, MemberState state, Set<String> permissions);
         }
     }
 }

@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Member {
-    private final GameProfile profile;
-    private final Set<String> permissions = new HashSet<>();
-    private MemberState state;
-    private String role = "Member";
+    protected final GameProfile profile;
+    protected final Set<String> permissions = new HashSet<>();
+    protected MemberState state;
+    protected String role = "Member";
 
     public Member(GameProfile profile, MemberState state) {
         this(profile, state, new HashSet<>());
@@ -41,12 +41,7 @@ public abstract class Member {
         this.state = state;
     }
 
-    public String getRole() {
-        if (this.state.isLeader()) {
-            return "Leader";
-        }
-        return role;
-    }
+    public abstract String getRole();
 
     public void setRole(String role) {
         this.role = role;
