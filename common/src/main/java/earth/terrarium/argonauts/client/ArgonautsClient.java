@@ -2,7 +2,8 @@ package earth.terrarium.argonauts.client;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
-import earth.terrarium.argonauts.client.screens.party.members.PartyMembersScreen;
+import earth.terrarium.argonauts.client.screens.guild.members.GuildMembersScreen;
+import earth.terrarium.argonauts.client.screens.party.members.guild.members.PartyMembersScreen;
 import earth.terrarium.argonauts.client.screens.party.settings.PartySettingsScreen;
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import net.fabricmc.api.EnvType;
@@ -19,6 +20,7 @@ public class ArgonautsClient {
 
     public static void init() {
         register(ModMenus.PARTY.get(), PartyMembersScreen::new);
+        register(ModMenus.GUILD.get(), GuildMembersScreen::new);
         register(ModMenus.PARTY_SETTINGS.get(), PartySettingsScreen::new);
         register(ModMenus.CHAT.get(), CustomChatScreen::new);
     }

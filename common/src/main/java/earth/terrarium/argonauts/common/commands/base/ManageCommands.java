@@ -54,7 +54,6 @@ public final class ManageCommands {
                         if (player.getUUID().equals(target.getUUID())) {
                             throw exception1;
                         }
-                        PartyHandler.remove(group.id(), target);
                         action.remove(group.id(), target);
                     } else {
                         throw exception2;

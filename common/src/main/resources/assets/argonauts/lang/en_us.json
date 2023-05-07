@@ -35,19 +35,28 @@
 
     "text.argonauts.member.party_invite": "You've been invited to join %s's Party",
     "text.argonauts.member.guild_invite": "You've been invited to join guild: %s",
-    "text.argonauts.member.click_to_join": "Click here to join",
+    "text.argonauts.member.click_to_join": "§bClick here to join",
 
     "text.argonauts.member.party_join": "You've join %s's Party",
     "text.argonauts.member.guild_join": "You've joined guild: %s",
 
-    "text.argonauts.member.party_create": "You've created party: \"%s's Party\"",
+    "text.argonauts.member.party_leave": "You've left %s's Party",
+    "text.argonauts.member.guild_leave": "You've left guild: %s",
+
+    "text.argonauts.member.party_perspective_join": "%s has joined %s's Party",
+    "text.argonauts.member.guild_perspective_join": "%s has joined guild: %s",
+
+    "text.argonauts.member.party_perspective_leave": "%s has left %s's Party",
+    "text.argonauts.member.guild_perspective_leave": "%s has left guild: %s",
+
+    "text.argonauts.member.party_create": "You've created party: /%s's Party\"",
     "text.argonauts.member.guild_create": "You've created guild: \"%s\"",
 
     "text.argonauts.member.party_disband": "You've disbanded party: \"%s's Party\"",
     "text.argonauts.member.guild_disband": "You've disbanded guild: \"%s\"",
 
     "text.argonauts.member.motd": "Message of the Day",
-    "text.argonauts.member.motd_1": "§m       §6[MOTD]§7§m       ",
+    "text.argonauts.member.motd_1": "§m       §7[§6MOTD§7]§m       ",
     "text.argonauts.member.motd_2": "                      ",
 
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",

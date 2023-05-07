@@ -33,7 +33,7 @@ public final class PartyCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> leave() {
         return BaseCommands.leave(
             PartyCommandHelper::getPartyOrThrow,
-            PartyHandler::remove);
+            PartyHandler::leave);
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> join() {

@@ -27,7 +27,7 @@ public class PartyHandler {
         UUID id = ModUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
         PARTIES.put(id, new Party(id, player));
         PLAYER_PARTIES.put(player.getUUID(), id);
-        player.displayClientMessage(Component.translatable("text.argonauts.member.party_creat", player.getName().getString()), false);
+        player.displayClientMessage(Component.translatable("text.argonauts.member.party_create", player.getName().getString()), false);
         return id;
     }
 
@@ -55,12 +55,18 @@ public class PartyHandler {
         return get(PLAYER_PARTIES.get(player));
     }
 
-    public static void join(Party party, Player player) throws MemberException {
+    public static void join(Party party, ServerPlayer player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_PARTY;
         } else if (party.ignored().has(player.getUUID())) {
             throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
         } else if (party.isPublic() || party.members().isInvited(player.getUUID())) {
+            for (ServerPlayer teamMember : player.server.getPlayerList().getPlayers()) {
+                if (party.members().isMember(teamMember.getUUID())) {
+                    teamMember.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_join", player.getName().getString(), party.members().getLeader().profile().getName()), false);
+                }
+            }
+
             party.members().add(player.getGameProfile());
             PLAYER_PARTIES.put(player.getUUID(), party.id());
             player.displayClientMessage(Component.translatable("text.argonauts.member.party_join", party.members().getLeader().profile().getName()), false);
@@ -82,7 +88,7 @@ public class PartyHandler {
         player.displayClientMessage(Component.translatable("text.argonauts.member.party_disband", player.getName().getString()), false);
     }
 
-    public static void remove(UUID id, Player player) throws MemberException {
+    public static void leave(UUID id, ServerPlayer player) throws MemberException {
         Party party = get(id);
         if (party == null) {
             throw MemberException.PARTY_DOES_NOT_EXIST;
@@ -93,5 +99,13 @@ public class PartyHandler {
         }
         PLAYER_PARTIES.remove(player.getUUID());
         party.members().remove(player.getUUID());
+
+        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_leave", party.members().getLeader().profile().getName()), false);
+
+        for (ServerPlayer teamMember : player.server.getPlayerList().getPlayers()) {
+            if (party.members().isMember(teamMember.getUUID())) {
+                teamMember.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_leave", player.getName().getString(), party.members().getLeader().profile().getName()), false);
+            }
+        }
     }
 }

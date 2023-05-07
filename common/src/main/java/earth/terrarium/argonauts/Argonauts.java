@@ -6,6 +6,7 @@ import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import net.minecraft.ChatFormatting;
+import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
@@ -18,6 +19,7 @@ public class Argonauts {
     public static void init() {
         ModMenus.MENUS.init();
         NetworkHandler.init();
+        SharedConstants.IS_RUNNING_IN_IDE = true;
     }
 
     // Message of the day
@@ -39,6 +41,7 @@ public class Argonauts {
             ).setStyle(motd.getStyle()
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ConstantComponents.MOTD)));
             player.displayClientMessage(motd, false);
+
             player.displayClientMessage(ConstantComponents.MOTD_2.copy().setStyle(Style.EMPTY
                 .withStrikethrough(true)
                 .withColor(ChatFormatting.GRAY)

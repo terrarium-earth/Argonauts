@@ -31,7 +31,7 @@ public final class GuildManageCommands {
             MemberException.YOU_CANT_REMOVE_YOURSELF_FROM_GUILD,
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD,
             GuildCommandHelper::getGuildOrThrow,
-            GuildHandler::remove
+            GuildHandler::leave
         );
     }
 }

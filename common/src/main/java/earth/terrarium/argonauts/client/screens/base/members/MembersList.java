@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.client.screens.party.members;
+package earth.terrarium.argonauts.client.screens.base.members;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,7 +10,7 @@ import com.teamresourceful.resourcefullib.client.screens.CursorScreen;
 import com.teamresourceful.resourcefullib.client.utils.RenderUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.utils.ClientUtils;
-import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
+import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.PlayerFaceRenderer;
@@ -24,17 +24,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class PartyMembersList extends SelectionList<PartyMembersList.Entry> {
+public class MembersList extends SelectionList<MembersList.Entry> {
 
-    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/party.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
 
     private Entry selected;
 
-    public PartyMembersList(int x, int y, int width, int height, int itemHeight, Consumer<@Nullable Entry> onSelection) {
+    public MembersList(int x, int y, int width, int height, int itemHeight, Consumer<@Nullable Entry> onSelection) {
         super(x, y, width, height, itemHeight, onSelection, true);
     }
 
-    public void update(List<PartyMember> members) {
+    public void update(List<? extends Member> members) {
         updateEntries(members.stream().map(Entry::new).toList());
     }
 
@@ -46,10 +46,10 @@ public class PartyMembersList extends SelectionList<PartyMembersList.Entry> {
 
     public class Entry extends ListEntry {
 
-        private final PartyMember member;
+        private final Member member;
         private final ResourceLocation skin;
 
-        public Entry(PartyMember member) {
+        public Entry(Member member) {
             this.member = member;
             this.skin = getPlayerSkin(member.profile());
         }

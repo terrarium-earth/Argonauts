@@ -31,7 +31,7 @@ public final class PartyManageCommands {
             MemberException.YOU_CANT_REMOVE_YOURSELF_FROM_PARTY,
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY,
             PartyCommandHelper::getPartyOrThrow,
-            PartyHandler::remove
+            PartyHandler::leave
         );
     }
 }

@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.client.screens.party.members.entries;
+package earth.terrarium.argonauts.client.screens.base.members.entries;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class BooleanEntry extends ListEntry {
 
-    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/party.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
 
     private final boolean canEdit;
     private final String prefix;
