@@ -76,7 +76,7 @@ public class PartyHandler {
         }
     }
 
-    public static void remove(Party party, MinecraftServer server) {
+    public static void disband(Party party, MinecraftServer server) {
         PARTIES.remove(party.id());
         party.members().forEach(member -> {
             if (PLAYER_PARTIES.get(member.profile().getId()) == party.id()) {

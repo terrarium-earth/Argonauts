@@ -1,11 +1,12 @@
 package earth.terrarium.argonauts.common.handlers.guild;
 
+import earth.terrarium.argonauts.common.compat.cadmus.ArgnonautsTeamProvider;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
 import earth.terrarium.argonauts.common.utils.ModUtils;
-import net.minecraft.core.GlobalPos;
+import earth.terrarium.cadmus.api.teams.TeamProviderApi;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -34,8 +35,7 @@ public class GuildHandler extends SavedData {
             CompoundTag guildTag = tag.getCompound(key);
             CompoundTag settingsTag = guildTag.getCompound("settings");
             CompoundTag membersTag = guildTag.getCompound("members");
-            GuildSettings settings = new GuildSettings();
-            settings.setHq(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
+            GuildSettings settings = new GuildSettings(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
             settings.setDisplayName(Component.Serializer.fromJson(settingsTag.getString("name")));
             settings.setMotd(Component.Serializer.fromJson(settingsTag.getString("motd")));
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
@@ -83,11 +83,12 @@ public class GuildHandler extends SavedData {
         }
         UUID id = ModUtils.generate(Predicate.not(data.guilds::containsKey), UUID::randomUUID);
         Guild guild = new Guild(id, player);
-        guild.settings().setHq(GlobalPos.of(player.level.dimension(), player.blockPosition()));
         guild.settings().setDisplayName(Component.translatable("text.argonauts.guild_name", player.getName().getString()));
         data.guilds.put(id, guild);
         data.playerGuilds.put(player.getUUID(), id);
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
+
+        addToCadmusTeam(guild, player);
         return id;
     }
 
@@ -127,25 +128,27 @@ public class GuildHandler extends SavedData {
                 serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
             }
 
+
             guild.members().add(player.getGameProfile());
-            data.playerGuilds.put(player.getUUID(), guild.id());
+            data.updateInternal();
             player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
+
+            addToCadmusTeam(guild, player);
         } else {
             throw MemberException.NOT_ALLOWED_TO_JOIN_GUILD;
         }
     }
 
-    public static void remove(Guild guild, MinecraftServer server) {
+    public static void disband(Guild guild, MinecraftServer server) {
         var data = read(server);
-        data.guilds.remove(guild.id());
-        guild.members().forEach(member -> {
-            if (data.playerGuilds.get(member.profile().getId()) == guild.id()) {
-                data.playerGuilds.remove(member.profile().getId());
-            }
-        });
         ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
         if (player == null) return;
+        data.guilds.remove(guild.id());
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
+        if (TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider provider) {
+            provider.disbandTeam(player.server, player.getUUID(), guild);
+        }
+        data.updateInternal();
     }
 
     public static void leave(UUID id, ServerPlayer player) throws MemberException {
@@ -158,7 +161,6 @@ public class GuildHandler extends SavedData {
         } else if (guild.members().isLeader(player.getUUID())) {
             throw MemberException.CANT_REMOVE_GUILD_OWNER;
         }
-        data.playerGuilds.remove(player.getUUID());
         guild.members().remove(player.getUUID());
 
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_leave", guild.settings().displayName().getString()), false);
@@ -168,6 +170,8 @@ public class GuildHandler extends SavedData {
             if (serverPlayer == null) continue;
             serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
+        data.updateInternal();
+        removeFromCadmusTeam(guild, player);
     }
 
     private void updateInternal() {
@@ -175,5 +179,17 @@ public class GuildHandler extends SavedData {
         guilds.values().forEach(team ->
             team.members().forEach(member ->
                 playerGuilds.put(member.profile().getId(), team.id())));
+    }
+
+    private static void addToCadmusTeam(Guild guild, ServerPlayer player) {
+        if (TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider provider) {
+            provider.addPlayerToTeam(player.server, player.getUUID(), guild);
+        }
+    }
+
+    private static void removeFromCadmusTeam(Guild guild, ServerPlayer player) {
+        if (TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider provider) {
+            provider.removePlayerFromTeam(player.server, player.getUUID(), guild);
+        }
     }
 }

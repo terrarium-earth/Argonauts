@@ -5,6 +5,7 @@ import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
@@ -18,8 +19,8 @@ public final class Guild extends Group<GuildMember> {
         this.settings = settings;
     }
 
-    public Guild(UUID id, Player leader) {
-        this(id, new GuildSettings(), new GuildMembers(leader.getGameProfile()));
+    public Guild(UUID id, Player owner) {
+        this(id, new GuildSettings(GlobalPos.of(owner.level.dimension(), owner.blockPosition())), new GuildMembers(owner.getGameProfile()));
     }
 
     @Override
@@ -39,5 +40,9 @@ public final class Guild extends Group<GuildMember> {
 
     public Component getMotd() {
         return this.settings.motd();
+    }
+
+    public Component getDisplayName() {
+        return this.settings.displayName();
     }
 }

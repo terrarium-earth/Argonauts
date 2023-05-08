@@ -7,15 +7,18 @@ import org.jetbrains.annotations.Nullable;
 
 public class GuildSettings {
 
-    private GlobalPos hq = null;
+    private GlobalPos hq;
     private Component displayName = CommonComponents.EMPTY;
     private Component motd = CommonComponents.EMPTY;
+
+    public GuildSettings(GlobalPos hq) {
+        this.hq = hq;
+    }
 
     public void setHq(GlobalPos hq) {
         this.hq = hq;
     }
 
-    @Nullable
     public GlobalPos hq() {
         return hq;
     }

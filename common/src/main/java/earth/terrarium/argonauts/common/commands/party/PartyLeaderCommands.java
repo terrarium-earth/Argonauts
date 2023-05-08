@@ -21,7 +21,7 @@ public final class PartyLeaderCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband() {
         return LeaderCommands.disband(
             PartyCommandHelper::getPartyOrThrow,
-            PartyHandler::remove,
+            PartyHandler::disband,
             MemberException.YOU_ARE_NOT_THE_LEADER_OF_PARTY);
     }
 
