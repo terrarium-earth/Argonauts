@@ -14,12 +14,12 @@
 
     "argonauts.permission.cadmus.temporary_guild_permissions": "Temporary Guild Permissions",
 
-    "argonauts.permission.cadmus.break_blocks": "Break Blocks",
-    "argonauts.permission.cadmus.place_blocks": "Place Blocks",
-    "argonauts.permission.cadmus.explode_blocks": "Explode Blocks",
-    "argonauts.permission.cadmus.interact_with_blocks": "Interact with Blocks",
-    "argonauts.permission.cadmus.interact_with_entities": "Interact with Entities",
-    "argonauts.permission.cadmus.damage_entities": "Damage Entities",
+    "argonauts.permission.cadmus.blocks.break": "Break Blocks",
+    "argonauts.permission.cadmus.blocks.place": "Place Blocks",
+    "argonauts.permission.cadmus.blocks.explode": "Explode Blocks",
+    "argonauts.permission.cadmus.blocks.interact": "Interact with Blocks",
+    "argonauts.permission.cadmus.entities.interact": "Interact with Entities",
+    "argonauts.permission.cadmus.entities.damage": "Damage Entities",
 
     "argonauts.member.actions": "Actions",
     "argonauts.member.remove": "Remove Member",
@@ -58,7 +58,7 @@
     "text.argonauts.member.party_perspective_leave": "%s has left %s's Party",
     "text.argonauts.member.guild_perspective_leave": "%s has left guild: %s",
 
-    "text.argonauts.member.party_create": "You've created party: \"%s's Party\"",
+    "text.argonauts.member.party_create": "You've created a party",
     "text.argonauts.member.guild_create": "You've created guild: \"%s\"",
 
     "text.argonauts.member.party_disband": "You've disbanded party: \"%s's Party\"",

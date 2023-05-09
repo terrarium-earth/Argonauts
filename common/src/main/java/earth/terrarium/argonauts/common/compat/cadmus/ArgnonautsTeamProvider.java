@@ -76,7 +76,7 @@ public class ArgnonautsTeamProvider implements TeamProvider {
 
     @Override
     public boolean canExplodeBlock(String id, MinecraftServer server, BlockPos pos, Explosion explosion, UUID player) {
-        return hasPermission(MemberPermissions.EXPLODE_BLOCKS, id,server, player);
+        return hasPermission(MemberPermissions.EXPLODE_BLOCKS, id, server, player);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ArgnonautsTeamProvider implements TeamProvider {
         if (player == null) return;
 
         Set<ChunkPos> removed = new HashSet<>();
-        for (Team team : TeamSaveData.getTeams(server)) { // TODO throws ConcurrentModificationException sometimes :sadge:
+        for (Team team : TeamSaveData.getTeams(server)) { // TODO throws ConcurrentModificationException rarely :sadge:
             if (team.name().equals(guild.id().toString())) {
                 TeamSaveData.addTeamMember(player, team);
                 return;

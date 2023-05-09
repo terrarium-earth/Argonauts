@@ -7,7 +7,6 @@ import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
 import com.teamresourceful.resourcefullib.client.scissor.ScissorBoxStack;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
 import earth.terrarium.argonauts.client.utils.ClientUtils;
-import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -22,12 +21,10 @@ import org.jetbrains.annotations.NotNull;
 public class ChatMessageListEntry extends ListEntry {
 
     private final UnsignedInteger id;
-    private final ChatMessage message;
     private final FormattedCharSequence component;
 
-    public ChatMessageListEntry(UnsignedInteger id, ChatMessage message, FormattedCharSequence component) {
+    public ChatMessageListEntry(UnsignedInteger id, FormattedCharSequence component) {
         this.id = id;
-        this.message = message;
         this.component = component;
     }
 
@@ -63,11 +60,10 @@ public class ChatMessageListEntry extends ListEntry {
         if (button == InputConstants.MOUSE_BUTTON_LEFT) {
             var style = Minecraft.getInstance().font.getSplitter().componentStyleAtWidth(this.component, Mth.floor(x));
             if (style != null && style.getClickEvent() != null) {
-                switch (style.getClickEvent().getAction()) {
-                    case OPEN_URL -> Util.getPlatform().openUri(style.getClickEvent().getValue());
-                    default -> {
-                        System.out.println("Unhandled click event: " + style.getClickEvent().getAction());
-                    }
+                if (style.getClickEvent().getAction() == ClickEvent.Action.OPEN_URL) {
+                    Util.getPlatform().openUri(style.getClickEvent().getValue());
+                } else {
+                    System.out.println("Unhandled click event: " + style.getClickEvent().getAction());
                 }
             }
         }

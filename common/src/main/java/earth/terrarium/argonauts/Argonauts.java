@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts;
 
-import earth.terrarium.argonauts.common.compat.cadmus.ArgnonautsTeamProvider;
+import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
@@ -8,10 +8,9 @@ import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.registries.ModMenus;
-import earth.terrarium.cadmus.api.teams.TeamProviderApi;
+import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -19,7 +18,6 @@ import java.util.Objects;
 
 public class Argonauts {
     public static final String MOD_ID = "argonauts";
-    public static final ResourceLocation ARGONAUTS_ID = new ResourceLocation(MOD_ID, MOD_ID);
 
     public static void init() {
         ModMenus.MENUS.init();
@@ -29,9 +27,8 @@ public class Argonauts {
 
     // Message of the day
     public static void onPlayerJoin(Player player) {
-        if (!(TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider)) { // TODO remove
-            TeamProviderApi.API.register(ARGONAUTS_ID, new ArgnonautsTeamProvider());
-            TeamProviderApi.API.setSelected(ARGONAUTS_ID);
+        if (ModUtils.isModLoaded("cadmus")) {
+            CadmusIntegration.init(); // TODO: REMOVE !!!!!!!
         }
 
         if (!player.getLevel().isClientSide()) {

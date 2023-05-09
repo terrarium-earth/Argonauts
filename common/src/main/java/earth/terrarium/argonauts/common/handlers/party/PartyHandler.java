@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.common.handlers.party;
 
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
@@ -28,7 +29,7 @@ public class PartyHandler {
         UUID id = ModUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
         PARTIES.put(id, new Party(id, player));
         PLAYER_PARTIES.put(player.getUUID(), id);
-        player.displayClientMessage(Component.translatable("text.argonauts.member.party_create", player.getName().getString()), false);
+        player.displayClientMessage(ConstantComponents.PARTY_CREATE, false);
         return id;
     }
 

@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 
 import java.net.http.HttpClient;
 import java.util.List;
+import java.util.Objects;
 
 public class ClientUtils {
 
@@ -35,7 +36,7 @@ public class ClientUtils {
     }
 
     public static void sendCommand(String command) {
-        Minecraft.getInstance().getConnection().sendUnsignedCommand(command);
+        Objects.requireNonNull(Minecraft.getInstance().getConnection()).sendUnsignedCommand(command);
     }
 
     public static void sendClick(AbstractContainerScreen<?> screen, int content) {

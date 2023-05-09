@@ -12,12 +12,12 @@ public final class MemberPermissions {
 
     public static final String TEMPORARY_GUILD_PERMISSIONS = "cadmus.temporary_guild_permissions";
 
-    public static final String BREAK_BLOCKS = "cadmus.break_blocks";
-    public static final String PLACE_BLOCKS = "cadmus.place_blocks";
-    public static final String EXPLODE_BLOCKS = "cadmus.explode_blocks";
-    public static final String INTERACT_WITH_BLOCKS = "cadmus.interact_with_blocks";
-    public static final String INTERACT_WITH_ENTITIES = "cadmus.interact_with_entities";
-    public static final String DAMAGE_ENTITIES = "cadmus.damage_entities";
+    public static final String BREAK_BLOCKS = "cadmus.blocks.break";
+    public static final String PLACE_BLOCKS = "cadmus.blocks.place";
+    public static final String EXPLODE_BLOCKS = "cadmus.blocks.explode";
+    public static final String INTERACT_WITH_BLOCKS = "cadmus.blocks.interact";
+    public static final String INTERACT_WITH_ENTITIES = "cadmus.entities.interact";
+    public static final String DAMAGE_ENTITIES = "cadmus.entities.damage";
 
     public static final List<String> ALL_PERMISSIONS = List.of(
         MANAGE_MEMBERS,
@@ -30,6 +30,7 @@ public final class MemberPermissions {
         BREAK_BLOCKS,
         PLACE_BLOCKS,
         EXPLODE_BLOCKS,
+        INTERACT_WITH_BLOCKS,
         INTERACT_WITH_ENTITIES,
         DAMAGE_ENTITIES);
 }

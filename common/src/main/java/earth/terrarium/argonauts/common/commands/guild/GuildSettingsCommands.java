@@ -1,7 +1,6 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
@@ -10,6 +9,7 @@ import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ComponentArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -56,17 +56,17 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> displayName() {
         return Commands.literal("displayName")
-            .then(Commands.argument("value", StringArgumentType.string())
+            .then(Commands.argument("value", ComponentArgument.textComponent())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        String pos = StringArgumentType.getString(context, "value");
+                        Component pos = ComponentArgument.getComponent(context, "value");
                         Guild guild = getGuild(player);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setDisplayName(Component.nullToEmpty(pos));
-                        player.displayClientMessage(setCurrentComponent("displayName", pos), false);
+                        guild.settings().setDisplayName(pos);
+                        player.displayClientMessage(setCurrentComponent("displayName", pos.getString()), false);
                     });
                     return 1;
                 }))
@@ -82,19 +82,20 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> motd() {
         return Commands.literal("motd")
-            .then(Commands.argument("value", StringArgumentType.string())
+            .then(Commands.argument("value", ComponentArgument.textComponent())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        String name = StringArgumentType.getString(context, "value");
-                        name = name.replace("&&", "§").replace("\\n", "\n");
+                        Component name = ComponentArgument.getComponent(context, "value");
+                        name = Component.literal(name.getString().replace("&&", "§")
+                            .replace("\\n", "\n")).setStyle(name.getStyle());
 
                         Guild guild = getGuild(player);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setMotd(Component.literal(name));
-                        player.displayClientMessage(setCurrentComponent("motd", name), false);
+                        guild.settings().setMotd(name);
+                        player.displayClientMessage(setCurrentComponent("motd", name.getString()), false);
                     });
                     return 1;
                 }))
