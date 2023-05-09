@@ -9,6 +9,7 @@ import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import earth.terrarium.cadmus.api.teams.TeamProviderApi;
+import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,6 +24,7 @@ public class Argonauts {
     public static void init() {
         ModMenus.MENUS.init();
         NetworkHandler.init();
+        SharedConstants.IS_RUNNING_IN_IDE = true;
     }
 
     // Message of the day

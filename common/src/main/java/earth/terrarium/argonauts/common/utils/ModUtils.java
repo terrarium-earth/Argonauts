@@ -2,6 +2,7 @@ package earth.terrarium.argonauts.common.utils;
 
 import com.google.common.primitives.UnsignedInteger;
 import com.mojang.authlib.GameProfile;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -62,5 +64,10 @@ public final class ModUtils {
         tag.putString("id", profile.getId().toString());
         tag.putString("name", profile.getName());
         return tag;
+    }
+
+    @ExpectPlatform
+    public static boolean isModLoaded(String modId) {
+        throw new NotImplementedException();
     }
 }

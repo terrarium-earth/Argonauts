@@ -3,7 +3,6 @@ package earth.terrarium.argonauts.common.handlers.guild.settings;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
 
 public class GuildSettings {
 

@@ -17,7 +17,10 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.officialMojangMappings()
-        modImplementation("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") { transitive = false }
+        modImplementation("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
+            transitive = false
+        }
+        implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-$name:$rootProject.mixinextras_version"))
     }
 }
 
@@ -32,6 +35,13 @@ allprojects {
 
     repositories {
         maven { url = "https://maven.resourcefulbees.com/repository/maven-public/" }
+        maven {
+            url = 'https://jitpack.io'
+            content {
+                includeGroup 'com.github.LlamaLad7'
+                includeGroup 'com.github.llamalad7.mixinextras'
+            }
+        }
         mavenLocal()
     }
 

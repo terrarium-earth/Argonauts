@@ -1,9 +1,12 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
 import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
+import earth.terrarium.argonauts.common.handlers.party.Party;
+import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.cadmus.api.claims.InteractionType;
 import earth.terrarium.cadmus.api.teams.TeamProvider;
 import earth.terrarium.cadmus.common.claims.ClaimInfo;
@@ -63,32 +66,41 @@ public class ArgnonautsTeamProvider implements TeamProvider {
 
     @Override
     public boolean canBreakBlock(String id, MinecraftServer server, BlockPos pos, UUID player) {
-        return false;
+        return hasPermission(MemberPermissions.BREAK_BLOCKS, id, server, player);
     }
 
     @Override
     public boolean canPlaceBlock(String id, MinecraftServer server, BlockPos pos, UUID player) {
-        return false;
+        return hasPermission(MemberPermissions.PLACE_BLOCKS, id, server, player);
     }
 
     @Override
     public boolean canExplodeBlock(String id, MinecraftServer server, BlockPos pos, Explosion explosion, UUID player) {
-        return false;
+        return hasPermission(MemberPermissions.EXPLODE_BLOCKS, id,server, player);
     }
 
     @Override
     public boolean canInteractWithBlock(String id, MinecraftServer server, BlockPos pos, InteractionType type, UUID player) {
-        return false;
+        return hasPermission(MemberPermissions.INTERACT_WITH_BLOCKS, id, server, player);
     }
 
     @Override
     public boolean canInteractWithEntity(String id, MinecraftServer server, Entity entity, UUID player) {
-        return false;
+        return hasPermission(MemberPermissions.INTERACT_WITH_ENTITIES, id, server, player);
     }
 
     @Override
     public boolean canDamageEntity(String id, MinecraftServer server, Entity entity, UUID player) {
-        return false;
+        return hasPermission(MemberPermissions.DAMAGE_ENTITIES, id, server, player);
+    }
+
+    private boolean hasPermission(String perm, String id, MinecraftServer server, UUID player) {
+        if (isMember(id, server, player)) return true;
+        ServerPlayer serverPlayer = server.getPlayerList().getPlayer(player);
+        if (serverPlayer == null) return true;
+        Party party = PartyHandler.get(serverPlayer);
+        if (party == null) return false;
+        return party.members().get(serverPlayer.getUUID()).hasPermission(perm);
     }
 
     public void addPlayerToTeam(MinecraftServer server, UUID playerId, Guild guild) {
@@ -96,7 +108,7 @@ public class ArgnonautsTeamProvider implements TeamProvider {
         if (player == null) return;
 
         Set<ChunkPos> removed = new HashSet<>();
-        for (Team team : TeamSaveData.getTeams(server)) {
+        for (Team team : TeamSaveData.getTeams(server)) { // TODO throws ConcurrentModificationException sometimes :sadge:
             if (team.name().equals(guild.id().toString())) {
                 TeamSaveData.addTeamMember(player, team);
                 return;

@@ -37,10 +37,9 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
         MouseLocationFix.fix(this.getClass());
         super.init();
 
-        addRenderableWidget(new MembersList(this.leftPos + 8, this.topPos + 29, 70, 180, 20, item -> {
+        addRenderableWidget(new MembersList(this.leftPos + 8, this.topPos + 29, 70, 180, 20, item ->
             this.menu.getId(Optionull.map(item, MembersList.Entry::profile))
-                .ifPresent(id -> ClientUtils.sendClick(this, id));
-        })).update(this.menu.members());
+                .ifPresent(id -> ClientUtils.sendClick(this, id)))).update(this.menu.members());
 
         var list = addRenderableWidget(new MemberSettingList(this.leftPos + 84, this.topPos + 29, 184, 180));
 
@@ -60,13 +59,17 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
 
             list.addEntry(new DividerEntry(Component.translatable("argonauts.member.permissions")));
             List<String> leftOver = new ArrayList<>(member.permissions());
+            leftOver.remove(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS);
             for (String permission : MemberPermissions.ALL_PERMISSIONS) {
                 list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menu.canManagePermissions() && self.hasPermission(permission)));
                 leftOver.remove(permission);
             }
+
             for (String permission : leftOver) {
                 list.addEntry(new BooleanEntry(permission, true, !cantModify && this.menu.canManagePermissions() && self.hasPermission(permission)));
             }
+
+            additionalEntries(list, member, cantModify, self);
 
             list.addEntry(new DividerEntry(Component.translatable("argonauts.member.actions")));
             list.addEntry(new CommandEntry(
@@ -77,6 +80,8 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
             ));
         }
     }
+
+    public void additionalEntries(MemberSettingList list, Member member, boolean cantModify, Member self) {}
 
     public abstract String runRemoveCommand(Member member);
 
@@ -106,5 +111,10 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
             return true;
         }
         return super.keyPressed(i, j, k);
+    }
+
+    @Override
+    public void resize(Minecraft minecraft, int i, int j) {
+        super.resize(minecraft, i, j);
     }
 }

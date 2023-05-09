@@ -4,12 +4,22 @@
     "argonauts.member.status.accepted": "§a ✔ Accepted",
     "argonauts.member.status.text": "Member Status: ",
     "argonauts.member.permissions": "Permissions",
+    "argonauts.member.cadmus_permissions": "Cadmus Permissions",
 
     "argonauts.permission.manage.members": "Manage Members",
     "argonauts.permission.roles.members": "Manage Member Role",
     "argonauts.permission.permissions.members": "Manage Member Permissions",
     "argonauts.permission.manage.settings": "Manage Party Settings",
     "argonauts.permission.tp.members": "Teleport Members",
+
+    "argonauts.permission.cadmus.temporary_guild_permissions": "Temporary Guild Permissions",
+
+    "argonauts.permission.cadmus.break_blocks": "Break Blocks",
+    "argonauts.permission.cadmus.place_blocks": "Place Blocks",
+    "argonauts.permission.cadmus.explode_blocks": "Explode Blocks",
+    "argonauts.permission.cadmus.interact_with_blocks": "Interact with Blocks",
+    "argonauts.permission.cadmus.interact_with_entities": "Interact with Entities",
+    "argonauts.permission.cadmus.damage_entities": "Damage Entities",
 
     "argonauts.member.actions": "Actions",
     "argonauts.member.remove": "Remove Member",
