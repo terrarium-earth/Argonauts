@@ -14,6 +14,8 @@ import earth.terrarium.cadmus.common.claims.ClaimSaveData;
 import earth.terrarium.cadmus.common.claims.ClaimType;
 import earth.terrarium.cadmus.common.teams.Team;
 import earth.terrarium.cadmus.common.teams.TeamSaveData;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -73,6 +75,12 @@ public class ArgonautsTeamProvider implements TeamProvider {
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
         if (guild == null) return true;
         return guild.members().isMember(player);
+    }
+
+    @Override
+    public ChatFormatting getTeamColor(String id, MinecraftServer server) {
+        Guild guild = GuildHandler.get(server, UUID.fromString(id));
+        return Optionull.mapOrDefault(guild, Guild::getColor, ChatFormatting.AQUA);
     }
 
     @Override

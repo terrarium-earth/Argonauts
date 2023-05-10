@@ -5,6 +5,7 @@ import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -44,5 +45,9 @@ public final class Guild extends Group<GuildMember> {
 
     public Component getDisplayName() {
         return this.settings.displayName();
+    }
+
+    public ChatFormatting getColor() {
+        return this.settings.color();
     }
 }

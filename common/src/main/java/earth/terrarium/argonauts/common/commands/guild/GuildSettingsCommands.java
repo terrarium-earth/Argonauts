@@ -7,8 +7,10 @@ import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ColorArgument;
 import net.minecraft.commands.arguments.ComponentArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
@@ -24,6 +26,7 @@ public final class GuildSettingsCommands {
                 .then(hq())
                 .then(displayName())
                 .then(motd())
+                .then(color())
             ));
     }
 
@@ -74,7 +77,7 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = getGuild(player);
-                    player.displayClientMessage(getCurrentComponent("displayName", guild.settings().displayName().getString()), false);
+                    player.displayClientMessage(getCurrentComponent("displayName", guild.getDisplayName().getString()), false);
                 });
                 return 1;
             });
@@ -103,7 +106,34 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = getGuild(player);
-                    player.displayClientMessage(getCurrentComponent("motd", guild.settings().motd().getString()), false);
+                    player.displayClientMessage(getCurrentComponent("motd", guild.getMotd().getString()), false);
+                });
+                return 1;
+            });
+    }
+
+    private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> color() {
+        return Commands.literal("color")
+            .then(Commands.argument("value", ColorArgument.color())
+                .executes(context -> {
+                    ServerPlayer player = context.getSource().getPlayerOrException();
+                    CommandHelper.runAction(() -> {
+                        ChatFormatting color = ColorArgument.getColor(context, "value");
+
+                        Guild guild = getGuild(player);
+                        if (!guild.members().isLeader(player.getUUID())) {
+                            throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
+                        }
+                        guild.settings().setColor(color);
+                        player.displayClientMessage(setCurrentComponent("color", color.name()), false);
+                    });
+                    return 1;
+                }))
+            .executes(context -> {
+                ServerPlayer player = context.getSource().getPlayerOrException();
+                CommandHelper.runAction(() -> {
+                    Guild guild = getGuild(player);
+                    player.displayClientMessage(getCurrentComponent("color", guild.getColor().name()), false);
                 });
                 return 1;
             });

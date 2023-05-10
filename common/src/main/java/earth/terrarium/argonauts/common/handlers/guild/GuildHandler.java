@@ -6,6 +6,7 @@ import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
 import earth.terrarium.argonauts.common.utils.ModUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -37,6 +38,7 @@ public class GuildHandler extends SavedData {
             GuildSettings settings = new GuildSettings(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
             settings.setDisplayName(Component.Serializer.fromJson(settingsTag.getString("name")));
             settings.setMotd(Component.Serializer.fromJson(settingsTag.getString("motd")));
+            settings.setColor(ChatFormatting.getById(settingsTag.getByte("color")));
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
             membersTag.getList("members", Tag.TAG_COMPOUND).forEach(memberTag ->
                 members.add(ModUtils.readBasicProfile((CompoundTag) memberTag))
@@ -57,6 +59,7 @@ public class GuildHandler extends SavedData {
             settingsTag.put("hq", ModUtils.writeGlobalPos(guild.settings().hq()));
             settingsTag.putString("name", Component.Serializer.toJson(guild.settings().displayName()));
             settingsTag.putString("motd", Component.Serializer.toJson(guild.settings().motd()));
+            settingsTag.putByte("color", (byte) guild.settings().color().getId());
             guildTag.put("settings", settingsTag);
             guildTag.put("owner", ModUtils.writeBasicProfile(guild.members().getLeader().profile()));
             guild.members().forEach(member -> membersTag.put(member.profile().getId().toString(), ModUtils.writeBasicProfile(member.profile())));
