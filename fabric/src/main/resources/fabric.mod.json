@@ -17,10 +17,6 @@
             "earth.terrarium.argonauts.client.ArgonautsClient::init"
         ]
     },
-    "mixins": [
-        "argonauts.mixins.json",
-        "argonauts-common.mixins.json"
-    ],
     "depends": {
         "fabric": "*",
         "minecraft": ">=1.19.4"

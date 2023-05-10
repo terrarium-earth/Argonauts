@@ -14,7 +14,6 @@ import earth.terrarium.cadmus.common.claims.ClaimSaveData;
 import earth.terrarium.cadmus.common.claims.ClaimType;
 import earth.terrarium.cadmus.common.teams.Team;
 import earth.terrarium.cadmus.common.teams.TeamSaveData;
-import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -25,10 +24,11 @@ import net.minecraft.world.level.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public class ArgnonautsTeamProvider implements TeamProvider {
+public class ArgonautsTeamProvider implements TeamProvider {
     @Override
     public Set<GameProfile> getTeamMembers(String id, MinecraftServer server) {
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
@@ -44,7 +44,18 @@ public class ArgnonautsTeamProvider implements TeamProvider {
     @Nullable
     public Component getTeamName(String id, MinecraftServer server) {
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
-        return Optionull.map(guild, Guild::getDisplayName);
+        if (guild != null) return guild.getDisplayName();
+
+        Team team = TeamSaveData.get(server, UUID.fromString(id));
+        if (team == null) return null;
+        Guild guild1 = GuildHandler.get(server, UUID.fromString(team.name()));
+        if (guild1 != null) return guild1.getDisplayName();
+        Optional<UUID> player = team.members().stream().findFirst();
+        if (player.isPresent()) {
+            var profile = server.getProfileCache().get(player.get());
+            return profile.map(gameProfile -> Component.literal(gameProfile.getName())).orElse(null);
+        }
+        return null;
     }
 
     @Override
@@ -58,9 +69,9 @@ public class ArgnonautsTeamProvider implements TeamProvider {
     @Override
     public boolean isMember(String id, MinecraftServer server, UUID player) {
         ServerPlayer serverPlayer = server.getPlayerList().getPlayer(player);
-        if (serverPlayer == null) return true;
-        Guild guild = GuildHandler.get(serverPlayer);
-        if (guild == null) return false;
+        if (serverPlayer == null) return false;
+        Guild guild = GuildHandler.get(server, UUID.fromString(id));
+        if (guild == null) return true;
         return guild.members().isMember(player);
     }
 
@@ -108,7 +119,7 @@ public class ArgnonautsTeamProvider implements TeamProvider {
         if (player == null) return;
 
         Set<ChunkPos> removed = new HashSet<>();
-        for (Team team : TeamSaveData.getTeams(server)) { // TODO throws ConcurrentModificationException rarely :sadge:
+        for (Team team : new HashSet<>(TeamSaveData.getTeams(server))) {
             if (team.name().equals(guild.id().toString())) {
                 TeamSaveData.addTeamMember(player, team);
                 return;
@@ -124,7 +135,7 @@ public class ArgnonautsTeamProvider implements TeamProvider {
         ServerPlayer player = server.getPlayerList().getPlayer(playerId);
         if (player == null) return;
 
-        for (Team team : TeamSaveData.getTeams(server)) {
+        for (Team team : new HashSet<>(TeamSaveData.getTeams(server))) {
             if (team.name().equals(guild.id().toString())) {
                 TeamSaveData.removeTeamMember(player, team);
                 return;

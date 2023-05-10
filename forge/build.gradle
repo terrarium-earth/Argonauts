@@ -1,6 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
+
 architectury {
     platformSetupLoomIde()
     forge()
@@ -15,19 +16,20 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
-
-    modApi "com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.minecraft_version:$rootProject.resourcefullib_version"
+    forge "net.minecraftforge:forge:$rootProject.minecraft_version-$rootProject.forge_version"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    include(implementation("com.github.llamalad7.mixinextras:mixinextras-forge:${rootProject.mixinextras_version}"))
 }
 
 processResources {
-    inputs.property "version", project.version
-
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand "version": rootProject.version,
+                "github_name": rootProject.github_name,
+                "resourcefullib_version": rootProject.resourcefullib_version
     }
 }
 

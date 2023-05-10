@@ -10,26 +10,26 @@ public class CadmusIntegration {
     public static final ResourceLocation ARGONAUTS_ID = new ResourceLocation(Argonauts.MOD_ID, Argonauts.MOD_ID);
 
     public static void init() {
-        if (!(TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider)) { // TODO remove
-            TeamProviderApi.API.register(ARGONAUTS_ID, new ArgnonautsTeamProvider());
+        if (!(TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider)) { // TODO remove
+            TeamProviderApi.API.register(ARGONAUTS_ID, new ArgonautsTeamProvider());
             TeamProviderApi.API.setSelected(ARGONAUTS_ID);
         }
     }
 
     public static void addToCadmusTeam(Guild guild, ServerPlayer player) {
-        if (TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider provider) {
+        if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
             provider.addPlayerToTeam(player.server, player.getUUID(), guild);
         }
     }
 
     public static void removeFromCadmusTeam(Guild guild, ServerPlayer player) {
-        if (TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider provider) {
+        if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
             provider.removePlayerFromTeam(player.server, player.getUUID(), guild);
         }
     }
 
     public static void disbandCadmusTeam(Guild guild, ServerPlayer player) {
-        if (TeamProviderApi.API.getSelected() instanceof ArgnonautsTeamProvider provider) {
+        if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
             provider.disbandTeam(player.server, player.getUUID(), guild);
         }
     }

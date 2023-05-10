@@ -87,8 +87,8 @@ public final class GuildSettingsCommands {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
                         Component name = ComponentArgument.getComponent(context, "value");
-                        name = Component.literal(name.getString().replace("&&", "§")
-                            .replace("\\n", "\n")).setStyle(name.getStyle());
+                        name = Component.literal(name.getString()
+                            .replace("&&", "§")).setStyle(name.getStyle());
 
                         Guild guild = getGuild(player);
                         if (!guild.members().isLeader(player.getUUID())) {

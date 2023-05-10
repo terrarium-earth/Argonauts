@@ -22,7 +22,6 @@ public class Argonauts {
     public static void init() {
         ModMenus.MENUS.init();
         NetworkHandler.init();
-        SharedConstants.IS_RUNNING_IN_IDE = true;
     }
 
     // Message of the day
