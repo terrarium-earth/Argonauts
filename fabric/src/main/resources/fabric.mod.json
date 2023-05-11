@@ -2,10 +2,19 @@
     "schemaVersion": 1,
     "id": "argonauts",
     "version": "${version}",
-    "name": "argonauts",
-    "description": "",
-    "authors": [],
-    "contact": {},
+    "name": "Argonauts",
+    "description": "Modern team mod!",
+    "authors": [
+        "Alex Nijjar",
+        "ThatGravyBoat"
+    ],
+    "contributors": [
+    ],
+    "contact": {
+        "website": "https://modrinth.com/mod/argonauts",
+        "repo": "https://github.com/terrarium-earth/${github_name}",
+        "issues": "https://github.com/terrarium-earth/${github_name}/issues"
+    },
     "license": "MIT",
     "icon": "icon.png",
     "environment": "*",
@@ -19,6 +28,7 @@
     },
     "depends": {
         "fabric": "*",
-        "minecraft": ">=1.19.4"
+        "minecraft": ">=1.19",
+        "resourcefullib": ">=${resourcefullib_version}"
     }
 }
