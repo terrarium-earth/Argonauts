@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.client.screens.party.members.guild.members;
 
+import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
 import earth.terrarium.argonauts.client.screens.base.members.MembersScreen;
 import earth.terrarium.argonauts.client.screens.base.members.entries.BooleanEntry;
@@ -10,7 +11,6 @@ import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.menus.base.MembersMenu;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ServerboundRequestShowCadmusPermissionsPacket;
-import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -36,7 +36,7 @@ public class PartyMembersScreen extends MembersScreen {
     @Override
     public void additionalEntries(MemberSettingList list, Member member, boolean cantModify, Member self) {
         if (showCadmusScreen) {
-            if (ModUtils.isModLoaded("cadmus")) {
+            if (Argonauts.isCadmusLoaded()) {
                 list.addEntry(new DividerEntry(Component.translatable("argonauts.member.cadmus_permissions")));
                 for (String permission : MemberPermissions.CADMUS_PERMISSIONS) {
                     list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menu.canManagePermissions() && self.hasPermission(permission)));

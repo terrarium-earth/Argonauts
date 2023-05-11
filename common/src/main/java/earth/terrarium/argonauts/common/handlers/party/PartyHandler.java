@@ -22,7 +22,7 @@ public class PartyHandler {
     private static final Map<UUID, Party> PARTIES = new HashMap<>();
     private static final Map<UUID, UUID> PLAYER_PARTIES = new HashMap<>();
 
-    public static UUID createParty(Player player) throws MemberException {
+    public static void createParty(Player player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_PARTY;
         }
@@ -30,7 +30,6 @@ public class PartyHandler {
         PARTIES.put(id, new Party(id, player));
         PLAYER_PARTIES.put(player.getUUID(), id);
         player.displayClientMessage(ConstantComponents.PARTY_CREATE, false);
-        return id;
     }
 
     /**

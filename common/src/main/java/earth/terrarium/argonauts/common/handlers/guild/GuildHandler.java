@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.common.handlers.guild;
 
+import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
@@ -78,7 +79,7 @@ public class GuildHandler extends SavedData {
         return server.overworld().getDataStorage().computeIfAbsent(GuildHandler::new, GuildHandler::new, "argonauts_guilds");
     }
 
-    public static UUID createGuild(ServerPlayer player, Component name) throws MemberException {
+    public static void createGuild(ServerPlayer player, Component name) throws MemberException {
         var data = read(player.server);
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
@@ -90,10 +91,9 @@ public class GuildHandler extends SavedData {
         data.playerGuilds.put(player.getUUID(), id);
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
 
-        if (ModUtils.isModLoaded("cadmus")) {
+        if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.addToCadmusTeam(guild, player);
         }
-        return id;
     }
 
     /**
@@ -137,7 +137,7 @@ public class GuildHandler extends SavedData {
             data.playerGuilds.put(player.getUUID(), guild.id());
             player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
-            if (ModUtils.isModLoaded("cadmus")) {
+            if (Argonauts.isCadmusLoaded()) {
                 CadmusIntegration.addToCadmusTeam(guild, player);
             }
         } else {
@@ -151,7 +151,7 @@ public class GuildHandler extends SavedData {
         if (player == null) return;
         data.guilds.remove(guild.id());
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
-        if (ModUtils.isModLoaded("cadmus")) {
+        if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.disbandCadmusTeam(guild, player);
         }
         data.updateInternal();
@@ -177,7 +177,7 @@ public class GuildHandler extends SavedData {
             serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
         data.playerGuilds.remove(player.getUUID());
-        if (ModUtils.isModLoaded("cadmus")) {
+        if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.removeFromCadmusTeam(guild, player);
         }
     }

@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -18,9 +19,14 @@ public class ArgonautsForge {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ArgonautsForge::onClientSetup);
         var bus = MinecraftForge.EVENT_BUS;
+        bus.addListener(ArgonautsForge::onServerStarted);
         bus.addListener(ArgonautsForge::onPlayerLoggedIn);
         bus.addListener(ArgonautsForge::onPlayerLoggedOut);
         bus.addListener(ArgonautsForge::registerCommands);
+    }
+
+    private static void onServerStarted(ServerStartedEvent event) {
+        Argonauts.serverStarted(event.getServer());
     }
 
     private static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {

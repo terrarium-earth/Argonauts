@@ -9,8 +9,8 @@ import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import earth.terrarium.argonauts.common.utils.ModUtils;
-import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -22,14 +22,20 @@ public class Argonauts {
     public static void init() {
         ModMenus.MENUS.init();
         NetworkHandler.init();
+        if (isCadmusLoaded()) {
+            CadmusIntegration.init();
+        }
+    }
+
+    public static void serverStarted(MinecraftServer server) {
+        // Set the Team Provider
+        if (isCadmusLoaded()) {
+            CadmusIntegration.setTeamProvider(server);
+        }
     }
 
     // Message of the day
     public static void onPlayerJoin(Player player) {
-        if (ModUtils.isModLoaded("cadmus")) {
-            CadmusIntegration.init(); // TODO: REMOVE !!!!!!!
-        }
-
         if (!player.getLevel().isClientSide()) {
             Guild guild = GuildHandler.get((ServerPlayer) player);
             if (guild == null) return;
@@ -50,5 +56,9 @@ public class Argonauts {
                 PartyHandler.disband(party, Objects.requireNonNull(player.getServer()));
             }
         }
+    }
+
+    public static boolean isCadmusLoaded() {
+        return ModUtils.isModLoaded("cadmus");
     }
 }
