@@ -50,8 +50,11 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = getGuild(player);
-                    GlobalPos hq = guild.settings().hq();
-                    player.displayClientMessage(getCurrentComponent("hq", hq.dimension().location() + ", " + hq.pos().getX() + ", " + hq.pos().getY() + ", " + hq.pos().getZ()), false);
+                    var hq = guild.settings().hq();
+                    if (hq.isEmpty()) {
+                        throw MemberException.HQ_NOT_SET;
+                    }
+                    hq.ifPresent(hq1 -> player.displayClientMessage(getCurrentComponent("hq", hq1.dimension().location() + ", " + hq1.pos().getX() + ", " + hq1.pos().getY() + ", " + hq1.pos().getZ()), false));
                 });
                 return 1;
             });
@@ -64,6 +67,7 @@ public final class GuildSettingsCommands {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
                         Component pos = ComponentArgument.getComponent(context, "value");
+                        pos = pos.copy().setStyle(pos.getStyle().withClickEvent(null));
                         Guild guild = getGuild(player);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
@@ -90,9 +94,7 @@ public final class GuildSettingsCommands {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
                         Component name = ComponentArgument.getComponent(context, "value");
-                        name = Component.literal(name.getString()
-                            .replace("&&", "§")).setStyle(name.getStyle());
-
+                        name = name.copy().setStyle(name.getStyle().withClickEvent(null));
                         Guild guild = getGuild(player);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;

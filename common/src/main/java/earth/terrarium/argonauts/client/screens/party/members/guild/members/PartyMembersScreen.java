@@ -45,7 +45,7 @@ public class PartyMembersScreen extends MembersScreen {
         }
     }
 
-    public void update() {
+    public void refreshPermissions() {
         showCadmusScreen = true;
         this.repositionElements();
     }

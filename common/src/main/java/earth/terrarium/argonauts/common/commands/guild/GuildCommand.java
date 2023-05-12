@@ -18,7 +18,7 @@ public final class GuildCommand {
                     .executes(context -> {
                         ServerPlayer player = context.getSource().getPlayerOrException();
                         Component name = ComponentArgument.getComponent(context, "name");
-                        CommandHelper.runAction(() -> GuildHandler.createGuild(player, name));
+                        CommandHelper.runAction(() -> GuildHandler.createGuild(player, name.copy().setStyle(name.getStyle().withClickEvent(null))));
                         return 1;
                     }))
                 .executes(context -> {

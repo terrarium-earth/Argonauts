@@ -1,86 +1,60 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
-import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
-import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.cadmus.api.claims.InteractionType;
 import earth.terrarium.cadmus.api.teams.TeamProvider;
-import earth.terrarium.cadmus.common.claims.ClaimInfo;
-import earth.terrarium.cadmus.common.claims.ClaimSaveData;
-import earth.terrarium.cadmus.common.claims.ClaimType;
-import earth.terrarium.cadmus.common.teams.Team;
-import earth.terrarium.cadmus.common.teams.TeamSaveData;
+import earth.terrarium.cadmus.common.claims.ClaimHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Explosion;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 public class ArgonautsTeamProvider implements TeamProvider {
-    @Override
-    public Set<GameProfile> getTeamMembers(String id, MinecraftServer server) {
-        Guild guild = GuildHandler.get(server, UUID.fromString(id));
-        Set<GameProfile> profiles = new HashSet<>();
-        if (guild == null) return profiles;
-        for (GuildMember player : guild.members()) {
-            server.getProfileCache().get(player.profile().getId()).ifPresent(profiles::add);
-        }
-        return profiles;
-    }
 
     @Override
     @Nullable
     public Component getTeamName(String id, MinecraftServer server) {
-        Guild guild = GuildHandler.get(server, UUID.fromString(id));
-        if (guild != null) return guild.getDisplayName();
-
-        Team team = TeamSaveData.get(server, UUID.fromString(id));
-        if (team == null) return null;
-        Guild guild1 = GuildHandler.get(server, UUID.fromString(team.name()));
-        if (guild1 != null) return guild1.getDisplayName();
-        Optional<UUID> player = team.members().stream().findFirst();
-        if (player.isPresent()) {
-            var profile = server.getProfileCache().get(player.get());
-            return profile.map(gameProfile -> Component.literal(gameProfile.getName())).orElse(null);
+        var guild = GuildHandler.get(server, UUID.fromString(id));
+        if (guild == null) {
+            var profile = server.getProfileCache().get(UUID.fromString(id));
+            return profile.map(p -> Component.literal(p.getName())).orElse(null);
         }
-        return null;
+        return guild.getDisplayName();
     }
 
     @Override
-    @Nullable
-    public String getTeamId(ServerPlayer player) {
-        Guild guild = GuildHandler.get(player);
-        if (guild == null) return null;
+    public String getTeamId(MinecraftServer server, UUID player) {
+        var profile = server.getProfileCache().get(player).orElse(null);
+        if (profile == null) return player.toString();
+        var guild = GuildHandler.getPlayerGuild(server, player);
+        if (guild == null) return player.toString();
         return guild.id().toString();
     }
 
     @Override
     public boolean isMember(String id, MinecraftServer server, UUID player) {
-        ServerPlayer serverPlayer = server.getPlayerList().getPlayer(player);
-        if (serverPlayer == null) return false;
-        Guild guild = GuildHandler.get(server, UUID.fromString(id));
-        if (guild == null) return true;
+        var profile = server.getProfileCache().get(player).orElse(null);
+        if (profile == null) return false;
+        var guild = GuildHandler.get(server, UUID.fromString(id));
+        if (guild == null) return id.equals(player.toString());
         return guild.members().isMember(player);
     }
 
     @Override
     public ChatFormatting getTeamColor(String id, MinecraftServer server) {
-        Guild guild = GuildHandler.get(server, UUID.fromString(id));
-        return Optionull.mapOrDefault(guild, Guild::getColor, ChatFormatting.AQUA);
+        var guild = GuildHandler.get(server, UUID.fromString(id));
+        var result = Optionull.mapOrDefault(guild, Guild::getColor, ChatFormatting.AQUA);
+        return result == ChatFormatting.RESET ? ChatFormatting.AQUA : result;
     }
 
     @Override
@@ -115,51 +89,24 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     private boolean hasPermission(String perm, String id, MinecraftServer server, UUID player) {
         if (isMember(id, server, player)) return true;
-        ServerPlayer serverPlayer = server.getPlayerList().getPlayer(player);
-        if (serverPlayer == null) return true;
-        Party party = PartyHandler.get(serverPlayer);
+        Party party = PartyHandler.getPlayerParty(player);
         if (party == null) return false;
-        return party.members().get(serverPlayer.getUUID()).hasPermission(perm);
+        var member = party.members().get(player);
+        if (member == null) return false;
+        if (member.hasPermission(perm)) return true;
+
+        Guild guild = GuildHandler.get(server, UUID.fromString(id));
+        if (guild == null) return false;
+        var guildMember = guild.members().get(player);
+        if (guildMember == null) return false;
+        return party.members().isMember(player) && guildMember.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS);
     }
 
-    public void addPlayerToTeam(MinecraftServer server, UUID playerId, Guild guild) {
-        ServerPlayer player = server.getPlayerList().getPlayer(playerId);
-        if (player == null) return;
-
-        Set<ChunkPos> removed = new HashSet<>();
-        for (Team team : new HashSet<>(TeamSaveData.getTeams(server))) {
-            if (team.name().equals(guild.id().toString())) {
-                TeamSaveData.addTeamMember(player, team);
-                return;
-            }
-            removed.addAll(TeamSaveData.removeTeamMember(player, team));
-        }
-        Team team = TeamSaveData.getOrCreateTeam(player, guild.id().toString());
-        // Transfer chunks to new team if the old team was removed
-        removed.forEach(chunkPos -> ClaimSaveData.set(player.getLevel(), chunkPos, new ClaimInfo(team.teamId(), ClaimType.CLAIMED)));
+    public void onTeamChanged(MinecraftServer server, UUID player) {
+        server.getAllLevels().forEach(l -> ClaimHandler.clear(l, player.toString()));
     }
 
-    public void removePlayerFromTeam(MinecraftServer server, UUID playerId, Guild guild) {
-        ServerPlayer player = server.getPlayerList().getPlayer(playerId);
-        if (player == null) return;
-
-        for (Team team : new HashSet<>(TeamSaveData.getTeams(server))) {
-            if (team.name().equals(guild.id().toString())) {
-                TeamSaveData.removeTeamMember(player, team);
-                return;
-            }
-        }
-    }
-
-    public void disbandTeam(MinecraftServer server, UUID playerId, Guild guild) {
-        ServerPlayer player = server.getPlayerList().getPlayer(playerId);
-        if (player == null) return;
-
-        for (Team team : TeamSaveData.getTeams(server)) {
-            if (team.name().equals(guild.id().toString())) {
-                TeamSaveData.disband(team, player.server);
-                return;
-            }
-        }
+    public void onTeamRemoved(MinecraftServer server, String id) {
+        server.getAllLevels().forEach(l -> ClaimHandler.clear(l, id));
     }
 }

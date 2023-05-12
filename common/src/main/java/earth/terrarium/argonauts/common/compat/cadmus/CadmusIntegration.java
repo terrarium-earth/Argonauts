@@ -3,9 +3,7 @@ package earth.terrarium.argonauts.common.compat.cadmus;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.cadmus.api.teams.TeamProviderApi;
-import earth.terrarium.cadmus.common.teams.TeamSaveData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 public class CadmusIntegration {
@@ -13,30 +11,24 @@ public class CadmusIntegration {
 
     public static void init() {
         TeamProviderApi.API.register(ARGONAUTS_ID, new ArgonautsTeamProvider());
+        TeamProviderApi.API.setSelected(ARGONAUTS_ID);
     }
 
-    public static void setTeamProvider(MinecraftServer server) {
-        TeamSaveData.read(server);
-        if (TeamProviderApi.API.getSelectedId() == null) {
-            TeamProviderApi.API.setSelected(ARGONAUTS_ID);
+    public static void addToCadmusTeam(ServerPlayer player) {
+        if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
+            provider.onTeamChanged(player.server, player.getUUID());
         }
     }
 
-    public static void addToCadmusTeam(Guild guild, ServerPlayer player) {
+    public static void removeFromCadmusTeam(ServerPlayer player) {
         if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
-            provider.addPlayerToTeam(player.server, player.getUUID(), guild);
-        }
-    }
-
-    public static void removeFromCadmusTeam(Guild guild, ServerPlayer player) {
-        if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
-            provider.removePlayerFromTeam(player.server, player.getUUID(), guild);
+            provider.onTeamChanged(player.server, player.getUUID());
         }
     }
 
     public static void disbandCadmusTeam(Guild guild, ServerPlayer player) {
         if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
-            provider.disbandTeam(player.server, player.getUUID(), guild);
+            provider.onTeamRemoved(player.server, guild.id().toString());
         }
     }
 }

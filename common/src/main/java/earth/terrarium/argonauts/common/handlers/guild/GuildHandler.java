@@ -36,7 +36,10 @@ public class GuildHandler extends SavedData {
             CompoundTag guildTag = tag.getCompound(key);
             CompoundTag settingsTag = guildTag.getCompound("settings");
             CompoundTag membersTag = guildTag.getCompound("members");
-            GuildSettings settings = new GuildSettings(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
+            GuildSettings settings = new GuildSettings();
+            if (!settingsTag.getCompound("hq").isEmpty()) {
+                settings.setHq(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
+            }
             settings.setDisplayName(Component.Serializer.fromJson(settingsTag.getString("name")));
             settings.setMotd(Component.Serializer.fromJson(settingsTag.getString("motd")));
             settings.setColor(ChatFormatting.getById(settingsTag.getByte("color")));
@@ -57,7 +60,7 @@ public class GuildHandler extends SavedData {
             CompoundTag guildTag = new CompoundTag();
             CompoundTag settingsTag = new CompoundTag();
             CompoundTag membersTag = new CompoundTag();
-            settingsTag.put("hq", ModUtils.writeGlobalPos(guild.settings().hq()));
+            settingsTag.put("hq", guild.settings().hq().isPresent() ? ModUtils.writeGlobalPos(guild.settings().hq().get()) : new CompoundTag());
             settingsTag.putString("name", Component.Serializer.toJson(guild.settings().displayName()));
             settingsTag.putString("motd", Component.Serializer.toJson(guild.settings().motd()));
             settingsTag.putByte("color", (byte) guild.settings().color().getId());
@@ -70,29 +73,24 @@ public class GuildHandler extends SavedData {
         return tag;
     }
 
-    @Override
-    public boolean isDirty() {
-        return true;
-    }
-
     public static GuildHandler read(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(GuildHandler::new, GuildHandler::new, "argonauts_guilds");
     }
 
-    public static void createGuild(ServerPlayer player, Component name) throws MemberException {
+    public static void createGuild(ServerPlayer player, Component displayName) throws MemberException {
         var data = read(player.server);
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
         }
         UUID id = ModUtils.generate(Predicate.not(data.guilds::containsKey), UUID::randomUUID);
         Guild guild = new Guild(id, player);
-        guild.settings().setDisplayName(name);
+        guild.settings().setDisplayName(displayName);
         data.guilds.put(id, guild);
         data.playerGuilds.put(player.getUUID(), id);
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
 
         if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.addToCadmusTeam(guild, player);
+            CadmusIntegration.addToCadmusTeam(player);
         }
     }
 
@@ -138,23 +136,11 @@ public class GuildHandler extends SavedData {
             player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
             if (Argonauts.isCadmusLoaded()) {
-                CadmusIntegration.addToCadmusTeam(guild, player);
+                CadmusIntegration.addToCadmusTeam(player);
             }
         } else {
             throw MemberException.NOT_ALLOWED_TO_JOIN_GUILD;
         }
-    }
-
-    public static void disband(Guild guild, MinecraftServer server) {
-        var data = read(server);
-        ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
-        if (player == null) return;
-        data.guilds.remove(guild.id());
-        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
-        if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.disbandCadmusTeam(guild, player);
-        }
-        data.updateInternal();
     }
 
     public static void leave(UUID id, ServerPlayer player) throws MemberException {
@@ -178,8 +164,20 @@ public class GuildHandler extends SavedData {
         }
         data.playerGuilds.remove(player.getUUID());
         if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.removeFromCadmusTeam(guild, player);
+            CadmusIntegration.removeFromCadmusTeam(player);
         }
+    }
+
+    public static void disband(Guild guild, MinecraftServer server) {
+        var data = read(server);
+        ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
+        if (player == null) return;
+        data.guilds.remove(guild.id());
+        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
+        if (Argonauts.isCadmusLoaded()) {
+            CadmusIntegration.disbandCadmusTeam(guild, player);
+        }
+        data.updateInternal();
     }
 
     private void updateInternal() {
@@ -187,5 +185,10 @@ public class GuildHandler extends SavedData {
         guilds.values().forEach(team ->
             team.members().forEach(member ->
                 playerGuilds.put(member.profile().getId(), team.id())));
+    }
+
+    @Override
+    public boolean isDirty() {
+        return true;
     }
 }

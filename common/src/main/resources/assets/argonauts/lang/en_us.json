@@ -71,6 +71,7 @@
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
     "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",
     "command.argonauts.exception.member_has_passive_tp_disabled": "The member has passive teleportation disabled.",
+    "command.argonauts.exception.hq_not_set": "The headquarters have not been set.",
 
     "command.argonauts.exception.already_in_party": "You are already in a party.",
     "command.argonauts.exception.you_are_not_in_party": "You are not in a party.",

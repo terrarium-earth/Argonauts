@@ -10,7 +10,6 @@ import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.registries.ModMenus;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -24,13 +23,6 @@ public class Argonauts {
         NetworkHandler.init();
         if (isCadmusLoaded()) {
             CadmusIntegration.init();
-        }
-    }
-
-    public static void serverStarted(MinecraftServer server) {
-        // Set the Team Provider
-        if (isCadmusLoaded()) {
-            CadmusIntegration.setTeamProvider(server);
         }
     }
 

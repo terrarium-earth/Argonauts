@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.handlers.base.members;
 import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ public abstract class Members<T extends Member> implements Iterable<T> {
         this.factory = factory;
     }
 
+    @Nullable
     public T get(UUID uuid) {
         return this.members.get(uuid);
     }

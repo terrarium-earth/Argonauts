@@ -5,6 +5,8 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.util.Optional;
+
 public class GuildSettings {
 
     private GlobalPos hq;
@@ -12,16 +14,12 @@ public class GuildSettings {
     private Component motd = CommonComponents.EMPTY;
     private ChatFormatting color = ChatFormatting.AQUA;
 
-    public GuildSettings(GlobalPos hq) {
-        this.hq = hq;
-    }
-
     public void setHq(GlobalPos hq) {
         this.hq = hq;
     }
 
-    public GlobalPos hq() {
-        return hq;
+    public Optional<GlobalPos> hq() {
+        return Optional.ofNullable(hq);
     }
 
     public void setDisplayName(Component displayName) {
