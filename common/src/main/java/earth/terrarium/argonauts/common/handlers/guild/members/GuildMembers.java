@@ -5,9 +5,12 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 import earth.terrarium.argonauts.common.handlers.base.members.Members;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class GuildMembers extends Members<GuildMember> {
+    private final Set<UUID> fakePlayers = new HashSet<>();
 
     public GuildMembers(GameProfile leader) {
         super(leader, GuildMember::new);
@@ -33,5 +36,9 @@ public class GuildMembers extends Members<GuildMember> {
         forEach(member -> member.setState(MemberState.MEMBER));
         this.members.get(uuid).setState(MemberState.OWNER);
         this.leader = uuid;
+    }
+
+    public Set<UUID> fakePlayers() {
+        return this.fakePlayers;
     }
 }

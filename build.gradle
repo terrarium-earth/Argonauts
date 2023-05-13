@@ -112,7 +112,10 @@ subprojects {
             officialMojangMappings()
 //            parchment("org.parchmentmc.data:parchment-$rootProject.minecraft_version:$rootProject.parchment_version@zip")
         }
-        modImplementation("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
+        modCompileOnly("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
+            transitive = false
+        }
+        modLocalRuntime("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
             transitive = false
         }
         modApi "com.teamresourceful.resourcefullib:resourcefullib-$name-$rootProject.minecraft_version:$rootProject.resourcefullib_version"

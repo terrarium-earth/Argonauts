@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.compat.cadmus;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
+import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.cadmus.api.claims.InteractionType;
@@ -97,6 +98,9 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
         if (guild == null) return false;
+        if (guild.settings().allowFakePlayers() && guild.members() instanceof GuildMembers members && members.fakePlayers().contains(player)) {
+            return true;
+        }
         var guildMember = guild.members().get(player);
         if (guildMember == null) return false;
         return party.members().isMember(player) && guildMember.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS);

@@ -2,16 +2,19 @@ package earth.terrarium.argonauts.common.utils;
 
 import com.google.common.primitives.UnsignedInteger;
 import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
+import com.teamresourceful.resourcefullib.common.exceptions.NotImplementedException;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -68,6 +71,11 @@ public final class ModUtils {
 
     @ExpectPlatform
     public static boolean isModLoaded(String modId) {
+        throw new NotImplementedException();
+    }
+
+    @ExpectPlatform
+    public static List<Pair<UUID, Component>> getFakePlayers() {
         throw new NotImplementedException();
     }
 }

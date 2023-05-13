@@ -9,7 +9,6 @@ import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,8 +43,8 @@ public class GuildHandler extends SavedData {
             settings.setMotd(Component.Serializer.fromJson(settingsTag.getString("motd")));
             settings.setColor(ChatFormatting.getById(settingsTag.getByte("color")));
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
-            membersTag.getList("members", Tag.TAG_COMPOUND).forEach(memberTag ->
-                members.add(ModUtils.readBasicProfile((CompoundTag) memberTag))
+            membersTag.getAllKeys().forEach(memberTag ->
+                members.add(ModUtils.readBasicProfile(membersTag.getCompound(memberTag)))
             );
             Guild guild = new Guild(id, settings, members);
             guilds.put(id, guild);

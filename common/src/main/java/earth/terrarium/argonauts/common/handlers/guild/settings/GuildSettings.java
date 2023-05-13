@@ -13,6 +13,7 @@ public class GuildSettings {
     private Component displayName = CommonComponents.EMPTY;
     private Component motd = CommonComponents.EMPTY;
     private ChatFormatting color = ChatFormatting.AQUA;
+    private boolean allowFakePlayers;
 
     public void setHq(GlobalPos hq) {
         this.hq = hq;
@@ -44,5 +45,13 @@ public class GuildSettings {
 
     public ChatFormatting color() {
         return color;
+    }
+
+    public void setAllowFakePlayers(boolean allowFakePlayers) {
+        this.allowFakePlayers = allowFakePlayers;
+    }
+
+    public boolean allowFakePlayers() {
+        return allowFakePlayers;
     }
 }
