@@ -15,6 +15,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class CommandEntry extends ListEntry {
 
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
@@ -57,7 +59,7 @@ public class CommandEntry extends ListEntry {
     public boolean mouseClicked(double d, double e, int i) {
         if (i == 0 && canEdit) {
             if (d >= 184 - 75 && d < 184 - 5 && e >= 4 && e < 18) {
-                Minecraft.getInstance().player.closeContainer();
+                Objects.requireNonNull(Minecraft.getInstance().player).closeContainer();
                 ClientUtils.sendCommand(this.command);
                 return true;
             }

@@ -90,8 +90,8 @@ public class CustomChatScreen extends AbstractContainerCursorScreen<ChatMenu> {
         this.font.draw(stack, title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
         int online = this.menu.usernames().size();
         this.font.draw(stack, online + "/" + this.menu.maxUsers() + " Online", 198, (float) this.titleLabelY, 4210752);
-        String charcount = ClientUtils.getSmallNumber(ChatMessage.MAX_MESSAGE_LENGTH - box.getValue().length());
-        this.font.draw(stack, charcount, 191 - this.font.width(charcount), 137, 4210752);
+        String charCount = ClientUtils.getSmallNumber(ChatMessage.MAX_MESSAGE_LENGTH - box.getValue().length());
+        this.font.draw(stack, charCount, 191 - this.font.width(charCount), 137, 4210752);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class CustomChatScreen extends AbstractContainerCursorScreen<ChatMenu> {
                 return true;
             }
         }
-        if (this.minecraft.options.keyInventory.matches(i, j)) {
+        if (Minecraft.getInstance().options.keyInventory.matches(i, j)) {
             return true;
         }
         return super.keyPressed(i, j, k);

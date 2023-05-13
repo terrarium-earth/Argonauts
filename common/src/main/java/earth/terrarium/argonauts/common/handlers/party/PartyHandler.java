@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.common.handlers.party;
 
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
@@ -21,15 +22,14 @@ public class PartyHandler {
     private static final Map<UUID, Party> PARTIES = new HashMap<>();
     private static final Map<UUID, UUID> PLAYER_PARTIES = new HashMap<>();
 
-    public static UUID createParty(Player player) throws MemberException {
+    public static void createParty(Player player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_PARTY;
         }
         UUID id = ModUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
         PARTIES.put(id, new Party(id, player));
         PLAYER_PARTIES.put(player.getUUID(), id);
-        player.displayClientMessage(Component.translatable("text.argonauts.member.party_create", player.getName().getString()), false);
-        return id;
+        player.displayClientMessage(ConstantComponents.PARTY_CREATE, false);
     }
 
     /**
@@ -76,7 +76,7 @@ public class PartyHandler {
         }
     }
 
-    public static void remove(Party party, MinecraftServer server) {
+    public static void disband(Party party, MinecraftServer server) {
         PARTIES.remove(party.id());
         party.members().forEach(member -> {
             if (PLAYER_PARTIES.get(member.profile().getId()) == party.id()) {

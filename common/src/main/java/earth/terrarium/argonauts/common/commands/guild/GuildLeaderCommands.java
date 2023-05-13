@@ -21,7 +21,7 @@ public final class GuildLeaderCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband() {
         return LeaderCommands.disband(
             GuildCommandHelper::getGuildOrThrow,
-            GuildHandler::remove,
+            GuildHandler::disband,
             MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD);
     }
 

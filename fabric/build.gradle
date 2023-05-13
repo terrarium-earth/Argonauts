@@ -16,20 +16,21 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-
-    modApi "com.teamresourceful.resourcefullib:resourcefullib-fabric-$rootProject.minecraft_version:$rootProject.resourcefullib_version"
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    modApi "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version+$rootProject.minecraft_version"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
 processResources {
-    inputs.property "version", project.version
-
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": rootProject.version,
+                "fabric_loader_version": rootProject.fabric_loader_version,
+                "github_name": rootProject.github_name,
+                "resourcefullib_version": rootProject.resourcefullib_version,
+                "modrinth_id": rootProject.modrinth_id
     }
 }
 

@@ -1,15 +1,16 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ColorArgument;
+import net.minecraft.commands.arguments.ComponentArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -24,6 +25,8 @@ public final class GuildSettingsCommands {
                 .then(hq())
                 .then(displayName())
                 .then(motd())
+                .then(color())
+                .then(allowFakePlayers())
             ));
     }
 
@@ -34,7 +37,7 @@ public final class GuildSettingsCommands {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
                         BlockPos pos = BlockPosArgument.getBlockPos(context, "value");
-                        Guild guild = getGuild(player);
+                        Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
@@ -46,9 +49,12 @@ public final class GuildSettingsCommands {
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
-                    Guild guild = getGuild(player);
-                    GlobalPos hq = guild.settings().hq();
-                    player.displayClientMessage(getCurrentComponent("hq", hq.dimension().location() + ", " + hq.pos().getX() + ", " + hq.pos().getY() + ", " + hq.pos().getZ()), false);
+                    Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
+                    var hq = guild.settings().hq();
+                    if (hq.isEmpty()) {
+                        throw MemberException.HQ_NOT_SET;
+                    }
+                    hq.ifPresent(hq1 -> player.displayClientMessage(getCurrentComponent("hq", hq1.dimension().location() + ", " + hq1.pos().getX() + ", " + hq1.pos().getY() + ", " + hq1.pos().getZ()), false));
                 });
                 return 1;
             });
@@ -56,25 +62,26 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> displayName() {
         return Commands.literal("displayName")
-            .then(Commands.argument("value", StringArgumentType.string())
+            .then(Commands.argument("value", ComponentArgument.textComponent())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        String pos = StringArgumentType.getString(context, "value");
-                        Guild guild = getGuild(player);
+                        Component displayName = ComponentArgument.getComponent(context, "value");
+                        displayName = displayName.copy().setStyle(displayName.getStyle().withClickEvent(null));
+                        Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setDisplayName(Component.nullToEmpty(pos));
-                        player.displayClientMessage(setCurrentComponent("displayName", pos), false);
+                        guild.settings().setDisplayName(displayName);
+                        player.displayClientMessage(setCurrentComponent("displayName", displayName), false);
                     });
                     return 1;
                 }))
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
-                    Guild guild = getGuild(player);
-                    player.displayClientMessage(getCurrentComponent("displayName", guild.settings().displayName().getString()), false);
+                    Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
+                    player.displayClientMessage(getCurrentComponent("displayName", guild.getDisplayName()), false);
                 });
                 return 1;
             });
@@ -82,18 +89,17 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> motd() {
         return Commands.literal("motd")
-            .then(Commands.argument("value", StringArgumentType.string())
+            .then(Commands.argument("value", ComponentArgument.textComponent())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        String name = StringArgumentType.getString(context, "value");
-                        name = name.replace("&&", "§").replace("\\n", "\n");
-
-                        Guild guild = getGuild(player);
+                        Component name = ComponentArgument.getComponent(context, "value");
+                        name = name.copy().setStyle(name.getStyle().withClickEvent(null));
+                        Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setMotd(Component.literal(name));
+                        guild.settings().setMotd(name);
                         player.displayClientMessage(setCurrentComponent("motd", name), false);
                     });
                     return 1;
@@ -101,26 +107,58 @@ public final class GuildSettingsCommands {
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
-                    Guild guild = getGuild(player);
-                    player.displayClientMessage(getCurrentComponent("motd", guild.settings().motd().getString()), false);
+                    Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
+                    player.displayClientMessage(getCurrentComponent("motd", guild.getMotd()), false);
                 });
                 return 1;
             });
     }
 
-    private static Guild getGuild(ServerPlayer player) throws MemberException {
-        Guild guild = GuildHandler.get(player);
-        if (guild == null) {
-            throw MemberException.YOU_ARE_NOT_IN_GUILD;
-        }
-        return guild;
+    private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> color() {
+        return Commands.literal("color")
+            .then(Commands.argument("value", ColorArgument.color())
+                .executes(context -> {
+                    ServerPlayer player = context.getSource().getPlayerOrException();
+                    CommandHelper.runAction(() -> {
+                        ChatFormatting color = ColorArgument.getColor(context, "value");
+
+                        Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
+                        if (!guild.members().isLeader(player.getUUID())) {
+                            throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
+                        }
+                        guild.settings().setColor(color);
+                        player.displayClientMessage(setCurrentComponent("color", guild.getColor().name().toLowerCase()), false);
+                    });
+                    return 1;
+                }))
+            .executes(context -> {
+                ServerPlayer player = context.getSource().getPlayerOrException();
+                CommandHelper.runAction(() -> {
+                    Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
+                    player.displayClientMessage(getCurrentComponent("color", guild.getColor().name().toLowerCase()), false);
+                });
+                return 1;
+            });
     }
 
-    private static Component getCurrentComponent(String command, String value) {
+    private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> allowFakePlayers() {
+        return Commands.literal("allowFakePlayers")
+            .executes(context -> {
+                ServerPlayer player = context.getSource().getPlayerOrException();
+                CommandHelper.runAction(() -> {
+                    Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
+                    guild.settings().setAllowFakePlayers(!guild.settings().allowFakePlayers());
+                    player.displayClientMessage(getCurrentComponent("allowFakePlayers", String.valueOf(guild.settings().allowFakePlayers())), false);
+                });
+                return 1;
+            });
+    }
+
+    private static Component getCurrentComponent(String command, Object value) {
         return Component.translatable("text.argonauts.guild_settings.current", command, value);
     }
 
-    private static Component setCurrentComponent(String command, String value) {
+    private static Component setCurrentComponent(String command, Object value) {
         return Component.translatable("text.argonauts.guild_settings.set", command, value);
     }
 }

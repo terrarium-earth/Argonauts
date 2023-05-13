@@ -1,23 +1,26 @@
 package earth.terrarium.argonauts.common.handlers.guild.settings;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class GuildSettings {
 
-    private GlobalPos hq = null;
+    private GlobalPos hq;
     private Component displayName = CommonComponents.EMPTY;
     private Component motd = CommonComponents.EMPTY;
+    private ChatFormatting color = ChatFormatting.AQUA;
+    private boolean allowFakePlayers;
 
     public void setHq(GlobalPos hq) {
         this.hq = hq;
     }
 
-    @Nullable
-    public GlobalPos hq() {
-        return hq;
+    public Optional<GlobalPos> hq() {
+        return Optional.ofNullable(hq);
     }
 
     public void setDisplayName(Component displayName) {
@@ -34,5 +37,21 @@ public class GuildSettings {
 
     public Component motd() {
         return motd;
+    }
+
+    public void setColor(ChatFormatting color) {
+        this.color = color;
+    }
+
+    public ChatFormatting color() {
+        return color;
+    }
+
+    public void setAllowFakePlayers(boolean allowFakePlayers) {
+        this.allowFakePlayers = allowFakePlayers;
+    }
+
+    public boolean allowFakePlayers() {
+        return allowFakePlayers;
     }
 }

@@ -41,7 +41,7 @@ public class ChatMessagesList extends SelectionList<ListEntry> {
         addEntry(new ChatPlayerListEntry(id, message));
         Component text = formatComponent(message.message());
         for (var sequence : Minecraft.getInstance().font.split(text, 176)) {
-            last = new ChatMessageListEntry(id, message, sequence);
+            last = new ChatMessageListEntry(id, sequence);
             addEntry(last);
         }
         return last;

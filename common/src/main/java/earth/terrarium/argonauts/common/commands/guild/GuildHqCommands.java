@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
+import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -25,8 +26,10 @@ public final class GuildHqCommands {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
         CommandHelper.runAction(() -> {
-            GlobalPos hq = guild.settings().hq();
-            if (hq == null) return;
+            GlobalPos hq = guild.settings().hq().orElse(null);
+            if (hq == null) {
+                throw MemberException.HQ_NOT_SET;
+            }
             player.teleportTo(
                 player.server.getLevel(hq.dimension()),
                 hq.pos().getX(), hq.pos().getY(), hq.pos().getZ(),

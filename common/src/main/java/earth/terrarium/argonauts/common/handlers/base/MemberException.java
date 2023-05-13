@@ -7,6 +7,7 @@ public class MemberException extends Exception {
     public static final MemberException NO_PERMISSIONS = new MemberException(Component.translatable("command.argonauts.exception.no_permissions"));
     public static final MemberException YOU_CANT_GIVE_PERMISSIONS = new MemberException(Component.translatable("command.argonauts.exception.you_cant_give_permissions"));
     public static final MemberException MEMBER_HAS_PASSIVE_TP_DISABLED = new MemberException(Component.translatable("command.argonauts.exception.member_has_passive_tp_disabled"));
+    public static final MemberException HQ_NOT_SET = new MemberException(Component.translatable("command.argonauts.exception.hq_not_set"));
 
     public static final MemberException ALREADY_IN_PARTY = new MemberException(Component.translatable("command.argonauts.exception.already_in_party"));
     public static final MemberException YOU_ARE_NOT_IN_PARTY = new MemberException(Component.translatable("command.argonauts.exception.you_are_not_in_party"));
