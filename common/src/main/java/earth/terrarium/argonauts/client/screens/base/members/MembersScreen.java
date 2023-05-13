@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class MembersScreen extends AbstractContainerCursorScreen<MembersMenu> {
@@ -64,6 +65,7 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
                 list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menu.canManagePermissions() && self.hasPermission(permission)));
                 leftOver.remove(permission);
             }
+            leftOver.removeAll(getAdditionalPermissions());
 
             for (String permission : leftOver) {
                 list.addEntry(new BooleanEntry(permission, true, !cantModify && this.menu.canManagePermissions() && self.hasPermission(permission)));
@@ -82,6 +84,10 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
     }
 
     public void additionalEntries(MemberSettingList list, Member member, boolean cantModify, Member self) {}
+
+    public Collection<String> getAdditionalPermissions() {
+        return new ArrayList<>();
+    }
 
     public abstract String runRemoveCommand(Member member);
 

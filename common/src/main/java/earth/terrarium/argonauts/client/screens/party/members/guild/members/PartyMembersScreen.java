@@ -14,6 +14,8 @@ import earth.terrarium.argonauts.common.network.messages.ServerboundRequestShowC
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.Collection;
+
 public class PartyMembersScreen extends MembersScreen {
     public boolean showCadmusScreen;
 
@@ -43,6 +45,11 @@ public class PartyMembersScreen extends MembersScreen {
                 }
             }
         }
+    }
+
+    @Override
+    public Collection<String> getAdditionalPermissions() {
+        return MemberPermissions.CADMUS_PERMISSIONS;
     }
 
     public void refreshPermissions() {

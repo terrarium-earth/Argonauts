@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.handlers.base.members;
 
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
@@ -21,4 +22,6 @@ public abstract class Group<T extends Member> {
     public UUID id() {return id;}
 
     public Members<T> members() {return members;}
+
+    public abstract Component getDisplayName();
 }

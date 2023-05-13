@@ -7,6 +7,7 @@ import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMembers;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
 import earth.terrarium.argonauts.common.handlers.party.settings.PartySettings;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
@@ -41,4 +42,9 @@ public final class Party extends Group<PartyMember> {
     public PartySettings settings() {return settings;}
 
     public IgnoredPartyMembers ignored() {return ignored;}
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("text.argonauts.party_name", this.members().getLeader().profile().getName());
+    }
 }

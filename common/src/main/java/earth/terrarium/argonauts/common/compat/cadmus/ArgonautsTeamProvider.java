@@ -90,18 +90,19 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     private boolean hasPermission(String perm, String id, MinecraftServer server, UUID player) {
         if (isMember(id, server, player)) return true;
-        Party party = PartyHandler.getPlayerParty(player);
-        if (party == null) return false;
-        var member = party.members().get(player);
-        if (member == null) return false;
-        if (member.hasPermission(perm)) return true;
-
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
         if (guild == null) return false;
         if (guild.settings().allowFakePlayers() && guild.members() instanceof GuildMembers members && members.fakePlayers().contains(player)) {
             return true;
         }
-        var guildMember = guild.members().get(player);
+
+        Party party = PartyHandler.getPlayerParty(player);
+        if (party == null) return false;
+        var member = party.members().get(player);
+        if (member == null) return false;
+        if (!member.hasPermission(perm)) return false;
+
+        var guildMember = guild.members().get(party.members().getLeader().profile().getId());
         if (guildMember == null) return false;
         return party.members().isMember(player) && guildMember.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS);
     }

@@ -7,12 +7,15 @@ import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
+import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import earth.terrarium.argonauts.common.handlers.party.Party;
+import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.menus.base.MembersMenu;
+import earth.terrarium.argonauts.common.menus.guild.GuildMembersMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public record ServerboundSetRolePacket(String role) implements Packet<ServerboundSetRolePacket> {
 
@@ -45,9 +48,15 @@ public record ServerboundSetRolePacket(String role) implements Packet<Serverboun
         public PacketContext handle(ServerboundSetRolePacket message) {
             return (player, level) ->
                 CommandHelper.runNetworkAction(player, () -> {
-                    Party party = PartyHandler.get(player);
-                    if (player.containerMenu instanceof MembersMenu menu && party != null) {
-                        Member member = party.getMember(player);
+                    Group<?> group = null;
+                    if (player.containerMenu instanceof GuildMembersMenu) {
+                        group = GuildHandler.get((ServerPlayer) player);
+                    } else if (player.containerMenu instanceof MembersMenu) {
+                        group = PartyHandler.get(player);
+                    }
+
+                    if (player.containerMenu instanceof MembersMenu menu && group != null) {
+                        Member member = group.getMember(player);
                         if (!member.hasPermission(MemberPermissions.MANAGE_ROLES)) {
                             throw MemberException.NO_PERMISSIONS;
                         }

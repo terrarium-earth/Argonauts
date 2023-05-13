@@ -56,6 +56,7 @@ public record ServerboundSetPermissionPacket(String permission,
                     } else if (player.containerMenu instanceof MembersMenu) {
                         group = PartyHandler.get(player);
                     }
+
                     if (player.containerMenu instanceof MembersMenu menu && group != null) {
                         Member member = group.getMember(player);
                         if (!member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)) {

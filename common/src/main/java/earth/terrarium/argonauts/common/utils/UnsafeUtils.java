@@ -18,6 +18,7 @@ public class UnsafeUtils {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static Object getStaticField(Class<?> clazz, String fieldName) {
         try {
             Field field = clazz.getDeclaredField(fieldName);

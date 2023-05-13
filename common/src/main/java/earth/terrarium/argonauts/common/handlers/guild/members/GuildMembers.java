@@ -28,10 +28,10 @@ public class GuildMembers extends Members<GuildMember> {
     @Override
     public void setLeader(UUID uuid) throws MemberException {
         if (!isMember(uuid)) {
-            throw MemberException.CANT_SET_OWNER_TO_NON_GUILD_MEMBER;
+            throw MemberException.YOU_CANT_SET_OWNER_TO_NON_GUILD_MEMBER;
         }
         if (this.leader.equals(uuid)) {
-            throw MemberException.CANT_SET_OWNER_TO_CURRENT_OWNER;
+            throw MemberException.YOU_CANT_SET_OWNER_TO_CURRENT_OWNER;
         }
         forEach(member -> member.setState(MemberState.MEMBER));
         this.members.get(uuid).setState(MemberState.OWNER);

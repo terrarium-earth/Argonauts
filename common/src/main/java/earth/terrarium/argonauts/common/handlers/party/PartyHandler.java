@@ -96,7 +96,7 @@ public class PartyHandler {
         } else if (PLAYER_PARTIES.get(player.getUUID()) != id) {
             throw MemberException.PLAYER_IS_NOT_IN_PARTY;
         } else if (party.members().isLeader(player.getUUID())) {
-            throw MemberException.CANT_REMOVE_PARTY_LEADER;
+            throw MemberException.YOU_CANT_REMOVE_PARTY_LEADER;
         }
         PLAYER_PARTIES.remove(player.getUUID());
         party.members().remove(player.getUUID());

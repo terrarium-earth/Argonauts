@@ -150,7 +150,7 @@ public class GuildHandler extends SavedData {
         } else if (data.playerGuilds.get(player.getUUID()) != id) {
             throw MemberException.PLAYER_IS_NOT_IN_GUILD;
         } else if (guild.members().isLeader(player.getUUID())) {
-            throw MemberException.CANT_REMOVE_GUILD_OWNER;
+            throw MemberException.YOU_CANT_REMOVE_GUILD_OWNER;
         }
         guild.members().remove(player.getUUID());
 

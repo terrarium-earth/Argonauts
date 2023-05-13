@@ -8,6 +8,7 @@ import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -23,6 +24,12 @@ public final class LeaderCommands {
                     } else {
                         throw youAreNotTheLeaderOfGroup;
                     }
+                    group.members().forEach(p -> {
+                        ServerPlayer groupMember = player.server.getPlayerList().getPlayer(p.profile().getId());
+                        if (groupMember != null) {
+                            groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", group.getDisplayName()), false);
+                        }
+                    });
                 });
                 return 1;
             });
@@ -37,6 +44,8 @@ public final class LeaderCommands {
                 CommandHelper.runAction(() -> {
                     if (group.members().isLeader(player.getUUID())) {
                         CommandHelper.runAction(() -> group.members().setLeader(target.getUUID()));
+                        player.displayClientMessage(Component.translatable("text.argonauts.leader.transfer", group.getDisplayName(), target.getGameProfile().getName()), false);
+                        target.displayClientMessage(Component.translatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(),  group.getDisplayName()), false);
                     } else {
                         throw youAreNotTheLeaderOfGroup;
                     }

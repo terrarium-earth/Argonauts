@@ -42,6 +42,7 @@ public final class Guild extends Group<GuildMember> {
         return this.settings.motd();
     }
 
+    @Override
     public Component getDisplayName() {
         return this.settings.displayName();
     }
