@@ -23,7 +23,13 @@ public class ConstantComponents {
         .withColor(ChatFormatting.GRAY)
         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ConstantComponents.MOTD)));
 
-    public static final Component MOTD_FOOTER = Component.translatable("text.argonauts.member.motd_footer").setStyle(Style.EMPTY
+    public static final Component LINE = Component.translatable("text.argonauts.member.line").setStyle(Style.EMPTY
+        .withStrikethrough(true)
+        .withColor(ChatFormatting.GRAY));
+    public static final Component OWNER = Component.translatable("text.argonauts.member.owner").setStyle(Style.EMPTY
+        .withStrikethrough(true)
+        .withColor(ChatFormatting.GRAY));
+    public static final Component MEMBERS = Component.translatable("text.argonauts.member.members").setStyle(Style.EMPTY
         .withStrikethrough(true)
         .withColor(ChatFormatting.GRAY));
 

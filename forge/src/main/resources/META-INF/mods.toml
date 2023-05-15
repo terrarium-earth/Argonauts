@@ -13,7 +13,7 @@ displayURL = "https://modrinth.com/mod/argonauts"
 logoFile = "icon.png"
 authors = "Alex Nijjar, ThatGravyBoat"
 credits = ""
-description = "Modern team mod!"
+description = "Modern Teams mod!"
 
 [[dependencies.argonauts]]
 modId = "forge"

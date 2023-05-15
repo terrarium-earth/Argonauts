@@ -16,6 +16,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -116,6 +117,13 @@ public class GuildHandler extends SavedData {
     public static Guild getPlayerGuild(MinecraftServer server, UUID player) {
         var data = read(server);
         return data.guilds.get(data.playerGuilds.get(player));
+    }
+
+    /**
+     * Returns all guilds.
+     */
+    public static Collection<Guild> getAll(MinecraftServer server) {
+        return read(server).guilds.values();
     }
 
     public static void join(Guild guild, ServerPlayer player) throws MemberException {

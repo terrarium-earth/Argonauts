@@ -72,7 +72,10 @@
 
     "text.argonauts.member.motd": "Message of the Day",
     "text.argonauts.member.motd_header": "§m       §7[§6MOTD§7]§m       ",
-    "text.argonauts.member.motd_footer": "                      ",
+    "text.argonauts.member.line": "                      ",
+
+    "text.argonauts.member.owner": "§m       §7[§6OWNER§7]§m      ",
+    "text.argonauts.member.members": "§m     §7[§6MEMBERS§7]§m     ",
 
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
     "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",
@@ -110,5 +113,6 @@
     "command.argonauts.exception.you_cant_remove_yourself_from_guild": "You can't remove yourself from the guild.",
     "command.argonauts.exception.guild_has_passive_tp_disabled": "The guild has passive teleportation disabled.",
     "command.argonauts.exception.you_cant_set_owner_to_non_guild_member": "You can't set the owner to a non-guild member.",
-    "command.argonauts.exception.you_cant_set_owner_to_current_owner": "You can't set the owner to the current owner."
+    "command.argonauts.exception.you_cant_set_owner_to_current_owner": "You can't set the owner to the current owner.",
+    "command.argonauts.exception.there_are_no_guilds": "There are no guilds."
 }

@@ -36,7 +36,7 @@ public class Argonauts {
 
             player.displayClientMessage(ConstantComponents.MOTD_HEADER, false);
             player.displayClientMessage(motd, false);
-            player.displayClientMessage(ConstantComponents.MOTD_FOOTER, false);
+            player.displayClientMessage(ConstantComponents.LINE, false);
         }
     }
 

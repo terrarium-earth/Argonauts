@@ -26,6 +26,7 @@ public class MemberException extends Exception {
     public static final MemberException PARTY_HAS_PASSIVE_TP_DISABLED = new MemberException(Component.translatable("command.argonauts.exception.party_has_passive_tp_disabled"));
     public static final MemberException YOU_CANT_SET_LEADER_TO_NON_PARTY_MEMBER = new MemberException(Component.translatable("command.argonauts.exception.you_cant_set_leader_to_non_party_member"));
     public static final MemberException YOU_CANT_SET_LEADER_TO_CURRENT_LEADER = new MemberException(Component.translatable("command.argonauts.exception.you_cant_set_leader_to_current_leader"));
+    public static final MemberException THERE_ARE_NO_GUILDS = new MemberException(Component.translatable("command.argonauts.exception.there_are_no_guilds"));
 
     public static final MemberException ALREADY_IN_GUILD = new MemberException(Component.translatable("command.argonauts.exception.already_in_guild"));
     public static final MemberException PLAYER_ALREADY_IN_GUILD = new MemberException(Component.translatable("command.argonauts.exception.player_already_in_guild"));
