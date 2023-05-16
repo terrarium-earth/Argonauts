@@ -45,7 +45,7 @@ public final class LeaderCommands {
                     if (group.members().isLeader(player.getUUID())) {
                         CommandHelper.runAction(() -> group.members().setLeader(target.getUUID()));
                         player.displayClientMessage(Component.translatable("text.argonauts.leader.transfer", group.getDisplayName(), target.getGameProfile().getName()), false);
-                        target.displayClientMessage(Component.translatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(), group.getDisplayName()), false);
+                        target.displayClientMessage(Component.translatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(),  group.getDisplayName()), false);
                     } else {
                         throw youAreNotTheLeaderOfGroup;
                     }

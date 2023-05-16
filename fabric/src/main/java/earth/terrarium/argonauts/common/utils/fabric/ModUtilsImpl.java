@@ -13,12 +13,21 @@ public class ModUtilsImpl {
         return FabricLoader.getInstance().isModLoaded(modId);
     }
 
+    private static Collection<FakePlayer> fakePlayerCache;
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static List<Pair<UUID, Component>> getFakePlayers() {
         List<Pair<UUID, Component>> fakePlayers = new ArrayList<>();
         try {
-            for (FakePlayer fakePlayerMap : ((Collection<FakePlayer>) ((Map) UnsafeUtils.getStaticField(FakePlayer.class, "FAKE_PLAYER_MAP")).values())) {
-                fakePlayers.add(new Pair<>(fakePlayerMap.getUUID(), fakePlayerMap.getDisplayName()));
+            var ignored = FakePlayer.class.getName();
+            Collection<FakePlayer> fakePlayerMap;
+            if (fakePlayerCache == null) {
+                fakePlayerCache = ((Map) UnsafeUtils.getStaticField(FakePlayer.class, "FAKE_PLAYER_MAP")).values();
+            }
+            fakePlayerMap = fakePlayerCache;
+
+            for (FakePlayer p : fakePlayerMap) {
+                fakePlayers.add(new Pair<>(p.getUUID(), p.getDisplayName()));
             }
         } catch (Throwable ignored) {}
         return fakePlayers;
