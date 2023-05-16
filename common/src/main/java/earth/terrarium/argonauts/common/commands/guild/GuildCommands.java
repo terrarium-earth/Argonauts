@@ -27,6 +27,6 @@ public final class GuildCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> join() {
         return BaseCommands.join(
             GuildCommandHelper::getGuildOrThrow,
-            (group, player) -> GuildHandler.join((Guild) group, player));
+            (group, player) -> GuildHandler.tryJoin((Guild) group, player));
     }
 }

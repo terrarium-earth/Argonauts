@@ -77,6 +77,8 @@
     "text.argonauts.member.owner": "§m       §7[§6OWNER§7]§m      ",
     "text.argonauts.member.members": "§m     §7[§6MEMBERS§7]§m     ",
 
+    "text.argonauts.cadmus.removed": "You've removed %s chunks from %s",
+
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
     "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",
     "command.argonauts.exception.member_has_passive_tp_disabled": "The member has passive teleportation disabled.",

@@ -126,27 +126,31 @@ public class GuildHandler extends SavedData {
         return read(server).guilds.values();
     }
 
+    public static void tryJoin(Guild guild, ServerPlayer player) throws MemberException {
+        if (guild.isPublic() || guild.members().isInvited(player.getUUID())) {
+            join(guild, player);
+        } else {
+            throw MemberException.NOT_ALLOWED_TO_JOIN_GUILD;
+        }
+    }
+
     public static void join(Guild guild, ServerPlayer player) throws MemberException {
         var data = read(player.server);
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
-        } else if (guild.isPublic() || guild.members().isInvited(player.getUUID())) {
-            for (Member member : guild.members()) {
-                ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
-                if (serverPlayer == null) continue;
-                serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
-            }
+        }
+        for (Member member : guild.members()) {
+            ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
+            if (serverPlayer == null) continue;
+            serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
+        }
 
+        guild.members().add(player.getGameProfile());
+        data.playerGuilds.put(player.getUUID(), guild.id());
+        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
-            guild.members().add(player.getGameProfile());
-            data.playerGuilds.put(player.getUUID(), guild.id());
-            player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
-
-            if (Argonauts.isCadmusLoaded()) {
-                CadmusIntegration.addToCadmusTeam(player);
-            }
-        } else {
-            throw MemberException.NOT_ALLOWED_TO_JOIN_GUILD;
+        if (Argonauts.isCadmusLoaded()) {
+            CadmusIntegration.addToCadmusTeam(player);
         }
     }
 
@@ -176,13 +180,17 @@ public class GuildHandler extends SavedData {
     }
 
     public static void disband(Guild guild, MinecraftServer server) {
-        var data = read(server);
         ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
         if (player == null) return;
-        data.guilds.remove(guild.id());
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
+        remove(guild, server);
+    }
+
+    public static void remove(Guild guild, MinecraftServer server) {
+        var data = read(server);
+        data.guilds.remove(guild.id());
         if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.disbandCadmusTeam(guild, player);
+            CadmusIntegration.disbandCadmusTeam(guild, server);
         }
         data.updateInternal();
     }

@@ -28,6 +28,7 @@ public class GuildsCommand {
                         player.displayClientMessage(Component.empty(), false);
                         player.displayClientMessage(ConstantComponents.LINE, false);
                         player.displayClientMessage(name.copy().withStyle(guild.getColor()), false);
+                        player.displayClientMessage(Component.literal(guild.id().toString()).withStyle(guild.getColor()), false);
                         player.displayClientMessage(Component.empty(), false);
                         player.displayClientMessage(ConstantComponents.OWNER, false);
                         player.displayClientMessage(Component.literal(owner), false);

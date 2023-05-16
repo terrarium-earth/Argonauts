@@ -28,5 +28,6 @@ public class ModCommands {
         GuildChatCommands.register(dispatcher);
         GuildFakePlayerCommands.register(dispatcher);
         GuildsCommand.register(dispatcher);
+        GuildAdminCommands.register(dispatcher);
     }
 }
