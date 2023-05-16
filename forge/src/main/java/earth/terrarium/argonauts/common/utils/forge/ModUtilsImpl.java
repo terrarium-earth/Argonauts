@@ -23,7 +23,7 @@ public class ModUtilsImpl {
             var ignored = FakePlayerFactory.class.getName();
             Collection<FakePlayer> fakePlayerMap;
             if (fakePlayerCache == null) {
-                fakePlayerCache = ((Map) UnsafeUtils.getStaticField(FakePlayer.class, "FAKE_PLAYER_MAP")).values();
+                fakePlayerCache = ((Map) UnsafeUtils.getStaticField(FakePlayerFactory.class, "FAKE_PLAYER_MAP")).values();
             }
             fakePlayerMap = fakePlayerCache;
 

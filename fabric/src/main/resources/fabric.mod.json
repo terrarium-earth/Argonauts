@@ -23,7 +23,7 @@
             "earth.terrarium.argonauts.fabric.ArgonautsFabric"
         ],
         "client": [
-            "earth.terrarium.argonauts.client.ArgonautsClient::init"
+            "earth.terrarium.argonauts.client.fabric.ArgonautsClientFabric"
         ]
     },
     "depends": {

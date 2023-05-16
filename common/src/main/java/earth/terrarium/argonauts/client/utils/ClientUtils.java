@@ -1,10 +1,17 @@
 package earth.terrarium.argonauts.client.utils;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
+import earth.terrarium.argonauts.client.ArgonautsClient;
 import it.unimi.dsi.fastutil.chars.Char2CharMap;
 import it.unimi.dsi.fastutil.chars.Char2CharOpenHashMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.net.http.HttpClient;
 import java.util.List;
@@ -52,5 +59,10 @@ public class ClientUtils {
             builder.append(SMALL_NUMBERS.getOrDefault(c, c));
         }
         return builder.toString();
+    }
+
+    @ExpectPlatform
+    public static <M extends AbstractContainerMenu, U extends Screen & MenuAccess<M>> void register(MenuType<? extends M> type, ArgonautsClient.ScreenConstructor<M, U> factory) {
+        throw new NotImplementedException();
     }
 }

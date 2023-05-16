@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
@@ -9,14 +10,20 @@ import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class GuildAdminCommands {
+
+    private static final SuggestionProvider<CommandSourceStack> GUILDS_SUGGESTION_PROVIDER = (context, builder) -> {
+        Collection<Guild> guilds = GuildHandler.getAll(context.getSource().getServer());
+        return SharedSuggestionProvider.suggest((guilds.stream().map(g -> g.id().toString())), builder);
+    };
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("guild")
@@ -24,18 +31,10 @@ public class GuildAdminCommands {
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("disband")
                     .then(Commands.argument("teamId", UuidArgument.uuid())
+                        .suggests(GUILDS_SUGGESTION_PROVIDER)
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             Guild guild = GuildHandler.get(player.server, UuidArgument.getUuid(context, "teamId"));
-                            removeGuild(guild, player);
-                            return 1;
-                        })))
-                .then(Commands.literal("disbandAsOwner")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes(context -> {
-                            ServerPlayer player = context.getSource().getPlayerOrException();
-                            ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                            Guild guild = GuildHandler.getPlayerGuild(target.server, target.getUUID());
                             removeGuild(guild, player);
                             return 1;
                         })))
@@ -47,18 +46,10 @@ public class GuildAdminCommands {
                     }))
                 .then(Commands.literal("join")
                     .then(Commands.argument("teamId", UuidArgument.uuid())
+                        .suggests(GUILDS_SUGGESTION_PROVIDER)
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             Guild guild = GuildHandler.get(player.server, UuidArgument.getUuid(context, "teamId"));
-                            joinGuild(guild, player);
-                            return 1;
-                        })))
-                .then(Commands.literal("joinPlayerGuild")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes(context -> {
-                            ServerPlayer player = context.getSource().getPlayerOrException();
-                            ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                            Guild guild = GuildHandler.getPlayerGuild(target.server, target.getUUID());
                             joinGuild(guild, player);
                             return 1;
                         })))
@@ -70,18 +61,10 @@ public class GuildAdminCommands {
                     .requires(source -> source.hasPermission(2))
                     .then(Commands.literal("removeClaims")
                         .then(Commands.argument("teamId", UuidArgument.uuid())
+                            .suggests(GUILDS_SUGGESTION_PROVIDER)
                             .executes(context -> {
                                 ServerPlayer player = context.getSource().getPlayerOrException();
                                 Guild guild = GuildHandler.get(player.server, UuidArgument.getUuid(context, "teamId"));
-                                removeCadmusClaims(guild, player);
-                                return 1;
-                            })))
-                    .then(Commands.literal("removeClaimsAsOwner")
-                        .then(Commands.argument("player", EntityArgument.player())
-                            .executes(context -> {
-                                ServerPlayer player = context.getSource().getPlayerOrException();
-                                ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                                Guild guild = GuildHandler.getPlayerGuild(target.server, target.getUUID());
                                 removeCadmusClaims(guild, player);
                                 return 1;
                             })))

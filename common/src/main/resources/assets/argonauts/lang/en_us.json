@@ -79,6 +79,10 @@
 
     "text.argonauts.cadmus.removed": "You've removed %s chunks from %s",
 
+    "key.argonauts.open_party_chat": "Open Party Chat",
+    "key.argonauts.open_guild_chat": "Open Guild Chat",
+    "key.categories.odyssey": "Odyssey",
+
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
     "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",
     "command.argonauts.exception.member_has_passive_tp_disabled": "The member has passive teleportation disabled.",
