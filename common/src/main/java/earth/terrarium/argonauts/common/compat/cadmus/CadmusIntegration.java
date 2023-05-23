@@ -4,14 +4,10 @@ import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.cadmus.api.teams.TeamProviderApi;
 import earth.terrarium.cadmus.common.claims.ClaimHandler;
-import earth.terrarium.cadmus.common.claims.ClaimType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.ChunkPos;
-
-import java.util.Map;
 
 public class CadmusIntegration {
     public static final ResourceLocation ARGONAUTS_ID = new ResourceLocation(Argonauts.MOD_ID, Argonauts.MOD_ID);
@@ -21,15 +17,15 @@ public class CadmusIntegration {
         TeamProviderApi.API.setSelected(ARGONAUTS_ID);
     }
 
-    public static void addToCadmusTeam(ServerPlayer player) {
+    public static void addToCadmusTeam(ServerPlayer player, String id) {
         if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
-            provider.onTeamChanged(player.server, player.getUUID());
+            provider.onTeamChanged(player.server, id, player.getUUID());
         }
     }
 
-    public static void removeFromCadmusTeam(ServerPlayer player) {
+    public static void removeFromCadmusTeam(ServerPlayer player, String id) {
         if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
-            provider.onTeamChanged(player.server, player.getUUID());
+            provider.onTeamChanged(player.server, id, player.getUUID());
         }
     }
 

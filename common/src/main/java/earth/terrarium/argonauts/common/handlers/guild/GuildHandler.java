@@ -90,7 +90,7 @@ public class GuildHandler extends SavedData {
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
 
         if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.addToCadmusTeam(player);
+            CadmusIntegration.addToCadmusTeam(player, id.toString());
         }
     }
 
@@ -150,7 +150,7 @@ public class GuildHandler extends SavedData {
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
         if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.addToCadmusTeam(player);
+            CadmusIntegration.addToCadmusTeam(player, guild.id().toString());
         }
     }
 
@@ -175,7 +175,7 @@ public class GuildHandler extends SavedData {
         }
         data.playerGuilds.remove(player.getUUID());
         if (Argonauts.isCadmusLoaded()) {
-            CadmusIntegration.removeFromCadmusTeam(player);
+            CadmusIntegration.removeFromCadmusTeam(player, id.toString());
         }
     }
 

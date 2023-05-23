@@ -1,8 +1,10 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
+import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
+import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
@@ -18,9 +20,22 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class ArgonautsTeamProvider implements TeamProvider {
+
+    @Override
+    public Set<GameProfile> getTeamMembers(String id, MinecraftServer server) {
+        Guild guild = GuildHandler.get(server, UUID.fromString(id));
+        Set<GameProfile> profiles = new HashSet<>();
+        if (guild == null) return profiles;
+        for (GuildMember player : guild.members()) {
+            server.getProfileCache().get(player.profile().getId()).ifPresent(profiles::add);
+        }
+        return profiles;
+    }
 
     @Override
     @Nullable
@@ -107,11 +122,14 @@ public class ArgonautsTeamProvider implements TeamProvider {
         return party.members().isMember(player) && guildMember.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS);
     }
 
-    public void onTeamChanged(MinecraftServer server, UUID player) {
+    public void onTeamChanged(MinecraftServer server, String id, UUID player) {
+        this.onTeamChanged(server, id);
         server.getAllLevels().forEach(l -> ClaimHandler.clear(l, player.toString()));
     }
 
+    @Override
     public void onTeamRemoved(MinecraftServer server, String id) {
+        TeamProvider.super.onTeamRemoved(server, id);
         server.getAllLevels().forEach(l -> ClaimHandler.clear(l, id));
     }
 }
