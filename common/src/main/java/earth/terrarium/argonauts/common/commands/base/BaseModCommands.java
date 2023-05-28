@@ -32,7 +32,7 @@ public final class BaseModCommands {
                         }
                         additionalChecks.check(group, targetMember);
                         player.teleportTo(
-                            target.getLevel(),
+                            target.serverLevel(),
                             target.getX(), target.getY(), target.getZ(),
                             target.getYRot(), target.getXRot()
                         );
@@ -66,7 +66,7 @@ public final class BaseModCommands {
             }
             ServerPlayer player = list.getPlayer(member.profile().getId());
             if (player != null) {
-                player.teleportTo(target.getLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+                player.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
             }
         }
     }

@@ -1,7 +1,5 @@
 package earth.terrarium.argonauts.client.screens.party.settings;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.screens.AbstractContainerCursorScreen;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
@@ -10,6 +8,7 @@ import earth.terrarium.argonauts.client.screens.base.members.entries.CommandEntr
 import earth.terrarium.argonauts.client.screens.base.members.entries.DividerEntry;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,7 +20,6 @@ public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySett
 
     public PartySettingsScreen(PartySettingsMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-        this.passEvents = false;
         this.imageHeight = 220;
         this.imageWidth = 200;
     }
@@ -43,23 +41,26 @@ public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySett
     }
 
     @Override
-    public void render(@NotNull PoseStack stack, int i, int j, float f) {
-        this.renderBackground(stack);
-        super.render(stack, i, j, f);
-        this.renderTooltip(stack, i, j);
+    public void render(@NotNull GuiGraphics graphics, int i, int j, float f) {
+        this.renderBackground(graphics);
+        super.render(graphics, i, j, f);
+        this.renderTooltip(graphics, i, j);
     }
 
     @Override
-    protected void renderLabels(@NotNull PoseStack stack, int i, int j) {
-        this.font.draw(stack, title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
+    protected void renderLabels(@NotNull GuiGraphics graphics, int i, int j) {
+        graphics.drawString(
+            font,
+            this.title, this.titleLabelX, this.titleLabelY, 4210752,
+            false
+        );
     }
 
     @Override
-    protected void renderBg(@NotNull PoseStack stack, float f, int i, int j) {
-        RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
+    protected void renderBg(@NotNull GuiGraphics graphics, float f, int i, int j) {
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;
-        blit(stack, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(CONTAINER_BACKGROUND, k, l, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override

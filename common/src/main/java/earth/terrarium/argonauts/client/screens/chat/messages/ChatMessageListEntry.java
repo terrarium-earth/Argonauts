@@ -2,15 +2,14 @@ package earth.terrarium.argonauts.client.screens.chat.messages;
 
 import com.google.common.primitives.UnsignedInteger;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
 import com.teamresourceful.resourcefullib.client.scissor.ScissorBoxStack;
+import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
-import earth.terrarium.argonauts.client.utils.ClientUtils;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
@@ -29,18 +28,22 @@ public class ChatMessageListEntry extends ListEntry {
     }
 
     @Override
-    protected void render(@NotNull ScissorBoxStack scissorStack, @NotNull PoseStack stack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
+    protected void render(@NotNull GuiGraphics graphics, @NotNull ScissorBoxStack scissorStack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
         if (this.id.mod(ModUtils.UNSIGNED_TWO).equals(UnsignedInteger.ZERO)) {
-            Gui.fill(stack, left, top, left + width, top + height, 0x80000000);
+            graphics.fill(left, top, left + width, top + height, 0x80000000);
         }
-        Minecraft.getInstance().font.draw(stack, this.component, left + 8, top + 1, 0xFFFFFF);
+        graphics.drawString(
+            Minecraft.getInstance().font,
+            this.component, left + 8, top + 1, 0xFFFFFF,
+            false
+        );
 
         var style = Minecraft.getInstance().font.getSplitter().componentStyleAtWidth(this.component, Mth.floor(mouseX - left));
         if (style != null && hovered) {
             if (style.getHoverEvent() != null) {
                 Component component = style.getHoverEvent().getValue(HoverEvent.Action.SHOW_TEXT);
                 if (component != null) {
-                    ClientUtils.setTooltip(component);
+                    ScreenUtils.setTooltip(component);
                 }
             } else if (style.getClickEvent() != null) {
                 ClickEvent.Action clickAction = style.getClickEvent().getAction();

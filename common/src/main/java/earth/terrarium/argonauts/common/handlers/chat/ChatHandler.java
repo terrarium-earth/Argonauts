@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public class ChatHandler {
 
-    public static final int MAX_MESSAGE_LENGTH = 512;
     public static final int MAX_MESSAGE_COUNT = 200;
 
     private static final Map<ChatMessageType, Map<UUID, MessageChannel>> CHANNELS = new HashMap<>();

@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
 import earth.terrarium.argonauts.client.screens.guild.members.GuildMembersScreen;
 import earth.terrarium.argonauts.client.screens.party.members.guild.members.PartyMembersScreen;
@@ -37,10 +38,10 @@ public class ArgonautsClient {
 
     public static void clientTick() {
         if (KEY_OPEN_PARTY_CHAT.consumeClick()) {
-            ClientUtils.sendCommand("party chat");
+            ScreenUtils.sendCommand("party chat");
         }
         if (KEY_OPEN_GUILD_CHAT.consumeClick()) {
-            ClientUtils.sendCommand("guild chat");
+            ScreenUtils.sendCommand("guild chat");
         }
     }
 

@@ -1,11 +1,11 @@
 package earth.terrarium.argonauts.common.handlers.party;
 
+import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
-import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +26,7 @@ public class PartyHandler {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_PARTY;
         }
-        UUID id = ModUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
+        UUID id = CommonUtils.generate(Predicate.not(PARTIES::containsKey), UUID::randomUUID);
         PARTIES.put(id, new Party(id, player));
         PLAYER_PARTIES.put(player.getUUID(), id);
         player.displayClientMessage(ConstantComponents.PARTY_CREATE, false);

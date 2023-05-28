@@ -1,5 +1,7 @@
 package earth.terrarium.argonauts.common.handlers.guild;
 
+import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
+import com.teamresourceful.resourcefullib.common.utils.SaveHandler;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
@@ -12,8 +14,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.saveddata.SavedData;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -22,15 +22,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class GuildHandler extends SavedData {
+public class GuildHandler extends SaveHandler {
 
     private final Map<UUID, Guild> guilds = new HashMap<>();
     private final Map<UUID, UUID> playerGuilds = new HashMap<>();
 
-    public GuildHandler() {
-    }
-
-    public GuildHandler(CompoundTag tag) {
+    @Override
+    public void loadData(CompoundTag tag) {
         for (String key : tag.getAllKeys()) {
             UUID id = UUID.fromString(key);
             CompoundTag guildTag = tag.getCompound(key);
@@ -54,8 +52,7 @@ public class GuildHandler extends SavedData {
     }
 
     @Override
-    @NotNull
-    public CompoundTag save(@NotNull CompoundTag tag) {
+    public void saveData(CompoundTag tag) {
         guilds.forEach((uuid, guild) -> {
             CompoundTag guildTag = new CompoundTag();
             CompoundTag settingsTag = new CompoundTag();
@@ -70,11 +67,10 @@ public class GuildHandler extends SavedData {
             guildTag.put("members", membersTag);
             tag.put(uuid.toString(), guildTag);
         });
-        return tag;
     }
 
     public static GuildHandler read(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(GuildHandler::new, GuildHandler::new, "argonauts_guilds");
+        return read(server.overworld().getDataStorage(), GuildHandler::new, "argonauts_guilds");
     }
 
     public static void createGuild(ServerPlayer player, Component displayName) throws MemberException {
@@ -82,7 +78,7 @@ public class GuildHandler extends SavedData {
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
         }
-        UUID id = ModUtils.generate(Predicate.not(data.guilds::containsKey), UUID::randomUUID);
+        UUID id = CommonUtils.generate(Predicate.not(data.guilds::containsKey), UUID::randomUUID);
         Guild guild = new Guild(id, player);
         guild.settings().setDisplayName(displayName);
         data.guilds.put(id, guild);

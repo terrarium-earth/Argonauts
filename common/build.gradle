@@ -4,9 +4,9 @@ architectury {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-    modCompileOnly("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
-        transitive = false
-    }
+//    modCompileOnly("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
+//        transitive = false
+//    }
 }
 
 processResources {

@@ -1,13 +1,12 @@
 package earth.terrarium.argonauts.client.screens.chat.messages;
 
 import com.google.common.primitives.UnsignedInteger;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
 import com.teamresourceful.resourcefullib.client.scissor.ScissorBoxStack;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 
 public class ChatPlayerListEntry extends ListEntry {
@@ -21,11 +20,15 @@ public class ChatPlayerListEntry extends ListEntry {
     }
 
     @Override
-    protected void render(@NotNull ScissorBoxStack scissorStack, @NotNull PoseStack stack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
+    protected void render(@NotNull GuiGraphics graphics, @NotNull ScissorBoxStack scissorStack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
         if (this.id.mod(ModUtils.UNSIGNED_TWO).equals(UnsignedInteger.ZERO)) {
-            Gui.fill(stack, left, top, left + width, top + height, 0x80000000);
+            graphics.fill(left, top, left + width, top + height, 0x80000000);
         }
-        Minecraft.getInstance().font.draw(stack, message.profile().getName() + ":", left + 2, top + 1, 0xFFFFFF);
+        graphics.drawString(
+            Minecraft.getInstance().font,
+            message.profile().getName() + ":", left + 2, top + 1, 0xFFFFFF,
+            false
+        );
     }
 
     public UnsignedInteger id() {

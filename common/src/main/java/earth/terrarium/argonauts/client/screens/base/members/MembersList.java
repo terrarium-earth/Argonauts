@@ -1,18 +1,17 @@
 package earth.terrarium.argonauts.client.screens.base.members;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
 import com.teamresourceful.resourcefullib.client.components.selection.SelectionList;
 import com.teamresourceful.resourcefullib.client.scissor.ScissorBoxStack;
 import com.teamresourceful.resourcefullib.client.screens.CursorScreen;
 import com.teamresourceful.resourcefullib.client.utils.RenderUtils;
+import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.client.utils.ClientUtils;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.PlayerFaceRenderer;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -55,19 +54,21 @@ public class MembersList extends SelectionList<MembersList.Entry> {
         }
 
         @Override
-        protected void render(@NotNull ScissorBoxStack scissorStack, @NotNull PoseStack stack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
-            RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
-            blit(stack, left, top, 276, hovered ? 20 : 0, 70, 20, 512, 512);
+        protected void render(@NotNull GuiGraphics graphics, @NotNull ScissorBoxStack scissorStack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
+            graphics.blit(CONTAINER_BACKGROUND, left, top, 276, hovered ? 20 : 0, 70, 20, 512, 512);
 
-            RenderSystem.setShaderTexture(0, this.skin);
-            PlayerFaceRenderer.draw(stack, left + 2, top + 2, 16);
+            PlayerFaceRenderer.draw(graphics, this.skin, left + 2, top + 2, 16);
 
-            try (var ignored = RenderUtils.createScissorBoxStack(scissorStack, Minecraft.getInstance(), stack, left + 20, top + 2, width - 24, height - 4)) {
-                Minecraft.getInstance().font.drawShadow(stack, member.profile().getName(), left + 21, top + 5, 0xFFFFFF);
+            try (var ignored = RenderUtils.createScissorBoxStack(scissorStack, Minecraft.getInstance(), graphics.pose(), left + 20, top + 2, width - 24, height - 4)) {
+                graphics.drawString(
+                    Minecraft.getInstance().font,
+                    member.profile().getName(), left + 21, top + 5, 0xFFFFFF,
+                    false
+                );
             }
 
             if (hovered) {
-                ClientUtils.setTooltip(Component.literal(member.profile().getName()));
+                ScreenUtils.setTooltip(Component.literal(member.profile().getName()));
                 if (Minecraft.getInstance().screen instanceof CursorScreen cursorScreen) {
                     cursorScreen.setCursor(CursorScreen.Cursor.POINTER);
                 }

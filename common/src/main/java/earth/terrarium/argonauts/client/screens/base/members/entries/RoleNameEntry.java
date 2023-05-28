@@ -1,8 +1,6 @@
 package earth.terrarium.argonauts.client.screens.base.members.entries;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
 import com.teamresourceful.resourcefullib.client.scissor.ScissorBoxStack;
 import com.teamresourceful.resourcefullib.client.screens.CursorScreen;
@@ -12,7 +10,7 @@ import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ServerboundSetRolePacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -35,22 +33,29 @@ public class RoleNameEntry extends ListEntry {
     }
 
     @Override
-    protected void render(@NotNull ScissorBoxStack scissorStack, @NotNull PoseStack stack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
-        Minecraft.getInstance().font.draw(stack, "Role Name", left + 5, top + (height / 2f) - (Minecraft.getInstance().font.lineHeight / 2f), canEdit ? 0xFFFFFFFF : 0xFF808080);
+    protected void render(@NotNull GuiGraphics graphics, @NotNull ScissorBoxStack scissorStack, int id, int left, int top, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick, boolean selected) {
+        graphics.drawString(
+            Minecraft.getInstance().font,
+            "Role Name", left + 5, top + (int) (height / 2f) - (int) (Minecraft.getInstance().font.lineHeight / 2f), canEdit ? 0xFFFFFFFF : 0xFF808080,
+            false
+        );
         int borderColor = selected && canEdit ? 0xFFFFFFFF : 0xFF808080;
 
-        Gui.fill(stack, left + width - 5 - 102, top + 2, left + width - 25, top + height - 2, borderColor);
-        Gui.fill(stack, left + width - 5 - 101, top + 3, left + width - 26, top + height - 3, 0xFF000000);
+        graphics.fill(left + width - 5 - 102, top + 2, left + width - 25, top + height - 2, borderColor);
+        graphics.fill(left + width - 5 - 101, top + 3, left + width - 26, top + height - 3, 0xFF000000);
 
-        try (var ignored = RenderUtils.createScissorBoxStack(scissorStack, Minecraft.getInstance(), stack, left + width - 5 - 101, top + 3, 80, height - 4)) {
-            Minecraft.getInstance().font.draw(stack, text, left + width - 5 - 99, top + 6, canEdit ? 0xFFFFFF : 0x505050);
+        try (var ignored = RenderUtils.createScissorBoxStack(scissorStack, Minecraft.getInstance(), graphics.pose(), left + width - 5 - 101, top + 3, 80, height - 4)) {
+            graphics.drawString(
+                Minecraft.getInstance().font,
+                text, left + width - 5 - 99, top + 6, canEdit ? 0xFFFFFF : 0x505050,
+                false
+            );
         }
 
         boolean buttonHovered = hovered && mouseX >= left + width - 22 && mouseX < left + width - 6 && mouseY >= top + 2 && mouseY <= top + height - 2;
 
         int offset = !canEdit || text.equals(ogText) ? 32 : buttonHovered ? 16 : 0;
-        RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
-        Gui.blit(stack, left + width - 22, top + 2, 346, offset, 16, 16, 512, 512);
+        graphics.blit(CONTAINER_BACKGROUND, left + width - 22, top + 2, 346, offset, 16, 16, 512, 512);
 
         if (hovered && mouseX >= left + width - 5 - 101 && mouseX < left + width - 25 && mouseY >= top + 3 && mouseY <= top + height - 3) {
             CursorUtils.setCursor(true, canEdit ? CursorScreen.Cursor.TEXT : CursorScreen.Cursor.DISABLED);

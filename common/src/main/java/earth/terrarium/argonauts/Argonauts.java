@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts;
 
+import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
@@ -8,7 +9,6 @@ import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.registries.ModMenus;
-import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +28,7 @@ public class Argonauts {
 
     // Message of the day
     public static void onPlayerJoin(Player player) {
-        if (!player.getLevel().isClientSide()) {
+        if (!player.level().isClientSide()) {
             Guild guild = GuildHandler.get((ServerPlayer) player);
             if (guild == null) return;
             Component motd = guild.settings().motd();
@@ -41,7 +41,7 @@ public class Argonauts {
     }
 
     public static void onPlayerLeave(Player player) {
-        if (!player.getLevel().isClientSide()) {
+        if (!player.level().isClientSide()) {
             Party party = PartyHandler.getPlayerParty(player.getUUID());
             if (party == null) return;
             if (party.members().isLeader(player.getUUID())) {
@@ -51,6 +51,6 @@ public class Argonauts {
     }
 
     public static boolean isCadmusLoaded() {
-        return ModUtils.isModLoaded("cadmus");
+        return ModInfoUtils.isModLoaded("cadmus");
     }
 }

@@ -1,11 +1,9 @@
 package earth.terrarium.argonauts.client.screens.base.members;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.client.screens.AbstractContainerCursorScreen;
+import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.members.entries.*;
-import earth.terrarium.argonauts.client.utils.ClientUtils;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
@@ -13,6 +11,7 @@ import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 import earth.terrarium.argonauts.common.menus.base.MembersMenu;
 import net.minecraft.Optionull;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,7 +27,6 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
 
     public MembersScreen(MembersMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-        this.passEvents = false;
         this.imageHeight = 223;
         this.imageWidth = 276;
     }
@@ -40,7 +38,7 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
 
         addRenderableWidget(new MembersList(this.leftPos + 8, this.topPos + 29, 70, 180, 20, item ->
             this.menu.getId(Optionull.map(item, MembersList.Entry::profile))
-                .ifPresent(id -> ClientUtils.sendClick(this, id)))).update(this.menu.members());
+                .ifPresent(id -> ScreenUtils.sendClick(this.menu.containerId, id)))).update(this.menu.members());
 
         var list = addRenderableWidget(new MemberSettingList(this.leftPos + 84, this.topPos + 29, 184, 180));
 
@@ -92,23 +90,22 @@ public abstract class MembersScreen extends AbstractContainerCursorScreen<Member
     public abstract String runRemoveCommand(Member member);
 
     @Override
-    public void render(@NotNull PoseStack stack, int i, int j, float f) {
-        this.renderBackground(stack);
-        super.render(stack, i, j, f);
-        this.renderTooltip(stack, i, j);
+    public void render(@NotNull GuiGraphics graphics, int i, int j, float f) {
+        this.renderBackground(graphics);
+        super.render(graphics, i, j, f);
+        this.renderTooltip(graphics, i, j);
     }
 
     @Override
-    protected void renderLabels(@NotNull PoseStack stack, int i, int j) {
-        this.font.draw(stack, title, (float) this.titleLabelX, (float) this.titleLabelY, 0x404040);
+    protected void renderLabels(@NotNull GuiGraphics graphics, int i, int j) {
+        graphics.drawString(font, title, this.titleLabelX, this.titleLabelY, 0x404040, false);
     }
 
     @Override
-    protected void renderBg(@NotNull PoseStack stack, float f, int i, int j) {
-        RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
+    protected void renderBg(@NotNull GuiGraphics graphics, float f, int i, int j) {
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;
-        blit(stack, k, l, 0, 0, this.imageWidth, this.imageHeight, 512, 512);
+        graphics.blit(CONTAINER_BACKGROUND, k, l, 0, 0, this.imageWidth, this.imageHeight, 512, 512);
     }
 
     @Override

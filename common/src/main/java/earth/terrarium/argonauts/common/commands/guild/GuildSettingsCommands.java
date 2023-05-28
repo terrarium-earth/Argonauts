@@ -41,8 +41,8 @@ public final class GuildSettingsCommands {
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setHq(GlobalPos.of(player.level.dimension(), pos));
-                        player.displayClientMessage(setCurrentComponent("hq", player.level.dimension().location() + ", " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()), false);
+                        guild.settings().setHq(GlobalPos.of(player.level().dimension(), pos));
+                        player.displayClientMessage(setCurrentComponent("hq", player.level().dimension().location() + ", " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()), false);
                     });
                     return 1;
                 }))

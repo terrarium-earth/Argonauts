@@ -4,22 +4,13 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.argonauts.client.ArgonautsClient;
 import it.unimi.dsi.fastutil.chars.Char2CharMap;
 import it.unimi.dsi.fastutil.chars.Char2CharOpenHashMap;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.net.http.HttpClient;
-import java.util.List;
-import java.util.Objects;
-
 public class ClientUtils {
-
-    public static final HttpClient WEB = HttpClient.newBuilder().build();
 
     private static final Char2CharMap SMALL_NUMBERS = new Char2CharOpenHashMap();
 
@@ -34,22 +25,6 @@ public class ClientUtils {
         SMALL_NUMBERS.put('7', '₇');
         SMALL_NUMBERS.put('8', '₈');
         SMALL_NUMBERS.put('9', '₉');
-    }
-
-    public static void setTooltip(Component component) {
-        if (Minecraft.getInstance().screen != null) {
-            Minecraft.getInstance().screen.setTooltipForNextRenderPass(List.of(component.getVisualOrderText()));
-        }
-    }
-
-    public static void sendCommand(String command) {
-        Objects.requireNonNull(Minecraft.getInstance().getConnection()).sendUnsignedCommand(command);
-    }
-
-    public static void sendClick(AbstractContainerScreen<?> screen, int content) {
-        if (Minecraft.getInstance().gameMode != null) {
-            Minecraft.getInstance().gameMode.handleInventoryButtonClick(screen.getMenu().containerId, content);
-        }
     }
 
     public static String getSmallNumber(int num) {

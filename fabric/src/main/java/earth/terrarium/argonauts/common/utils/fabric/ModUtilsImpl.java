@@ -1,17 +1,13 @@
 package earth.terrarium.argonauts.common.utils.fabric;
 
 import com.mojang.datafixers.util.Pair;
-import earth.terrarium.argonauts.common.utils.UnsafeUtils;
+import com.teamresourceful.resourcefullib.common.utils.UnsafeUtils;
 import net.fabricmc.fabric.api.entity.FakePlayer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 
 import java.util.*;
 
 public class ModUtilsImpl {
-    public static boolean isModLoaded(String modId) {
-        return FabricLoader.getInstance().isModLoaded(modId);
-    }
 
     private static Collection<FakePlayer> fakePlayerCache;
 

@@ -4,8 +4,8 @@ import com.google.common.hash.Hashing;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.teamresourceful.resourcefullib.common.utils.WebUtils;
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.client.utils.ClientUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.Util;
@@ -18,8 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -31,7 +29,6 @@ public class UrlTexture extends SimpleTexture {
 
     private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/hourglass.png");
 
-    private final HttpRequest request;
     private final String url;
     private boolean loaded;
     private CompletableFuture<?> loader;
@@ -39,10 +36,6 @@ public class UrlTexture extends SimpleTexture {
     public UrlTexture(String url) {
         super(DEFAULT_TEXTURE);
         this.url = url;
-        this.request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("User-Agent", "Argonauts (Minecraft Mod)")
-            .build();
     }
 
     @SuppressWarnings({"deprecation"})
@@ -72,27 +65,28 @@ public class UrlTexture extends SimpleTexture {
         });
 
         if (this.loader == null) {
-            this.loader = CompletableFuture.runAsync(() -> {
-                try {
-                    HttpResponse<InputStream> data = ClientUtils.WEB.send(request, HttpResponse.BodyHandlers.ofInputStream());
-                    if (data.statusCode() / 100 == 2) {
-                        NativeImage image = this.loadTexture(data.body());
-                        Minecraft.getInstance().execute(() -> {
-                            if (image != null) {
+            this.loader = CompletableFuture.runAsync(() ->
+                    WebUtils.get(this.url, HttpResponse.BodyHandlers.ofInputStream())
+                        .ifPresent(response -> {
+                            if (response.statusCode() / 100 == 2) {
+                                NativeImage image = this.loadTexture(response.body());
                                 Minecraft.getInstance().execute(() -> {
-                                    this.loaded = true;
-                                    if (!RenderSystem.isOnRenderThread()) {
-                                        RenderSystem.recordRenderCall(() -> this.upload(image));
-                                    } else {
-                                        this.upload(image);
+                                    if (image != null) {
+                                        Minecraft.getInstance().execute(() -> {
+                                            this.loaded = true;
+                                            if (!RenderSystem.isOnRenderThread()) {
+                                                RenderSystem.recordRenderCall(() -> this.upload(image));
+                                            } else {
+                                                this.upload(image);
+                                            }
+                                        });
                                     }
+
                                 });
                             }
-
-                        });
-                    }
-                } catch (IOException | InterruptedException ignored) {}
-            }, Util.backgroundExecutor());
+                        }),
+                Util.backgroundExecutor()
+            );
         }
     }
 

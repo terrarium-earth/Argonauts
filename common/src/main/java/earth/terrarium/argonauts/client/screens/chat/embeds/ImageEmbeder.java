@@ -1,11 +1,10 @@
 package earth.terrarium.argonauts.client.screens.chat.embeds;
 
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.teamresourceful.resourcefullib.client.CloseablePoseStack;
 import earth.terrarium.argonauts.client.rendering.UrlTexture;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -16,20 +15,19 @@ import java.net.URI;
 public class ImageEmbeder implements Embeder {
 
     @Override
-    public void handle(PoseStack stack, URI uri) {
+    public void handle(GuiGraphics graphics, URI uri) {
         if (!validPath(uri.getPath())) return;
         String url = uri.toString();
         ResourceLocation texture = resolveImage(url);
-        RenderSystem.setShaderTexture(0, texture);
         var info = UrlTexture.getInfo(url);
         var mouse = Minecraft.getInstance().mouseHandler;
         Window mainWindow = Minecraft.getInstance().getWindow();
         double mouseX = mouse.xpos() * (double) mainWindow.getGuiScaledWidth() / (double) mainWindow.getScreenWidth();
         double mouseY = mouse.ypos() * (double) mainWindow.getGuiScaledHeight() / (double) mainWindow.getScreenHeight();
-        stack.pushPose();
-        stack.translate(mouseX, mouseY, 200);
-        Gui.blit(stack, 5, 5, 0, 0, info.displayWidth(), info.displayHeight(), info.displayWidth(), info.displayHeight());
-        stack.popPose();
+        try (var pose = new CloseablePoseStack(graphics)) {
+            pose.translate(mouseX, mouseY, 200);
+            graphics.blit(texture, 5, 5, 0, 0, info.displayWidth(), info.displayHeight(), info.displayWidth(), info.displayHeight());
+        }
     }
 
     private static boolean validPath(String path) {

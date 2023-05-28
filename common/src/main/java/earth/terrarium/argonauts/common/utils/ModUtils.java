@@ -16,20 +16,10 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public final class ModUtils {
 
     public static final UnsignedInteger UNSIGNED_TWO = UnsignedInteger.valueOf(2);
-
-    public static <T> T generate(Predicate<T> validator, Supplier<T> getter) {
-        T value;
-        do {
-            value = getter.get();
-        } while (!validator.test(value));
-        return value;
-    }
 
     public static boolean areProfilesSame(GameProfile first, GameProfile second) {
         if (first == null || second == null) {
@@ -67,11 +57,6 @@ public final class ModUtils {
         tag.putString("id", profile.getId().toString());
         tag.putString("name", profile.getName());
         return tag;
-    }
-
-    @ExpectPlatform
-    public static boolean isModLoaded(String modId) {
-        throw new NotImplementedException();
     }
 
     @ExpectPlatform

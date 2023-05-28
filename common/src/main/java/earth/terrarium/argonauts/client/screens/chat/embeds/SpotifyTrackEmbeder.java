@@ -2,22 +2,18 @@ package earth.terrarium.argonauts.client.screens.chat.embeds;
 
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.teamresourceful.resourcefullib.client.CloseablePoseStack;
 import com.teamresourceful.resourcefullib.client.utils.RenderUtils;
-import com.teamresourceful.resourcefullib.common.lib.Constants;
-import earth.terrarium.argonauts.client.utils.ClientUtils;
+import com.teamresourceful.resourcefullib.common.utils.WebUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,7 +22,7 @@ public class SpotifyTrackEmbeder implements Embeder {
     private static final Map<String, SpotifyTrackInfo> INFO = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 
     @Override
-    public void handle(PoseStack stack, URI uri) {
+    public void handle(GuiGraphics graphics, URI uri) {
         resolve(uri.toString());
         var info = INFO.get(uri.toString());
         if (info == null) return;
@@ -34,25 +30,32 @@ public class SpotifyTrackEmbeder implements Embeder {
         String thumbnail = info.image;
         if (title == null || thumbnail == null || !info.future.isDone()) return;
         ResourceLocation texture = ImageEmbeder.resolveImage(thumbnail);
-        RenderSystem.setShaderTexture(0, texture);
         var mouse = Minecraft.getInstance().mouseHandler;
         Window mainWindow = Minecraft.getInstance().getWindow();
         double mouseX = mouse.xpos() * (double) mainWindow.getGuiScaledWidth() / (double) mainWindow.getScreenWidth();
         double mouseY = mouse.ypos() * (double) mainWindow.getGuiScaledHeight() / (double) mainWindow.getScreenHeight();
-        stack.pushPose();
-        stack.translate(mouseX, mouseY, 200);
-        Gui.blit(stack, 5, 5, 0, 0, info.width, info.height, info.width, info.height);
-        Gui.fill(stack, 5, 5 + info.height - 15, 5 + info.width, 5 + info.height, 0x80000000);
-        try (var ignored = RenderUtils.createScissorBox(Minecraft.getInstance(), stack, 5, 5 + info.height - 15, info.width, 15)) {
-            var split = Minecraft.getInstance().font.split(Component.literal(title), info.width - 20);
-            if (!split.isEmpty()) {
-                var draw = Minecraft.getInstance().font.draw(stack, split.get(0), 8, 5 + info.height - 12, 0x00A8EF);
-                if (split.size() > 1) {
-                    Minecraft.getInstance().font.draw(stack, "...", draw, 5 + info.height - 12, 0x00A8EF);
+        try (var pose = new CloseablePoseStack(graphics)) {
+            pose.translate(mouseX, mouseY, 200);
+            graphics.blit(texture, 5, 5, 0, 0, info.width, info.height, info.width, info.height);
+            graphics.fill(5, 5 + info.height - 15, 5 + info.width, 5 + info.height, 0x80000000);
+            try (var ignored = RenderUtils.createScissor(Minecraft.getInstance(), graphics, 5, 5 + info.height - 15, info.width, 15)) {
+                var split = Minecraft.getInstance().font.split(Component.literal(title), info.width - 20);
+                if (!split.isEmpty()) {
+                    var draw = graphics.drawString(
+                        Minecraft.getInstance().font,
+                        split.get(0), 8, 5 + info.height - 12, 0x00A8EF,
+                        false
+                    );
+                    if (split.size() > 1) {
+                        graphics.drawString(
+                            Minecraft.getInstance().font,
+                            "...", draw, 5 + info.height - 12, 0x00A8EF,
+                            false
+                        );
+                    }
                 }
             }
         }
-        stack.popPose();
     }
 
     private static void resolve(String url) {
@@ -60,16 +63,11 @@ public class SpotifyTrackEmbeder implements Embeder {
         INFO.put(url, new SpotifyTrackInfo(
             CompletableFuture.runAsync(() -> {
                 try {
-                    HttpResponse<String> send = ClientUtils.WEB.send(HttpRequest.newBuilder()
-                        .uri(URI.create("https://open.spotify.com/oembed?url=" + url + "&format=json"))
-                        .header("User-Agent", "Argonauts (Minecraft Mod)")
-                        .build(), HttpResponse.BodyHandlers.ofString());
-                    if (send.statusCode() == 200) {
-                        JsonObject object = Constants.GSON.fromJson(send.body(), JsonObject.class);
-                        SpotifyTrackInfo info = INFO.get(url);
-                        if (info == null) return;
-                        INFO.get(url).update(object);
-                    }
+                    JsonObject object = WebUtils.getJson("https://open.spotify.com/oembed?url=" + url + "&format=json", true);
+                    if (object == null) return;
+                    SpotifyTrackInfo info = INFO.get(url);
+                    if (info == null) return;
+                    info.update(object);
                 } catch (Exception ignored) {}
             }, Util.backgroundExecutor())
         ));
