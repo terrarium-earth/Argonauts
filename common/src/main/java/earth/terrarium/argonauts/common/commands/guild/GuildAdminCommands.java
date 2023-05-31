@@ -85,7 +85,7 @@ public class GuildAdminCommands {
             guild.members().forEach(p -> {
                 ServerPlayer groupMember = player.server.getPlayerList().getPlayer(p.profile().getId());
                 if (groupMember != null) {
-                    groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", guild.getDisplayName()), false);
+                    groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", guild.displayName()), false);
                 }
             });
             GuildHandler.remove(guild, player.server);

@@ -23,5 +23,5 @@ public abstract class Group<T extends Member> {
 
     public Members<T> members() {return members;}
 
-    public abstract Component getDisplayName();
+    public abstract Component displayName();
 }

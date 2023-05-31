@@ -39,7 +39,7 @@ public final class ManageCommands {
                         player.displayClientMessage(Component.translatable("text.argonauts.invited", target.getName().getString()), false);
                         target.displayClientMessage(Component.translatable("text.argonauts.member." + kind + "_invite", player.getName().getString()), false);
                         target.displayClientMessage(ConstantComponents.CLICK_HERE_TO_JOIN.copy().withStyle(Style.EMPTY
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("text.argonauts.member.join", group.getDisplayName())))
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("text.argonauts.member.join", group.displayName())))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + kind + " join " + player.getGameProfile().getName()))), false);
                     } else {
                         throw youCantManageMembersException;

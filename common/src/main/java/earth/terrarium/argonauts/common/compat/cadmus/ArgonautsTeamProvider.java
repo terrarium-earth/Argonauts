@@ -23,44 +23,37 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ArgonautsTeamProvider implements TeamProvider {
 
     @Override
     public Set<GameProfile> getTeamMembers(String id, MinecraftServer server) {
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
-        Set<GameProfile> profiles = new HashSet<>();
-        if (guild == null) return profiles;
-        for (GuildMember player : guild.members()) {
-            profiles.add(player.profile());
-        }
-        return profiles;
+        if (guild == null) return new HashSet<>();
+        return guild.members()
+            .allMembers()
+            .stream()
+            .map(GuildMember::profile)
+            .collect(Collectors.toSet());
     }
 
     @Override
     @Nullable
     public Component getTeamName(String id, MinecraftServer server) {
         var guild = GuildHandler.get(server, UUID.fromString(id));
-        if (guild == null) {
-            var profile = server.getProfileCache().get(UUID.fromString(id));
-            return profile.map(p -> Component.literal(p.getName())).orElse(null);
-        }
-        return guild.getDisplayName();
+        return Optionull.map(guild, Guild::displayName);
     }
 
     @Override
+    @Nullable
     public String getTeamId(MinecraftServer server, UUID player) {
-        var profile = server.getProfileCache().get(player).orElse(null);
-        if (profile == null) return ClaimHandler.PLAYER_PREFIX + player.toString();
         var guild = GuildHandler.getPlayerGuild(server, player);
-        if (guild == null) return ClaimHandler.PLAYER_PREFIX + player.toString();
-        return ClaimHandler.TEAM_PREFIX + guild.id().toString();
+        return Optionull.map(guild, g -> ClaimHandler.TEAM_PREFIX + g.id().toString());
     }
 
     @Override
     public boolean isMember(String id, MinecraftServer server, UUID player) {
-        var profile = server.getProfileCache().get(player).orElse(null);
-        if (profile == null) return false;
         var guild = GuildHandler.get(server, UUID.fromString(id));
         if (guild == null) return id.equals(player.toString());
         return guild.members().isMember(player);
@@ -69,7 +62,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
     @Override
     public ChatFormatting getTeamColor(String id, MinecraftServer server) {
         var guild = GuildHandler.get(server, UUID.fromString(id));
-        var result = Optionull.mapOrDefault(guild, Guild::getColor, ChatFormatting.AQUA);
+        var result = Optionull.mapOrDefault(guild, Guild::color, ChatFormatting.AQUA);
         return result == ChatFormatting.RESET ? ChatFormatting.AQUA : result;
     }
 
@@ -123,8 +116,8 @@ public class ArgonautsTeamProvider implements TeamProvider {
     }
 
     public void onTeamChanged(MinecraftServer server, String id, UUID player) {
-        this.onTeamChanged(server, id);
-        server.getAllLevels().forEach(l -> ClaimHandler.clear(l, player.toString()));
+        TeamProvider.super.onTeamChanged(server, id);
+        server.getAllLevels().forEach(l -> ClaimHandler.clear(l, ClaimHandler.PLAYER_PREFIX + player.toString()));
     }
 
     @Override

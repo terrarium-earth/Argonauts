@@ -22,13 +22,13 @@ public class GuildsCommand {
                     Collection<Guild> guilds = GuildHandler.getAll(player.server);
                     if (guilds.isEmpty()) throw MemberException.THERE_ARE_NO_GUILDS;
                     guilds.forEach(guild -> {
-                        var name = guild.getDisplayName();
+                        var name = guild.displayName();
                         var owner = guild.members().getLeader().profile().getName();
                         var members = guild.members().allMembers();
                         player.displayClientMessage(Component.empty(), false);
                         player.displayClientMessage(ConstantComponents.LINE, false);
-                        player.displayClientMessage(name.copy().withStyle(guild.getColor()), false);
-                        player.displayClientMessage(Component.literal(guild.id().toString()).withStyle(guild.getColor()), false);
+                        player.displayClientMessage(name.copy().withStyle(guild.color()), false);
+                        player.displayClientMessage(Component.literal(guild.id().toString()).withStyle(guild.color()), false);
                         player.displayClientMessage(Component.empty(), false);
                         player.displayClientMessage(ConstantComponents.OWNER, false);
                         player.displayClientMessage(Component.literal(owner), false);

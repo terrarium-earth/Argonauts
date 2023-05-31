@@ -27,7 +27,7 @@ public final class LeaderCommands {
                     group.members().forEach(p -> {
                         ServerPlayer groupMember = player.server.getPlayerList().getPlayer(p.profile().getId());
                         if (groupMember != null) {
-                            groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", group.getDisplayName()), false);
+                            groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", group.displayName()), false);
                         }
                     });
                 });
@@ -44,8 +44,8 @@ public final class LeaderCommands {
                 CommandHelper.runAction(() -> {
                     if (group.members().isLeader(player.getUUID())) {
                         CommandHelper.runAction(() -> group.members().setLeader(target.getUUID()));
-                        player.displayClientMessage(Component.translatable("text.argonauts.leader.transfer", group.getDisplayName(), target.getGameProfile().getName()), false);
-                        target.displayClientMessage(Component.translatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(), group.getDisplayName()), false);
+                        player.displayClientMessage(Component.translatable("text.argonauts.leader.transfer", group.displayName(), target.getGameProfile().getName()), false);
+                        target.displayClientMessage(Component.translatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(), group.displayName()), false);
                     } else {
                         throw youAreNotTheLeaderOfGroup;
                     }

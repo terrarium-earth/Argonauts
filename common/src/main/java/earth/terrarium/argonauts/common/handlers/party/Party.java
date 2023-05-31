@@ -44,7 +44,7 @@ public final class Party extends Group<PartyMember> {
     public IgnoredPartyMembers ignored() {return ignored;}
 
     @Override
-    public Component getDisplayName() {
+    public Component displayName() {
         return Component.translatable("text.argonauts.party_name", this.members().getLeader().profile().getName());
     }
 }

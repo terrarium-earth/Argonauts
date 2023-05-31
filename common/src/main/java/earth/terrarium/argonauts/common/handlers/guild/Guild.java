@@ -38,16 +38,16 @@ public final class Guild extends Group<GuildMember> {
 
     public GuildSettings settings() {return settings;}
 
-    public Component getMotd() {
+    public Component motd() {
         return this.settings.motd();
     }
 
     @Override
-    public Component getDisplayName() {
+    public Component displayName() {
         return this.settings.displayName();
     }
 
-    public ChatFormatting getColor() {
+    public ChatFormatting color() {
         return this.settings.color();
     }
 }

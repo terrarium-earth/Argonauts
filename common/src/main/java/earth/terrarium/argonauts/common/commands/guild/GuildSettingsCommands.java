@@ -81,7 +81,7 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
-                    player.displayClientMessage(getCurrentComponent("displayName", guild.getDisplayName()), false);
+                    player.displayClientMessage(getCurrentComponent("displayName", guild.displayName()), false);
                 });
                 return 1;
             });
@@ -108,7 +108,7 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
-                    player.displayClientMessage(getCurrentComponent("motd", guild.getMotd()), false);
+                    player.displayClientMessage(getCurrentComponent("motd", guild.motd()), false);
                 });
                 return 1;
             });
@@ -127,7 +127,7 @@ public final class GuildSettingsCommands {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
                         guild.settings().setColor(color);
-                        player.displayClientMessage(setCurrentComponent("color", guild.getColor().name().toLowerCase()), false);
+                        player.displayClientMessage(setCurrentComponent("color", guild.color().name().toLowerCase()), false);
                     });
                     return 1;
                 }))
@@ -135,7 +135,7 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
-                    player.displayClientMessage(getCurrentComponent("color", guild.getColor().name().toLowerCase()), false);
+                    player.displayClientMessage(getCurrentComponent("color", guild.color().name().toLowerCase()), false);
                 });
                 return 1;
             });
