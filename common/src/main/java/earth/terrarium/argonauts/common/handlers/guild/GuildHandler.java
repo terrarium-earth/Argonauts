@@ -199,11 +199,7 @@ public class GuildHandler extends SaveHandler {
             CadmusIntegration.disbandCadmusTeam(guild, server);
         }
         if (Argonauts.isHeraclesLoaded()) {
-            for (Member member : guild.members()) {
-                ServerPlayer serverPlayer = server.getPlayerList().getPlayer(member.profile().getId());
-                if (serverPlayer == null) continue;
-                HeraclesIntegration.updateHeraclesChanger(serverPlayer);
-            }
+            guild.members().forEach(m -> HeraclesIntegration.updateHeraclesChanger(server.overworld(), m.profile().getId()));
         }
         data.updateInternal();
     }
