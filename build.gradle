@@ -27,7 +27,6 @@ allprojects {
                 includeGroup 'com.github.llamalad7.mixinextras'
             }
         }
-        mavenLocal()
     }
 
     tasks.withType(JavaCompile).tap {
@@ -56,9 +55,12 @@ subprojects {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.layered() {
             officialMojangMappings()
-//            parchment("org.parchmentmc.data:parchment-$rootProject.minecraft_version:$rootProject.parchment_version@zip")
         }
         modApi "com.teamresourceful.resourcefullib:resourcefullib-$name-$rootProject.minecraft_version:$rootProject.resourcefullib_version"
+        modApi("earth.terrarium.heracles:heracles-$name-$rootProject.minecraft_version:$rootProject.heracles_version") {
+            exclude group: "com.teamresourceful.resourcefullib", module: "resourcefullib-$name-$rootProject.minecraft_version"
+            exclude group: "earth.terrarium.cadmus", module: "cadmus-$name-$rootProject.minecraft_version"
+        }
         implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-$name:$rootProject.mixinextras_version"))
     }
 
