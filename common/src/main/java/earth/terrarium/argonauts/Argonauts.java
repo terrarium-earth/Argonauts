@@ -25,7 +25,7 @@ public class Argonauts {
         if (isCadmusLoaded()) {
             CadmusIntegration.init();
         }
-        if (ModInfoUtils.isModLoaded("heracles")) {
+        if (isHeraclesLoaded()) {
             HeraclesIntegration.init();
         }
     }
@@ -56,5 +56,9 @@ public class Argonauts {
 
     public static boolean isCadmusLoaded() {
         return ModInfoUtils.isModLoaded("cadmus");
+    }
+
+    public static boolean isHeraclesLoaded() {
+        return ModInfoUtils.isModLoaded("heracles");
     }
 }

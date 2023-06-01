@@ -1,5 +1,9 @@
 package earth.terrarium.argonauts.common.compat.heracles;
 
+import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
+import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.heracles.api.teams.TeamProvider;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,12 +18,20 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     @Override
     public Stream<List<UUID>> getTeams(ServerPlayer player) {
-        return Stream.of();
+        return getTeams(player.serverLevel(), player.getUUID());
     }
 
     @Override
     public Stream<List<UUID>> getTeams(ServerLevel level, UUID player) {
-        return Stream.of();
+        Guild guild = GuildHandler.getPlayerGuild(level.getServer(), player);
+        if (guild == null) return Stream.empty();
+        return Stream.of(guild.members()
+            .allMembers()
+            .stream()
+            .map(GuildMember::profile)
+            .map(GameProfile::getId)
+            .filter(uuid -> !uuid.equals(player))
+            .toList());
     }
 
     @Override
@@ -27,7 +39,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
         changer = teamChanger;
     }
 
-    public static void changed(ServerLevel level, ServerPlayer player) {
-        changer.accept(level, player.getUUID());
+    public static void changed(ServerLevel level, UUID player) {
+        changer.accept(level, player);
     }
 }
