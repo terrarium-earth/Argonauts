@@ -11,6 +11,7 @@ import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.cadmus.api.claims.InteractionType;
 import earth.terrarium.cadmus.api.teams.TeamProvider;
 import earth.terrarium.cadmus.common.claims.ClaimHandler;
+import earth.terrarium.cadmus.common.teams.TeamHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
@@ -97,7 +98,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
     }
 
     private boolean hasPermission(String perm, String id, MinecraftServer server, UUID player) {
-        if (isMember(id, server, player)) return true;
+        if (TeamHelper.isMember(id, server, player)) return true;
         Guild guild = GuildHandler.get(server, UUID.fromString(id));
         if (guild == null) return false;
         if (guild.settings().allowFakePlayers() && guild.members() instanceof GuildMembers members && members.fakePlayers().contains(player)) {

@@ -9,7 +9,7 @@
     "argonauts.permission.manage.members": "Manage Members",
     "argonauts.permission.roles.members": "Manage Member Role",
     "argonauts.permission.permissions.members": "Manage Member Permissions",
-    "argonauts.permission.manage.settings": "Manage Party Settings",
+    "argonauts.permission.manage.settings": "Manage Settings",
     "argonauts.permission.tp.members": "Teleport Members",
 
     "argonauts.permission.cadmus.temporary_guild_permissions": "Temporary Guild Permissions",

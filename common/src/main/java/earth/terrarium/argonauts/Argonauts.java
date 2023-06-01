@@ -2,6 +2,7 @@ package earth.terrarium.argonauts;
 
 import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
+import earth.terrarium.argonauts.common.compat.heracles.HeraclesIntegration;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
@@ -23,6 +24,9 @@ public class Argonauts {
         NetworkHandler.init();
         if (isCadmusLoaded()) {
             CadmusIntegration.init();
+        }
+        if (ModInfoUtils.isModLoaded("heracles")) {
+            HeraclesIntegration.init();
         }
     }
 

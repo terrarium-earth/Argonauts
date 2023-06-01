@@ -24,6 +24,9 @@ dependencies {
     modLocalRuntime("earth.terrarium.cadmus:cadmus-$name-$minecraft_version:$cadmus_version") {
         transitive = false
     }
+    modLocalRuntime("earth.terrarium.heracles:heracles-$name-$minecraft_version:$heracles_version") {
+        transitive = false
+    }
 }
 
 processResources {
