@@ -4,6 +4,7 @@ import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import com.teamresourceful.resourcefullib.common.utils.SaveHandler;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
+import earth.terrarium.argonauts.common.compat.heracles.HeraclesIntegration;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
@@ -88,6 +89,9 @@ public class GuildHandler extends SaveHandler {
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.addToCadmusTeam(player, id.toString());
         }
+        if (Argonauts.isHeraclesLoaded()) {
+            HeraclesIntegration.updateHeraclesChanger(player);
+        }
     }
 
     /**
@@ -148,6 +152,9 @@ public class GuildHandler extends SaveHandler {
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.addToCadmusTeam(player, guild.id().toString());
         }
+        if (Argonauts.isHeraclesLoaded()) {
+            HeraclesIntegration.updateHeraclesChanger(player);
+        }
     }
 
     public static void leave(UUID id, ServerPlayer player) throws MemberException {
@@ -173,6 +180,9 @@ public class GuildHandler extends SaveHandler {
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.removeFromCadmusTeam(player, id.toString());
         }
+        if (Argonauts.isHeraclesLoaded()) {
+            HeraclesIntegration.updateHeraclesChanger(player);
+        }
     }
 
     public static void disband(Guild guild, MinecraftServer server) {
@@ -187,6 +197,13 @@ public class GuildHandler extends SaveHandler {
         data.guilds.remove(guild.id());
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.disbandCadmusTeam(guild, server);
+        }
+        if (Argonauts.isHeraclesLoaded()) {
+            for (Member member : guild.members()) {
+                ServerPlayer serverPlayer = server.getPlayerList().getPlayer(member.profile().getId());
+                if (serverPlayer == null) continue;
+                HeraclesIntegration.updateHeraclesChanger(serverPlayer);
+            }
         }
         data.updateInternal();
     }
