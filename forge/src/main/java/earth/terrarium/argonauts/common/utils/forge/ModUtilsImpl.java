@@ -1,19 +1,14 @@
 package earth.terrarium.argonauts.common.utils.forge;
 
 import com.mojang.datafixers.util.Pair;
-import earth.terrarium.argonauts.common.utils.UnsafeUtils;
+import com.teamresourceful.resourcefullib.common.utils.UnsafeUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.ModList;
 
 import java.util.*;
 
 public class ModUtilsImpl {
-    public static boolean isModLoaded(String modId) {
-        return ModList.get().isLoaded(modId);
-    }
-
     private static Collection<FakePlayer> fakePlayerCache;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
