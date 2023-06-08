@@ -64,6 +64,9 @@ subprojects {
         implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-$name:$rootProject.mixinextras_version"))
     }
 
+    var env = System.getenv()
+    var modLoader = name
+
     publishing {
         publications {
             mavenJava(MavenPublication) {
@@ -72,7 +75,7 @@ subprojects {
                     builtBy remapSourcesJar
                 }
 
-                artifactId = "$rootProject.mod_id-$name-$rootProject.minecraft_version"
+                artifactId = "$mod_id-$modLoader-$minecraft_version"
 
                 pom {
                     name = github_name
@@ -97,8 +100,8 @@ subprojects {
             maven {
                 url = "https://maven.resourcefulbees.com/repository/terrarium/"
                 credentials {
-                    username System.getenv().MAVEN_USER
-                    password System.getenv().MAVEN_PASS
+                    username env.MAVEN_USER
+                    password env.MAVEN_PASS
                 }
             }
         }
