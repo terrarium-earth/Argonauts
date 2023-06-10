@@ -99,7 +99,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     private boolean hasPermission(String perm, String id, MinecraftServer server, UUID player) {
         if (TeamHelper.isMember(id, server, player)) return true;
-        Guild guild = GuildHandler.get(server, UUID.fromString(id));
+        Guild guild = GuildHandler.get(server, UUID.fromString(id.substring(2)));
         if (guild == null) return false;
         if (guild.settings().allowFakePlayers() && guild.members() instanceof GuildMembers members && members.fakePlayers().contains(player)) {
             return true;

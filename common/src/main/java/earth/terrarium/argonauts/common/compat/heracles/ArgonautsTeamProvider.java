@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.compat.heracles;
 
 import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
@@ -28,6 +29,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
         return Stream.of(guild.members()
             .allMembers()
             .stream()
+            .filter(member -> member.getState() != MemberState.INVITED)
             .map(GuildMember::profile)
             .map(GameProfile::getId)
             .filter(uuid -> !uuid.equals(player))
