@@ -16,10 +16,12 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public final class ModUtils {
 
     public static final UnsignedInteger UNSIGNED_TWO = UnsignedInteger.valueOf(2);
+    public static final Pattern SPECIAL_COLOR_PATTERN = Pattern.compile("&&([0-9a-fklmnor])");
 
     public static boolean areProfilesSame(GameProfile first, GameProfile second) {
         if (first == null || second == null) {
@@ -57,6 +59,12 @@ public final class ModUtils {
         tag.putString("id", profile.getId().toString());
         tag.putString("name", profile.getName());
         return tag;
+    }
+
+    public static String formatTextColors(String text) {
+        return SPECIAL_COLOR_PATTERN
+            .matcher(text)
+            .replaceAll(result -> "§" + result.group(1));
     }
 
     @ExpectPlatform

@@ -19,7 +19,7 @@ public class GuildMembers extends Members<GuildMember> {
     @Override
     public void add(GameProfile profile) {
         if (this.members.containsKey(profile.getId())) {
-            this.members.get(profile.getId()).setState(MemberState.MEMBER);
+            this.members.get(profile.getId()).setState(this.isLeader(profile.getId()) ? MemberState.OWNER : MemberState.MEMBER);
             return;
         }
         this.members.put(profile.getId(), new GuildMember(profile, MemberState.MEMBER));

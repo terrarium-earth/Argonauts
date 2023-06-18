@@ -1,16 +1,17 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ColorArgument;
-import net.minecraft.commands.arguments.ComponentArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -62,17 +63,16 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> displayName() {
         return Commands.literal("displayName")
-            .then(Commands.argument("value", ComponentArgument.textComponent())
+            .then(Commands.argument("value", StringArgumentType.greedyString())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        Component displayName = ComponentArgument.getComponent(context, "value");
-                        displayName = displayName.copy().setStyle(displayName.getStyle().withClickEvent(null));
+                        String displayName = ModUtils.formatTextColors(StringArgumentType.getString(context, "value"));
                         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setDisplayName(displayName);
+                        guild.settings().setDisplayName(Component.literal(displayName));
                         player.displayClientMessage(setCurrentComponent("displayName", displayName), false);
                     });
                     return 1;
@@ -89,17 +89,16 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> motd() {
         return Commands.literal("motd")
-            .then(Commands.argument("value", ComponentArgument.textComponent())
+            .then(Commands.argument("value", StringArgumentType.greedyString())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        Component name = ComponentArgument.getComponent(context, "value");
-                        name = name.copy().setStyle(name.getStyle().withClickEvent(null));
+                        String name = ModUtils.formatTextColors(StringArgumentType.getString(context, "value")).replace("\\n", "\n");
                         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
-                        guild.settings().setMotd(name);
+                        guild.settings().setMotd(Component.literal(name));
                         player.displayClientMessage(setCurrentComponent("motd", name), false);
                     });
                     return 1;

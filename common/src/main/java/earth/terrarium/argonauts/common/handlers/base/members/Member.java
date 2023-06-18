@@ -30,7 +30,7 @@ public abstract class Member {
     }
 
     public boolean hasPermission(String permission) {
-        return this.state == MemberState.OWNER || this.permissions.contains(permission);
+        return this.state.isLeader() || this.permissions.contains(permission);
     }
 
     public MemberState getState() {
