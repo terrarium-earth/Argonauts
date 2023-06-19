@@ -88,7 +88,7 @@ public class GuildAdminCommands {
                     groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", guild.displayName()), false);
                 }
             });
-            GuildHandler.remove(guild, player.server);
+            GuildHandler.remove(true, guild, player.server);
         });
     }
 

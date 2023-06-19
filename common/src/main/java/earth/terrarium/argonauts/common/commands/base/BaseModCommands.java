@@ -6,6 +6,7 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
+import earth.terrarium.argonauts.common.utils.EventUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -31,11 +32,13 @@ public final class BaseModCommands {
                             throw youCantTpMembersInGroupException;
                         }
                         additionalChecks.check(group, targetMember);
-                        player.teleportTo(
-                            target.serverLevel(),
-                            target.getX(), target.getY(), target.getZ(),
-                            target.getYRot(), target.getXRot()
-                        );
+                        if (EventUtils.tpCommand(player, target.blockPosition())) {
+                            player.teleportTo(
+                                target.serverLevel(),
+                                target.getX(), target.getY(), target.getZ(),
+                                target.getYRot(), target.getXRot()
+                            );
+                        }
                     });
                     return 1;
                 }));
@@ -66,7 +69,9 @@ public final class BaseModCommands {
             }
             ServerPlayer player = list.getPlayer(member.profile().getId());
             if (player != null) {
-                player.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+                if (EventUtils.tpCommand(player, target.blockPosition())) {
+                    player.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+                }
             }
         }
     }

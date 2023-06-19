@@ -6,6 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.common.utils.EventUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.GlobalPos;
@@ -30,11 +31,13 @@ public final class GuildHqCommands {
             if (hq == null) {
                 throw MemberException.HQ_NOT_SET;
             }
-            player.teleportTo(
-                player.server.getLevel(hq.dimension()),
-                hq.pos().getX(), hq.pos().getY(), hq.pos().getZ(),
-                player.getYRot(), player.getXRot()
-            );
+            if (EventUtils.tpCommand(player, hq.pos())) {
+                player.teleportTo(
+                    player.server.getLevel(hq.dimension()),
+                    hq.pos().getX(), hq.pos().getY(), hq.pos().getZ(),
+                    player.getYRot(), player.getXRot()
+                );
+            }
         });
         return 1;
     }

@@ -9,6 +9,7 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
+import earth.terrarium.argonauts.common.utils.EventUtils;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -86,6 +87,7 @@ public class GuildHandler extends SaveHandler {
         data.playerGuilds.put(player.getUUID(), id);
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
 
+        EventUtils.created(guild, player);
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.addToCadmusTeam(player, id.toString());
         }
@@ -149,6 +151,7 @@ public class GuildHandler extends SaveHandler {
         data.playerGuilds.put(player.getUUID(), guild.id());
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
+        EventUtils.joined(guild, player);
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.addToCadmusTeam(player, guild.id().toString());
         }
@@ -177,6 +180,8 @@ public class GuildHandler extends SaveHandler {
             serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
         data.playerGuilds.remove(player.getUUID());
+
+        EventUtils.left(guild, player);
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.removeFromCadmusTeam(player, id.toString());
         }
@@ -189,12 +194,14 @@ public class GuildHandler extends SaveHandler {
         ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
         if (player == null) return;
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
-        remove(guild, server);
+        EventUtils.disbanned(guild);
+        remove(false, guild, server);
     }
 
-    public static void remove(Guild guild, MinecraftServer server) {
+    public static void remove(boolean force, Guild guild, MinecraftServer server) {
         var data = read(server);
         data.guilds.remove(guild.id());
+        EventUtils.removed(force, guild);
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.disbandCadmusTeam(guild, server);
         }
