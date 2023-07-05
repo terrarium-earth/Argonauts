@@ -3,7 +3,7 @@
     "id": "argonauts",
     "version": "${version}",
     "name": "Argonauts",
-    "description": "Modern Teams Mod!",
+    "description": "A guild and party mod to work and play together with your teammates on a server!",
     "authors": [
         "Alex Nijjar",
         "ThatGravyBoat"
@@ -12,8 +12,8 @@
     ],
     "contact": {
         "website": "https://modrinth.com/mod/argonauts",
-        "repo": "https://github.com/terrarium-earth/${github_name}",
-        "issues": "https://github.com/terrarium-earth/${github_name}/issues"
+        "repo": "https://github.com/terrarium-earth/argonauts",
+        "issues": "https://github.com/terrarium-earth/argonauts/issues"
     },
     "license": "MIT",
     "icon": "icon.png",
@@ -29,6 +29,6 @@
     "depends": {
         "fabric": "*",
         "minecraft": ">=1.20",
-        "resourcefullib": ">=${resourcefullib_version}"
+        "resourcefullib": ">=2.1.1"
     }
 }
