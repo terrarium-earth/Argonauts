@@ -5,15 +5,15 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.guild.GuildApi;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.handlers.chat.MessageChannel;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.menus.ChatMenu;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
@@ -57,13 +57,13 @@ public record ServerboundChatWindowPacket(String message) implements Packet<Serv
                 if (containerMenu instanceof ChatMenu menu) {
                     switch (menu.type()) {
                         case PARTY -> {
-                            Party party = PartyHandler.get(serverPlayer);
+                            Party party = PartyApi.API.get(serverPlayer);
                             if (party == null) return;
                             MessageChannel channel = ChatHandler.getChannel(party, menu.type());
                             sendMessage(serverPlayer, party, message.message, channel);
                         }
                         case GUILD -> {
-                            Guild guild = GuildHandler.get(serverPlayer);
+                            Guild guild = GuildApi.API.get(serverPlayer);
                             if (guild == null) return;
                             MessageChannel channel = ChatHandler.getChannel(guild, menu.type());
                             sendMessage(serverPlayer, guild, message.message, channel);

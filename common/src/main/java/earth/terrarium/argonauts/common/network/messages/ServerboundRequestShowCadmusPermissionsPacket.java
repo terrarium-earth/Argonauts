@@ -4,12 +4,12 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.guild.GuildApi;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -43,10 +43,10 @@ public record ServerboundRequestShowCadmusPermissionsPacket() implements Packet<
         @Override
         public PacketContext handle(ServerboundRequestShowCadmusPermissionsPacket message) {
             return (player, level) -> {
-                Party party = PartyHandler.getPlayerParty(player.getUUID());
+                Party party = PartyApi.API.getPlayerParty(player.getUUID());
                 if (party == null) return;
                 if (!party.members().get(player.getUUID()).getState().isLeader()) return;
-                Guild guild = GuildHandler.getPlayerGuild(player.getServer(), player.getUUID());
+                Guild guild = GuildApi.API.getPlayerGuild(player.getServer(), player.getUUID());
                 if (guild == null) return;
                 Member member = guild.members().get(player.getUUID());
                 if (member.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS) || member.getState().isLeader()) {

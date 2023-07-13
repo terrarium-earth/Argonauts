@@ -3,13 +3,13 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.BaseModCommands;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
 import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
@@ -66,7 +66,7 @@ public final class PartyModCommands {
     }
 
     public static void openSettingsScreen(ServerPlayer player) throws MemberException {
-        Party party = PartyHandler.get(player);
+        Party party = PartyApi.API.get(player);
         if (party == null) {
             throw MemberException.YOU_ARE_NOT_IN_PARTY;
         }

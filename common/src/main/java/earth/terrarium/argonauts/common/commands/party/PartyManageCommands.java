@@ -3,9 +3,9 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.ManageCommands;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -33,7 +33,7 @@ public final class PartyManageCommands {
             MemberException.YOU_CANT_REMOVE_PARTY_LEADER,
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY,
             PartyCommandHelper::getPartyOrThrow,
-            PartyHandler::leave
+            PartyApi.API::leave
         );
     }
 }

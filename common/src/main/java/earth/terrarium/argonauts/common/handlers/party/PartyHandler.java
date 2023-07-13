@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.handlers.party;
 
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
@@ -17,12 +18,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class PartyHandler {
+public class PartyHandler implements PartyApi {
 
     private static final Map<UUID, Party> PARTIES = new HashMap<>();
     private static final Map<UUID, UUID> PLAYER_PARTIES = new HashMap<>();
 
-    public static void createParty(Player player) throws MemberException {
+    @Override
+    public void createParty(Player player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_PARTY;
         }
@@ -32,31 +34,26 @@ public class PartyHandler {
         player.displayClientMessage(ConstantComponents.PARTY_CREATE, false);
     }
 
-    /**
-     * Returns the party with the given id.
-     */
     @Nullable
-    public static Party get(UUID id) {
+    @Override
+    public Party get(UUID id) {
         return PARTIES.get(id);
     }
 
-    /**
-     * Returns the party the player is in.
-     */
     @Nullable
-    public static Party get(Player player) {
+    @Override
+    public Party get(Player player) {
         return getPlayerParty(player.getUUID());
     }
 
-    /**
-     * Returns the party the player is in.
-     */
     @Nullable
-    public static Party getPlayerParty(UUID player) {
+    @Override
+    public Party getPlayerParty(UUID player) {
         return get(PLAYER_PARTIES.get(player));
     }
 
-    public static void join(Party party, ServerPlayer player) throws MemberException {
+    @Override
+    public void join(Party party, ServerPlayer player) throws MemberException {
         if (PLAYER_PARTIES.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_PARTY;
         } else if (party.ignored().has(player.getUUID())) {
@@ -76,20 +73,8 @@ public class PartyHandler {
         }
     }
 
-    public static void disband(Party party, MinecraftServer server) {
-        PARTIES.remove(party.id());
-        party.members().forEach(member -> {
-            if (PLAYER_PARTIES.get(member.profile().getId()) == party.id()) {
-                PLAYER_PARTIES.remove(member.profile().getId());
-            }
-        });
-        ChatHandler.remove(party, ChatMessageType.PARTY);
-        ServerPlayer player = server.getPlayerList().getPlayer(party.members().getLeader().profile().getId());
-        if (player == null) return;
-        player.displayClientMessage(Component.translatable("text.argonauts.member.party_disband", player.getName().getString()), false);
-    }
-
-    public static void leave(UUID id, ServerPlayer player) throws MemberException {
+    @Override
+    public void leave(UUID id, ServerPlayer player) throws MemberException {
         Party party = get(id);
         if (party == null) {
             throw MemberException.PARTY_DOES_NOT_EXIST;
@@ -108,5 +93,19 @@ public class PartyHandler {
             if (serverPlayer == null) continue;
             serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_leave", player.getName().getString(), party.members().getLeader().profile().getName()), false);
         }
+    }
+
+    @Override
+    public void disband(Party party, MinecraftServer server) {
+        PARTIES.remove(party.id());
+        party.members().forEach(member -> {
+            if (PLAYER_PARTIES.get(member.profile().getId()) == party.id()) {
+                PLAYER_PARTIES.remove(member.profile().getId());
+            }
+        });
+        ChatHandler.remove(party, ChatMessageType.PARTY);
+        ServerPlayer player = server.getPlayerList().getPlayer(party.members().getLeader().profile().getId());
+        if (player == null) return;
+        player.displayClientMessage(Component.translatable("text.argonauts.member.party_disband", player.getName().getString()), false);
     }
 }
