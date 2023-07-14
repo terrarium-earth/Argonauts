@@ -1,13 +1,13 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
 import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
+import earth.terrarium.argonauts.api.party.Party;
 import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
-import earth.terrarium.argonauts.common.handlers.party.Party;
 import earth.terrarium.cadmus.api.claims.InteractionType;
 import earth.terrarium.cadmus.api.teams.TeamProvider;
 import earth.terrarium.cadmus.common.claims.ClaimHandler;

@@ -3,6 +3,7 @@ package earth.terrarium.argonauts.common.handlers.guild;
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import com.teamresourceful.resourcefullib.common.utils.SaveHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.compat.heracles.HeraclesIntegration;

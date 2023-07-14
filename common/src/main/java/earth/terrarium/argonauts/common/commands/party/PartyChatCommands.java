@@ -1,13 +1,13 @@
 package earth.terrarium.argonauts.common.commands.party;
 
 import com.mojang.brigadier.CommandDispatcher;
+import earth.terrarium.argonauts.api.party.Party;
 import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.ChatCommands;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
-import earth.terrarium.argonauts.common.handlers.party.Party;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 

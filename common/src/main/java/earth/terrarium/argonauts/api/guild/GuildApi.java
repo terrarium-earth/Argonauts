@@ -2,7 +2,6 @@ package earth.terrarium.argonauts.api.guild;
 
 import earth.terrarium.argonauts.api.ApiHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;

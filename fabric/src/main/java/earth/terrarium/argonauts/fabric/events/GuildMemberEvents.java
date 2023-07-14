@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts.fabric.events;
 
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.api.guild.Guild;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.MinecraftServer;

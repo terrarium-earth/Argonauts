@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts.common.utils.fabric;
 
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.fabric.events.GuildEvents;
 import earth.terrarium.argonauts.fabric.events.GuildMemberEvents;
 import earth.terrarium.argonauts.fabric.events.PlayerTeleportEvents;

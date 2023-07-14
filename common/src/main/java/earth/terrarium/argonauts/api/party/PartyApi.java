@@ -2,7 +2,6 @@ package earth.terrarium.argonauts.api.party;
 
 import earth.terrarium.argonauts.api.ApiHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.party.Party;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

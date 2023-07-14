@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts.forge.events;
 
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.api.guild.Guild;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.Event;

@@ -1,9 +1,9 @@
 package earth.terrarium.argonauts.common.compat.heracles;
 
 import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.heracles.api.teams.TeamProvider;
 import net.minecraft.server.level.ServerLevel;

@@ -1,8 +1,8 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.server.level.ServerPlayer;
 

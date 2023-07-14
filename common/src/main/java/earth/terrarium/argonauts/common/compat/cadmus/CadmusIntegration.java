@@ -1,7 +1,7 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.cadmus.api.teams.TeamProviderApi;
 import earth.terrarium.cadmus.common.claims.ClaimHandler;
 import net.minecraft.resources.ResourceLocation;
