@@ -1,11 +1,11 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
+import earth.terrarium.argonauts.api.guild.Guild;
+import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,7 @@ public class GuildsCommand {
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
-                    Collection<Guild> guilds = GuildHandler.getAll(player.server);
+                    Collection<Guild> guilds = GuildApi.API.getAll(player.server);
                     if (guilds.isEmpty()) throw MemberException.THERE_ARE_NO_GUILDS;
                     guilds.forEach(guild -> {
                         var name = guild.displayName();

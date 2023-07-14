@@ -4,11 +4,11 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.party.Party;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
-import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import net.minecraft.network.FriendlyByteBuf;
@@ -47,7 +47,7 @@ public record ServerboundSetSettingPacket(String setting,
         public PacketContext handle(ServerboundSetSettingPacket message) {
             return (player, level) ->
                 CommandHelper.runNetworkAction(player, () -> {
-                    Party party = PartyHandler.get(player);
+                    Party party = PartyApi.API.get(player);
                     if (player.containerMenu instanceof PartySettingsMenu menu && party != null) {
                         PartyMember member = party.getMember(player);
                         if (menu.isPartyScreen()) {

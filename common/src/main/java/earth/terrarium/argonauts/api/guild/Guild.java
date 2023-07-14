@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.common.handlers.guild;
+package earth.terrarium.argonauts.api.guild;
 
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;

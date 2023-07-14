@@ -3,9 +3,9 @@ package earth.terrarium.argonauts.common.commands.party;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.LeaderCommands;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -21,7 +21,7 @@ public final class PartyLeaderCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband() {
         return LeaderCommands.disband(
             PartyCommandHelper::getPartyOrThrow,
-            PartyHandler::disband,
+            PartyApi.API::disband,
             MemberException.YOU_ARE_NOT_THE_LEADER_OF_PARTY);
     }
 

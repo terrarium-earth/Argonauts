@@ -3,11 +3,11 @@ package earth.terrarium.argonauts.common.commands.guild;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.guild.Guild;
+import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -21,7 +21,7 @@ import java.util.Collection;
 public class GuildAdminCommands {
 
     private static final SuggestionProvider<CommandSourceStack> GUILDS_SUGGESTION_PROVIDER = (context, builder) -> {
-        Collection<Guild> guilds = GuildHandler.getAll(context.getSource().getServer());
+        Collection<Guild> guilds = GuildApi.API.getAll(context.getSource().getServer());
         return SharedSuggestionProvider.suggest((guilds.stream().map(g -> g.id().toString())), builder);
     };
 
@@ -34,14 +34,14 @@ public class GuildAdminCommands {
                         .suggests(GUILDS_SUGGESTION_PROVIDER)
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
-                            Guild guild = GuildHandler.get(player.server, UuidArgument.getUuid(context, "teamId"));
+                            Guild guild = GuildApi.API.get(player.server, UuidArgument.getUuid(context, "teamId"));
                             removeGuild(guild, player);
                             return 1;
                         })))
                 .then(Commands.literal("disbandAll")
                     .executes(context -> {
                         ServerPlayer player = context.getSource().getPlayerOrException();
-                        new ArrayList<>(GuildHandler.getAll(player.server)).forEach(guild -> removeGuild(guild, player));
+                        new ArrayList<>(GuildApi.API.getAll(player.server)).forEach(guild -> removeGuild(guild, player));
                         return 1;
                     }))
                 .then(Commands.literal("join")
@@ -49,7 +49,7 @@ public class GuildAdminCommands {
                         .suggests(GUILDS_SUGGESTION_PROVIDER)
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
-                            Guild guild = GuildHandler.get(player.server, UuidArgument.getUuid(context, "teamId"));
+                            Guild guild = GuildApi.API.get(player.server, UuidArgument.getUuid(context, "teamId"));
                             joinGuild(guild, player);
                             return 1;
                         })))
@@ -64,14 +64,14 @@ public class GuildAdminCommands {
                             .suggests(GUILDS_SUGGESTION_PROVIDER)
                             .executes(context -> {
                                 ServerPlayer player = context.getSource().getPlayerOrException();
-                                Guild guild = GuildHandler.get(player.server, UuidArgument.getUuid(context, "teamId"));
+                                Guild guild = GuildApi.API.get(player.server, UuidArgument.getUuid(context, "teamId"));
                                 removeCadmusClaims(guild, player);
                                 return 1;
                             })))
                     .then(Commands.literal("removeAllClaims")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
-                            new ArrayList<>(GuildHandler.getAll(player.server)).forEach(guild -> removeCadmusClaims(guild, player));
+                            new ArrayList<>(GuildApi.API.getAll(player.server)).forEach(guild -> removeCadmusClaims(guild, player));
                             return 1;
                         }))
                 ));
@@ -88,7 +88,7 @@ public class GuildAdminCommands {
                     groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", guild.displayName()), false);
                 }
             });
-            GuildHandler.remove(true, guild, player.server);
+            GuildApi.API.remove(true, guild, player.server);
         });
     }
 
@@ -103,7 +103,7 @@ public class GuildAdminCommands {
     public static void joinGuild(Guild guild, ServerPlayer player) {
         CommandHelper.runAction(() -> {
             if (guild == null) throw MemberException.GUILD_DOES_NOT_EXIST;
-            GuildHandler.join(guild, player);
+            GuildApi.API.join(guild, player);
         });
     }
 }

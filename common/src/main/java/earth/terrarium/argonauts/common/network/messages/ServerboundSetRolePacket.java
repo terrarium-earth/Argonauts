@@ -4,13 +4,13 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.guild.GuildApi;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.menus.base.MembersMenu;
 import earth.terrarium.argonauts.common.menus.guild.GuildMembersMenu;
 import net.minecraft.network.FriendlyByteBuf;
@@ -50,9 +50,9 @@ public record ServerboundSetRolePacket(String role) implements Packet<Serverboun
                 CommandHelper.runNetworkAction(player, () -> {
                     Group<?> group = null;
                     if (player.containerMenu instanceof GuildMembersMenu) {
-                        group = GuildHandler.get((ServerPlayer) player);
+                        group = GuildApi.API.get((ServerPlayer) player);
                     } else if (player.containerMenu instanceof MembersMenu) {
-                        group = PartyHandler.get(player);
+                        group = PartyApi.API.get(player);
                     }
 
                     if (player.containerMenu instanceof MembersMenu menu && group != null) {

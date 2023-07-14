@@ -3,6 +3,8 @@ package earth.terrarium.argonauts.common.handlers.guild;
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import com.teamresourceful.resourcefullib.common.utils.SaveHandler;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.api.guild.Guild;
+import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.compat.heracles.HeraclesIntegration;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
@@ -24,7 +26,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class GuildHandler extends SaveHandler {
+public class GuildHandler extends SaveHandler implements GuildApi {
 
     private final Map<UUID, Guild> guilds = new HashMap<>();
     private final Map<UUID, UUID> playerGuilds = new HashMap<>();
@@ -75,7 +77,8 @@ public class GuildHandler extends SaveHandler {
         return read(server.overworld().getDataStorage(), GuildHandler::new, "argonauts_guilds");
     }
 
-    public static void createGuild(ServerPlayer player, Component displayName) throws MemberException {
+    @Override
+    public void createGuild(ServerPlayer player, Component displayName) throws MemberException {
         var data = read(player.server);
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
@@ -96,39 +99,32 @@ public class GuildHandler extends SaveHandler {
         }
     }
 
-    /**
-     * Returns the guild with the given id.
-     */
     @Nullable
-    public static Guild get(MinecraftServer server, UUID id) {
+    @Override
+    public Guild get(MinecraftServer server, UUID id) {
         return read(server).guilds.get(id);
     }
 
-    /**
-     * Returns the guild the player is in.
-     */
     @Nullable
-    public static Guild get(ServerPlayer player) {
+    @Override
+    public Guild get(ServerPlayer player) {
         return getPlayerGuild(player.server, player.getUUID());
     }
 
-    /**
-     * Returns the guild the player is in.
-     */
     @Nullable
-    public static Guild getPlayerGuild(MinecraftServer server, UUID player) {
+    @Override
+    public Guild getPlayerGuild(MinecraftServer server, UUID player) {
         var data = read(server);
         return data.guilds.get(data.playerGuilds.get(player));
     }
 
-    /**
-     * Returns all guilds.
-     */
-    public static Collection<Guild> getAll(MinecraftServer server) {
+    @Override
+    public Collection<Guild> getAll(MinecraftServer server) {
         return read(server).guilds.values();
     }
 
-    public static void tryJoin(Guild guild, ServerPlayer player) throws MemberException {
+    @Override
+    public void tryJoin(Guild guild, ServerPlayer player) throws MemberException {
         if (guild.isPublic() || guild.members().isInvited(player.getUUID())) {
             join(guild, player);
         } else {
@@ -136,7 +132,8 @@ public class GuildHandler extends SaveHandler {
         }
     }
 
-    public static void join(Guild guild, ServerPlayer player) throws MemberException {
+    @Override
+    public void join(Guild guild, ServerPlayer player) throws MemberException {
         var data = read(player.server);
         if (data.playerGuilds.containsKey(player.getUUID())) {
             throw MemberException.ALREADY_IN_GUILD;
@@ -160,7 +157,8 @@ public class GuildHandler extends SaveHandler {
         }
     }
 
-    public static void leave(UUID id, ServerPlayer player) throws MemberException {
+    @Override
+    public void leave(UUID id, ServerPlayer player) throws MemberException {
         var data = read(player.server);
         Guild guild = get(player.server, id);
         if (guild == null) {
@@ -190,7 +188,8 @@ public class GuildHandler extends SaveHandler {
         }
     }
 
-    public static void disband(Guild guild, MinecraftServer server) {
+    @Override
+    public void disband(Guild guild, MinecraftServer server) {
         ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
         if (player == null) return;
         player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
@@ -198,7 +197,8 @@ public class GuildHandler extends SaveHandler {
         remove(false, guild, server);
     }
 
-    public static void remove(boolean force, Guild guild, MinecraftServer server) {
+    @Override
+    public void remove(boolean force, Guild guild, MinecraftServer server) {
         var data = read(server);
         data.guilds.remove(guild.id());
         EventUtils.removed(force, guild);

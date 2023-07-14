@@ -2,8 +2,8 @@ package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,13 +19,13 @@ public final class GuildCommand {
                     .executes(context -> {
                         ServerPlayer player = context.getSource().getPlayerOrException();
                         String name = ModUtils.formatTextColors(StringArgumentType.getString(context, "name"));
-                        CommandHelper.runAction(() -> GuildHandler.createGuild(player, Component.literal(name)));
+                        CommandHelper.runAction(() -> GuildApi.API.createGuild(player, Component.literal(name)));
                         return 1;
                     }))
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     Component name = Component.translatable("text.argonauts.guild_name", player.getName().getString());
-                    CommandHelper.runAction(() -> GuildHandler.createGuild(player, name));
+                    CommandHelper.runAction(() -> GuildApi.API.createGuild(player, name));
                     return 1;
                 })
             ));

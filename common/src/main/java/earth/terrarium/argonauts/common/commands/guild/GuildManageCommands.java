@@ -3,9 +3,9 @@ package earth.terrarium.argonauts.common.commands.guild;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.commands.base.ManageCommands;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -33,7 +33,7 @@ public final class GuildManageCommands {
             MemberException.YOU_CANT_REMOVE_GUILD_OWNER,
             MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD,
             GuildCommandHelper::getGuildOrThrow,
-            GuildHandler::leave
+            GuildApi.API::leave
         );
     }
 }

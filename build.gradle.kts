@@ -30,7 +30,7 @@ subprojects {
     val isCommon = modLoader == rootProject.projects.common.name
 
     base {
-        archivesName.set("$rootProject.name-$modLoader-$minecraftVersion")
+        archivesName.set("$modId-$modLoader-$minecraftVersion")
     }
 
     configure<LoomGradleExtensionAPI> {
@@ -62,17 +62,17 @@ subprojects {
         compileOnly(group = "com.teamresourceful", name = "yabn", version = "1.0.3")
         "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-$minecraftVersion", version = resourcefulLibVersion)
         if (isCommon) {
-            "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-1.20", version = cadmusVersion) {
+            "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-$minecraftVersion", version = cadmusVersion) {
                 isTransitive = false
             }
-            "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20", version = heraclesVersion) {
+            "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-$minecraftVersion", version = heraclesVersion) {
                 isTransitive = false
             }
         } else {
-            "modLocalRuntime"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-1.20", version = cadmusVersion) {
+            "modLocalRuntime"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-$minecraftVersion", version = cadmusVersion) {
                 isTransitive = false
             }
-            "modLocalRuntime"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20", version = heraclesVersion)
+            "modLocalRuntime"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-$minecraftVersion", version = heraclesVersion)
         }
     }
 

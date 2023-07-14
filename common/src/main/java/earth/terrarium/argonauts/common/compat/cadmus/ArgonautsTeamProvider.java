@@ -1,13 +1,13 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
 import com.mojang.authlib.GameProfile;
+import earth.terrarium.argonauts.api.guild.Guild;
+import earth.terrarium.argonauts.api.guild.GuildApi;
+import earth.terrarium.argonauts.api.party.Party;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
-import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.cadmus.api.claims.InteractionType;
 import earth.terrarium.cadmus.api.teams.TeamProvider;
 import earth.terrarium.cadmus.common.claims.ClaimHandler;
@@ -30,7 +30,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     @Override
     public Set<GameProfile> getTeamMembers(String id, MinecraftServer server) {
-        Guild guild = GuildHandler.get(server, UUID.fromString(id));
+        Guild guild = GuildApi.API.get(server, UUID.fromString(id));
         if (guild == null) return new HashSet<>();
         return guild.members()
             .allMembers()
@@ -42,27 +42,27 @@ public class ArgonautsTeamProvider implements TeamProvider {
     @Override
     @Nullable
     public Component getTeamName(String id, MinecraftServer server) {
-        var guild = GuildHandler.get(server, UUID.fromString(id));
+        var guild = GuildApi.API.get(server, UUID.fromString(id));
         return Optionull.map(guild, Guild::displayName);
     }
 
     @Override
     @Nullable
     public String getTeamId(MinecraftServer server, UUID player) {
-        var guild = GuildHandler.getPlayerGuild(server, player);
+        var guild = GuildApi.API.getPlayerGuild(server, player);
         return Optionull.map(guild, g -> ClaimHandler.TEAM_PREFIX + g.id().toString());
     }
 
     @Override
     public boolean isMember(String id, MinecraftServer server, UUID player) {
-        var guild = GuildHandler.get(server, UUID.fromString(id));
+        var guild = GuildApi.API.get(server, UUID.fromString(id));
         if (guild == null) return id.equals(player.toString());
         return guild.members().isMember(player);
     }
 
     @Override
     public ChatFormatting getTeamColor(String id, MinecraftServer server) {
-        var guild = GuildHandler.get(server, UUID.fromString(id));
+        var guild = GuildApi.API.get(server, UUID.fromString(id));
         var result = Optionull.mapOrDefault(guild, Guild::color, ChatFormatting.AQUA);
         return result == ChatFormatting.RESET ? ChatFormatting.AQUA : result;
     }
@@ -99,13 +99,13 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     private boolean hasPermission(String perm, String id, MinecraftServer server, UUID player) {
         if (TeamHelper.isMember(id, server, player)) return true;
-        Guild guild = GuildHandler.get(server, UUID.fromString(id.substring(2)));
+        Guild guild = GuildApi.API.get(server, UUID.fromString(id.substring(2)));
         if (guild == null) return false;
         if (guild.settings().allowFakePlayers() && guild.members() instanceof GuildMembers members && members.fakePlayers().contains(player)) {
             return true;
         }
 
-        Party party = PartyHandler.getPlayerParty(player);
+        Party party = PartyApi.API.getPlayerParty(player);
         if (party == null) return false;
         var member = party.members().get(player);
         if (member == null) return false;

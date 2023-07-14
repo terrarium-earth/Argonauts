@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts.common.utils.forge;
 
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
+import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.forge.events.GuildEvent;
 import earth.terrarium.argonauts.forge.events.GuildMemberEvent;
 import net.minecraft.core.BlockPos;

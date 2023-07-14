@@ -1,13 +1,13 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
+import earth.terrarium.argonauts.api.guild.Guild;
+import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import earth.terrarium.argonauts.common.handlers.guild.Guild;
-import earth.terrarium.argonauts.common.handlers.guild.GuildHandler;
 import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
 import earth.terrarium.argonauts.common.menus.guild.GuildMembersContent;
 import earth.terrarium.argonauts.common.menus.guild.GuildMembersMenu;
@@ -24,7 +24,7 @@ public final class GuildMemberCommands {
     }
 
     public static void openMembersScreen(ServerPlayer player, int selected) throws MemberException {
-        Guild guild = GuildHandler.get(player);
+        Guild guild = GuildApi.API.get(player);
         if (guild == null) {
             throw MemberException.YOU_ARE_NOT_IN_GUILD;
         }

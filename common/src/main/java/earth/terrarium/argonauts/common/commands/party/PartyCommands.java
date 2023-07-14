@@ -4,12 +4,12 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import earth.terrarium.argonauts.api.party.Party;
+import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.commands.base.BaseCommands;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
-import earth.terrarium.argonauts.common.handlers.party.Party;
-import earth.terrarium.argonauts.common.handlers.party.PartyHandler;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -33,13 +33,13 @@ public final class PartyCommands {
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> leave() {
         return BaseCommands.leave(
             PartyCommandHelper::getPartyOrThrow,
-            PartyHandler::leave);
+            PartyApi.API::leave);
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> join() {
         return BaseCommands.join(
             PartyCommandHelper::getPartyOrThrow,
-            (group, player) -> PartyHandler.join((Party) group, player));
+            (group, player) -> PartyApi.API.join((Party) group, player));
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> ignore() {
