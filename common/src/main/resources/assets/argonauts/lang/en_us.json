@@ -81,7 +81,7 @@
 
     "key.argonauts.open_party_chat": "Open Party Chat",
     "key.argonauts.open_guild_chat": "Open Guild Chat",
-    "key.categories.odyssey": "Odyssey",
+    "key.categories.project_odyssey": "Odyssey",
 
     "command.argonauts.exception.no_permissions": "You don't have the required permissions.",
     "command.argonauts.exception.you_cant_give_permissions": "You can't give permissions you don't have.",
@@ -120,5 +120,9 @@
     "command.argonauts.exception.guild_has_passive_tp_disabled": "The guild has passive teleportation disabled.",
     "command.argonauts.exception.you_cant_set_owner_to_non_guild_member": "You can't set the owner to a non-guild member.",
     "command.argonauts.exception.you_cant_set_owner_to_current_owner": "You can't set the owner to the current owner.",
-    "command.argonauts.exception.there_are_no_guilds": "There are no guilds."
+    "command.argonauts.exception.there_are_no_guilds": "There are no guilds.",
+
+    "rei.sections.odyssey": "Project Odyssey",
+    "rei.argonauts.party_chat.tooltip": "Open Party Chat",
+    "rei.argonauts.party_management.tooltip": "Open Party Management"
 }

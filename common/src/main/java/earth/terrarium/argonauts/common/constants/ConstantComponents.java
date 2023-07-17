@@ -35,5 +35,5 @@ public class ConstantComponents {
 
     public static final Component KEY_OPEN_PARTY_CHAT = Component.translatable("key.argonauts.open_party_chat");
     public static final Component KEY_OPEN_GUILD_CHAT = Component.translatable("key.argonauts.open_guild_chat");
-    public static final Component ODYSSEY_CATEGORY = Component.translatable("key.categories.odyssey");
+    public static final Component ODYSSEY_CATEGORY = Component.translatable("key.categories.project_odyssey");
 }
