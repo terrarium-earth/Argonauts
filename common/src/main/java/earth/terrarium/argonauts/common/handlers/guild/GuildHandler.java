@@ -88,7 +88,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
         guild.settings().setDisplayName(displayName);
         data.guilds.put(id, guild);
         data.playerGuilds.put(player.getUUID(), id);
-        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
+        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
 
         EventUtils.created(guild, player);
         if (Argonauts.isCadmusLoaded()) {
@@ -141,12 +141,12 @@ public class GuildHandler extends SaveHandler implements GuildApi {
         for (Member member : guild.members()) {
             ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
             if (serverPlayer == null) continue;
-            serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
+            serverPlayer.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_perspective_join", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
 
         guild.members().add(player.getGameProfile());
         data.playerGuilds.put(player.getUUID(), guild.id());
-        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
+        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
         EventUtils.joined(guild, player);
         if (Argonauts.isCadmusLoaded()) {
@@ -170,12 +170,12 @@ public class GuildHandler extends SaveHandler implements GuildApi {
         }
         guild.members().remove(player.getUUID());
 
-        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_leave", guild.settings().displayName().getString()), false);
+        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_leave", guild.settings().displayName().getString()), false);
 
         for (Member member : guild.members()) {
             ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
             if (serverPlayer == null) continue;
-            serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
+            serverPlayer.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
         data.playerGuilds.remove(player.getUUID());
 
@@ -192,7 +192,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
     public void disband(Guild guild, MinecraftServer server) {
         ServerPlayer player = server.getPlayerList().getPlayer(guild.members().getLeader().profile().getId());
         if (player == null) return;
-        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
+        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
         EventUtils.disbanned(guild);
         remove(false, guild, server);
     }

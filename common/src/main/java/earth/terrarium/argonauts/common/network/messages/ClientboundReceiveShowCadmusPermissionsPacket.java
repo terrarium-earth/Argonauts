@@ -4,7 +4,7 @@ import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
 import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
 import earth.terrarium.argonauts.Argonauts;
-import earth.terrarium.argonauts.client.screens.party.members.guild.members.PartyMembersScreen;
+import earth.terrarium.argonauts.client.screens.party.members.PartyMembersScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

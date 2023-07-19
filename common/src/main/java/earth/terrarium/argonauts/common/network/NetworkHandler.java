@@ -7,7 +7,7 @@ import earth.terrarium.argonauts.common.network.messages.*;
 
 public class NetworkHandler {
 
-    public static final NetworkChannel CHANNEL = new NetworkChannel(Argonauts.MOD_ID, 1, "main");
+    public static final NetworkChannel CHANNEL = new NetworkChannel(Argonauts.MOD_ID, 1, "main", true);
 
     public static void init() {
         CHANNEL.registerPacket(NetworkDirection.CLIENT_TO_SERVER, ServerboundSetSettingPacket.ID, ServerboundSetSettingPacket.HANDLER, ServerboundSetSettingPacket.class);
@@ -19,5 +19,10 @@ public class NetworkHandler {
         CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundDeleteMessagePacket.ID, ClientboundDeleteMessagePacket.HANDLER, ClientboundDeleteMessagePacket.class);
         CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundReceiveMessagePacket.ID, ClientboundReceiveMessagePacket.HANDLER, ClientboundReceiveMessagePacket.class);
         CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundReceiveShowCadmusPermissionsPacket.ID, ClientboundReceiveShowCadmusPermissionsPacket.HANDLER, ClientboundReceiveShowCadmusPermissionsPacket.class);
+
+        CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundOpenChatMenuPacket.ID, ClientboundOpenChatMenuPacket.HANDLER, ClientboundOpenChatMenuPacket.class);
+        CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundOpenGuildMemberMenuPacket.ID, ClientboundOpenGuildMemberMenuPacket.HANDLER, ClientboundOpenGuildMemberMenuPacket.class);
+        CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundOpenPartyMemberMenuPacket.ID, ClientboundOpenPartyMemberMenuPacket.HANDLER, ClientboundOpenPartyMemberMenuPacket.class);
+        CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundOpenPartySettingsMenuPacket.ID, ClientboundOpenPartySettingsMenuPacket.HANDLER, ClientboundOpenPartySettingsMenuPacket.class);
     }
 }

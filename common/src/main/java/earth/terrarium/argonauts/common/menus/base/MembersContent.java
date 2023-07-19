@@ -6,9 +6,12 @@ import com.teamresourceful.resourcefullib.common.menu.MenuContent;
 import com.teamresourceful.resourcefullib.common.menu.MenuContentSerializer;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
+import earth.terrarium.argonauts.common.utils.ModUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,6 +39,34 @@ public abstract class MembersContent implements MenuContent<MembersContent> {
     public boolean canManageMembers() {return canManageMembers;}
 
     public boolean canManagePermissions() {return canManagePermissions;}
+
+    public Member getSelected() {
+        if (this.selected() >= 0 && this.selected() < this.members().size()) {
+            return this.members().get(this.selected());
+        }
+        return null;
+    }
+
+    public Member getSelf() {
+        for (Member member : this.members()) {
+            if (ModUtils.areProfilesSame(member.profile(), Minecraft.getInstance().getUser().getGameProfile())) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    public OptionalInt getId(GameProfile profile) {
+        if (profile != null) {
+            for (int i = 0; i < this.members().size(); i++) {
+                Member member = this.members().get(i);
+                if (member.profile().equals(profile)) {
+                    return OptionalInt.of(i);
+                }
+            }
+        }
+        return OptionalInt.empty();
+    }
 
     public static class Serializer implements MenuContentSerializer<MembersContent> {
 

@@ -6,6 +6,7 @@ import com.teamresourceful.resourcefullib.client.scissor.ScissorBoxStack;
 import com.teamresourceful.resourcefullib.client.screens.CursorScreen;
 import com.teamresourceful.resourcefullib.client.utils.CursorUtils;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ServerboundSetPermissionPacket;
 import earth.terrarium.argonauts.common.network.messages.ServerboundSetSettingPacket;
@@ -15,6 +16,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+import java.util.function.Supplier;
+
 public class BooleanEntry extends ListEntry {
 
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
@@ -22,17 +26,21 @@ public class BooleanEntry extends ListEntry {
     private final boolean canEdit;
     private final String prefix;
     private final String id;
+    private final Supplier<GroupType> groupType;
+    private final Supplier<UUID> getMember;
     private boolean value;
 
-    public BooleanEntry(String id, boolean value, boolean canEdit) {
-        this("permission", id, value, canEdit);
+    public BooleanEntry(String id, boolean value, boolean canEdit, Supplier<GroupType> groupType, Supplier<UUID> getMember) {
+        this("permission", id, value, canEdit, groupType, getMember);
     }
 
-    public BooleanEntry(String prefix, String id, boolean value, boolean canEdit) {
+    public BooleanEntry(String prefix, String id, boolean value, boolean canEdit, Supplier<GroupType> groupType, Supplier<UUID> getMember) {
         this.prefix = prefix;
         this.id = id;
         this.value = value;
         this.canEdit = canEdit;
+        this.groupType = groupType;
+        this.getMember = getMember;
     }
 
     @Override
@@ -70,7 +78,11 @@ public class BooleanEntry extends ListEntry {
                 if (prefix.equals("setting")) {
                     NetworkHandler.CHANNEL.sendToServer(new ServerboundSetSettingPacket(id, value));
                 } else if (prefix.equals("permission")) {
-                    NetworkHandler.CHANNEL.sendToServer(new ServerboundSetPermissionPacket(id, value));
+                    NetworkHandler.CHANNEL.sendToServer(new ServerboundSetPermissionPacket(
+                        id,
+                        value,
+                        groupType.get(),
+                        getMember.get()));
                 }
                 return true;
             }

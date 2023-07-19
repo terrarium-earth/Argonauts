@@ -18,9 +18,7 @@ public final class PartyChatCommands {
 
     public static void openChatScreen(ServerPlayer player) throws MemberException {
         Party party = PartyApi.API.get(player);
-        if (party == null) {
-            throw MemberException.YOU_ARE_NOT_IN_PARTY;
-        }
+        if (party == null) throw MemberException.YOU_ARE_NOT_IN_PARTY;
         ChatCommands.openChatScreen(player,
             party,
             ChatMessageType.PARTY,

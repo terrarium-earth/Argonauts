@@ -52,9 +52,8 @@ public final class GuildSettingsCommands {
                 CommandHelper.runAction(() -> {
                     Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                     var hq = guild.settings().hq();
-                    if (hq.isEmpty()) {
-                        throw MemberException.HQ_NOT_SET;
-                    }
+                    if (hq.isEmpty()) throw MemberException.HQ_NOT_SET;
+
                     hq.ifPresent(hq1 -> player.displayClientMessage(getCurrentComponent("hq", hq1.dimension().location() + ", " + hq1.pos().getX() + ", " + hq1.pos().getY() + ", " + hq1.pos().getZ()), false));
                 });
                 return 1;
@@ -154,10 +153,10 @@ public final class GuildSettingsCommands {
     }
 
     private static Component getCurrentComponent(String command, Object value) {
-        return Component.translatable("text.argonauts.guild_settings.current", command, value);
+        return ModUtils.serverTranslation("text.argonauts.guild_settings.current", command, value);
     }
 
     private static Component setCurrentComponent(String command, Object value) {
-        return Component.translatable("text.argonauts.guild_settings.set", command, value);
+        return ModUtils.serverTranslation("text.argonauts.guild_settings.set", command, value);
     }
 }

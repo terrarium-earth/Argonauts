@@ -24,7 +24,7 @@ public final class GuildCommand {
                     }))
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
-                    Component name = Component.translatable("text.argonauts.guild_name", player.getName().getString());
+                    Component name = ModUtils.serverTranslation("text.argonauts.guild_name", player.getName().getString());
                     CommandHelper.runAction(() -> GuildApi.API.createGuild(player, name));
                     return 1;
                 })

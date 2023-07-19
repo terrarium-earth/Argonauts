@@ -67,6 +67,15 @@ public final class ModUtils {
             .replaceAll(result -> "§" + result.group(1));
     }
 
+    public static Component serverTranslation(String translation, Object... args) {
+        if (args.length == 0) {
+            Component component = Component.translatable(translation);
+            return Component.translatableWithFallback(translation, component.getString());
+        }
+        Component component = Component.translatable(translation, args);
+        return Component.translatableWithFallback(translation, component.getString(), args);
+    }
+
     @ExpectPlatform
     public static List<Pair<UUID, Component>> getFakePlayers() {
         throw new NotImplementedException();

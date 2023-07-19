@@ -8,7 +8,7 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
-import net.minecraft.network.chat.Component;
+import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -63,12 +63,12 @@ public class PartyHandler implements PartyApi {
             for (Member member : party.members()) {
                 ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
                 if (serverPlayer == null) continue;
-                serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_join", player.getName().getString(), party.members().getLeader().profile().getName()), false);
+                serverPlayer.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.party_perspective_join", player.getName().getString(), party.members().getLeader().profile().getName()), false);
             }
 
             party.members().add(player.getGameProfile());
             PLAYER_PARTIES.put(player.getUUID(), party.id());
-            player.displayClientMessage(Component.translatable("text.argonauts.member.party_join", party.members().getLeader().profile().getName()), false);
+            player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.party_join", party.members().getLeader().profile().getName()), false);
         } else {
             throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
         }
@@ -87,12 +87,12 @@ public class PartyHandler implements PartyApi {
         PLAYER_PARTIES.remove(player.getUUID());
         party.members().remove(player.getUUID());
 
-        player.displayClientMessage(Component.translatable("text.argonauts.member.guild_leave", party.members().getLeader().profile().getName()), false);
+        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_leave", party.members().getLeader().profile().getName()), false);
 
         for (Member member : party.members()) {
             ServerPlayer serverPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
             if (serverPlayer == null) continue;
-            serverPlayer.displayClientMessage(Component.translatable("text.argonauts.member.party_perspective_leave", player.getName().getString(), party.members().getLeader().profile().getName()), false);
+            serverPlayer.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.party_perspective_leave", player.getName().getString(), party.members().getLeader().profile().getName()), false);
         }
     }
 
@@ -107,6 +107,6 @@ public class PartyHandler implements PartyApi {
         ChatHandler.remove(party, ChatMessageType.PARTY);
         ServerPlayer player = server.getPlayerList().getPlayer(party.members().getLeader().profile().getId());
         if (player == null) return;
-        player.displayClientMessage(Component.translatable("text.argonauts.member.party_disband", player.getName().getString()), false);
+        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.party_disband", player.getName().getString()), false);
     }
 }

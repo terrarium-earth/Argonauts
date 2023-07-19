@@ -7,6 +7,7 @@ import com.teamresourceful.resourcefullib.client.screens.CursorScreen;
 import com.teamresourceful.resourcefullib.client.utils.CursorUtils;
 import com.teamresourceful.resourcefullib.client.utils.RenderUtils;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ServerboundSetRolePacket;
 import net.minecraft.client.Minecraft;
@@ -15,16 +16,23 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+import java.util.function.Supplier;
+
 public class RoleNameEntry extends ListEntry {
 
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
 
     private final boolean canEdit;
+    private final Supplier<GroupType> groupType;
+    private final Supplier<UUID> getMember;
     private String ogText = "";
     private String text = "";
 
-    public RoleNameEntry(boolean canEdit) {
+    public RoleNameEntry(boolean canEdit, Supplier<GroupType> groupType, Supplier<UUID> getMember) {
         this.canEdit = canEdit;
+        this.groupType = groupType;
+        this.getMember = getMember;
     }
 
     public void setText(String text) {
@@ -95,7 +103,10 @@ public class RoleNameEntry extends ListEntry {
         if (i == InputConstants.MOUSE_BUTTON_LEFT && canEdit && !ogText.equals(text)) {
             if (x >= 184 - 22 && x < 184 - 6 && y >= 2 && y <= 20 - 2) {
                 ogText = text;
-                NetworkHandler.CHANNEL.sendToServer(new ServerboundSetRolePacket(text));
+                NetworkHandler.CHANNEL.sendToServer(new ServerboundSetRolePacket(
+                    text,
+                    this.groupType.get(),
+                    this.getMember.get()));
                 return true;
             }
         }

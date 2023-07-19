@@ -1,27 +1,26 @@
 package earth.terrarium.argonauts.client.screens.party.settings;
 
-import com.teamresourceful.resourcefullib.client.screens.AbstractContainerCursorScreen;
 import earth.terrarium.argonauts.Argonauts;
+import earth.terrarium.argonauts.client.screens.base.BaseScreen;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
 import earth.terrarium.argonauts.client.screens.base.members.entries.BooleanEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.CommandEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.DividerEntry;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
-import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
+import earth.terrarium.argonauts.common.handlers.GroupType;
+import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySettingsMenu> {
+public class PartySettingsScreen extends BaseScreen<PartySettingsContent> {
 
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/party_settings.png");
 
-    public PartySettingsScreen(PartySettingsMenu menu, Inventory inventory, Component component) {
-        super(menu, inventory, component);
-        this.imageHeight = 220;
-        this.imageWidth = 200;
+    public PartySettingsScreen(PartySettingsContent menuContent, Component displayName) {
+        super(menuContent, displayName, 200, 220);
     }
 
     @Override
@@ -31,10 +30,9 @@ public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySett
 
         var list = addRenderableWidget(new MemberSettingList(this.leftPos + 8, this.topPos + 18, 184, 180));
         list.addEntry(new DividerEntry(Component.literal("Settings")));
-        this.menu.settings().forEach((setting, value) ->
-            list.addEntry(new BooleanEntry("setting", setting, value, true))
-        );
-        if (!this.menu.isPartyScreen()) {
+        this.menuContent.settings().forEach((setting, value) ->
+            list.addEntry(new BooleanEntry("setting", setting, value, true, () -> GroupType.PARTY, () -> null)));
+        if (!this.menuContent.partySettings()) {
             list.addEntry(new DividerEntry(Component.literal("Actions")));
             list.addEntry(new CommandEntry(Component.literal("Leave Party"), Component.literal("Leave"), "party leave"));
         }
@@ -44,7 +42,6 @@ public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySett
     public void render(@NotNull GuiGraphics graphics, int i, int j, float f) {
         this.renderBackground(graphics);
         super.render(graphics, i, j, f);
-        this.renderTooltip(graphics, i, j);
     }
 
     @Override
@@ -67,5 +64,9 @@ public class PartySettingsScreen extends AbstractContainerCursorScreen<PartySett
     public void removed() {
         super.removed();
         MouseLocationFix.setFix(clas -> clas == PartySettingsScreen.class);
+    }
+
+    public static void open(PartySettingsContent menuContent, Component displayName) {
+        Minecraft.getInstance().setScreen(new PartySettingsScreen(menuContent, displayName));
     }
 }

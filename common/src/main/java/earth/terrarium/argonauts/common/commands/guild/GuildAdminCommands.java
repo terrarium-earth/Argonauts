@@ -8,11 +8,11 @@ import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
+import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.UuidArgument;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
@@ -81,11 +81,11 @@ public class GuildAdminCommands {
     public static void removeGuild(Guild guild, ServerPlayer player) {
         CommandHelper.runAction(() -> {
             if (guild == null) throw MemberException.GUILD_DOES_NOT_EXIST;
-            player.displayClientMessage(Component.translatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
+            player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
             guild.members().forEach(p -> {
                 ServerPlayer groupMember = player.server.getPlayerList().getPlayer(p.profile().getId());
                 if (groupMember != null) {
-                    groupMember.displayClientMessage(Component.translatable("text.argonauts.member.disband", guild.displayName()), false);
+                    groupMember.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.disband", guild.displayName()), false);
                 }
             });
             GuildApi.API.remove(true, guild, player.server);
@@ -95,7 +95,7 @@ public class GuildAdminCommands {
     public static void removeCadmusClaims(Guild guild, ServerPlayer player) {
         CommandHelper.runAction(() -> {
             if (guild == null) throw MemberException.GUILD_DOES_NOT_EXIST;
-            player.displayClientMessage(Component.translatable("text.argonauts.cadmus.removed", CadmusIntegration.getChunksForGuild(guild, player.server), guild.settings().displayName().getString()), false);
+            player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.cadmus.removed", CadmusIntegration.getChunksForGuild(guild, player.server), guild.settings().displayName().getString()), false);
             CadmusIntegration.disbandCadmusTeam(guild, player.server);
         });
     }

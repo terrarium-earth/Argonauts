@@ -13,8 +13,8 @@ import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
+import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.handlers.chat.MessageChannel;
-import earth.terrarium.argonauts.common.menus.ChatMenu;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,8 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.time.Instant;
 
-public record ServerboundChatWindowPacket(String message) implements Packet<ServerboundChatWindowPacket> {
+public record ServerboundChatWindowPacket(String message,
+                                          ChatMessageType type) implements Packet<ServerboundChatWindowPacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "send_chat_message");
     public static final PacketHandler<ServerboundChatWindowPacket> HANDLER = new Handler();
@@ -42,34 +43,34 @@ public record ServerboundChatWindowPacket(String message) implements Packet<Serv
         @Override
         public void encode(ServerboundChatWindowPacket message, FriendlyByteBuf buffer) {
             buffer.writeUtf(message.message, ChatMessage.MAX_MESSAGE_LENGTH);
+            buffer.writeEnum(message.type);
         }
 
         @Override
         public ServerboundChatWindowPacket decode(FriendlyByteBuf buffer) {
-            return new ServerboundChatWindowPacket(buffer.readUtf(ChatMessage.MAX_MESSAGE_LENGTH));
+            return new ServerboundChatWindowPacket(
+                buffer.readUtf(ChatMessage.MAX_MESSAGE_LENGTH),
+                buffer.readEnum(ChatMessageType.class));
         }
 
         @Override
         public PacketContext handle(ServerboundChatWindowPacket message) {
             return (player, level) -> {
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                var containerMenu = player.containerMenu;
-                if (containerMenu instanceof ChatMenu menu) {
-                    switch (menu.type()) {
-                        case PARTY -> {
-                            Party party = PartyApi.API.get(serverPlayer);
-                            if (party == null) return;
-                            MessageChannel channel = ChatHandler.getChannel(party, menu.type());
-                            sendMessage(serverPlayer, party, message.message, channel);
-                        }
-                        case GUILD -> {
-                            Guild guild = GuildApi.API.get(serverPlayer);
-                            if (guild == null) return;
-                            MessageChannel channel = ChatHandler.getChannel(guild, menu.type());
-                            sendMessage(serverPlayer, guild, message.message, channel);
-                        }
-                        default -> throw new IllegalStateException("Unexpected value: " + menu.type());
+                switch (message.type()) {
+                    case PARTY -> {
+                        Party party = PartyApi.API.get(serverPlayer);
+                        if (party == null) return;
+                        MessageChannel channel = ChatHandler.getChannel(party, message.type());
+                        sendMessage(serverPlayer, party, message.message, channel);
                     }
+                    case GUILD -> {
+                        Guild guild = GuildApi.API.get(serverPlayer);
+                        if (guild == null) return;
+                        MessageChannel channel = ChatHandler.getChannel(guild, message.type());
+                        sendMessage(serverPlayer, guild, message.message, channel);
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + message.type());
                 }
             };
         }

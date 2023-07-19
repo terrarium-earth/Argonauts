@@ -12,9 +12,9 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
-import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
 import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
-import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
+import earth.terrarium.argonauts.common.network.NetworkHandler;
+import earth.terrarium.argonauts.common.network.messages.ClientboundOpenPartySettingsMenuPacket;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
@@ -66,10 +66,11 @@ public final class PartyModCommands {
     }
 
     public static void openSettingsScreen(ServerPlayer player) throws MemberException {
+        if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
+
         Party party = PartyApi.API.get(player);
-        if (party == null) {
-            throw MemberException.YOU_ARE_NOT_IN_PARTY;
-        }
+        if (party == null) throw MemberException.YOU_ARE_NOT_IN_PARTY;
+
         PartyMember member = party.getMember(player);
         if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
             throw MemberException.NO_PERMISSIONS;
@@ -83,11 +84,9 @@ public final class PartyModCommands {
         for (String setting : oldSettings) {
             settings.put(setting, false);
         }
-        BasicContentMenuProvider.open(
+
+        NetworkHandler.CHANNEL.sendToPlayer(new ClientboundOpenPartySettingsMenuPacket(
             new PartySettingsContent(true, settings),
-            ConstantComponents.PARTY_SETTING_TITLE,
-            PartySettingsMenu::new,
-            player
-        );
+            ConstantComponents.PARTY_SETTING_TITLE), player);
     }
 }

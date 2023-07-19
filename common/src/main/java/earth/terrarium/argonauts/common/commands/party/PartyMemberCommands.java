@@ -11,11 +11,11 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
-import earth.terrarium.argonauts.common.menus.BasicContentMenuProvider;
 import earth.terrarium.argonauts.common.menus.party.PartyMembersContent;
-import earth.terrarium.argonauts.common.menus.party.PartyMembersMenu;
 import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
-import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
+import earth.terrarium.argonauts.common.network.NetworkHandler;
+import earth.terrarium.argonauts.common.network.messages.ClientboundOpenPartyMemberMenuPacket;
+import earth.terrarium.argonauts.common.network.messages.ClientboundOpenPartySettingsMenuPacket;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.commands.CommandSourceStack;
@@ -49,24 +49,29 @@ public final class PartyMemberCommands {
     }
 
     public static void openMembersScreen(ServerPlayer player, int selected) throws MemberException {
+        if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
+
         Party party = PartyApi.API.get(player);
-        if (party == null) {
-            throw MemberException.YOU_ARE_NOT_IN_PARTY;
-        }
+        if (party == null) throw MemberException.YOU_ARE_NOT_IN_PARTY;
+
         PartyMember member = party.getMember(player);
-        BasicContentMenuProvider.open(
-            new PartyMembersContent(party.id(), selected, party.members().allMembers(), member.hasPermission(MemberPermissions.MANAGE_MEMBERS), member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)),
-            ConstantComponents.PARTY_MEMBERS_TITLE,
-            PartyMembersMenu::new,
-            player
-        );
+
+        NetworkHandler.CHANNEL.sendToPlayer(new ClientboundOpenPartyMemberMenuPacket(
+            new PartyMembersContent(
+                party.id(),
+                selected,
+                party.members().allMembers(),
+                member.hasPermission(MemberPermissions.MANAGE_MEMBERS),
+                member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)),
+            ConstantComponents.PARTY_MEMBERS_TITLE), player);
     }
 
     public static void openMemberScreen(ServerPlayer player) throws MemberException {
+        if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
+
         Party party = PartyApi.API.get(player);
-        if (party == null) {
-            throw MemberException.YOU_ARE_NOT_IN_PARTY;
-        }
+        if (party == null) throw MemberException.YOU_ARE_NOT_IN_PARTY;
+
         PartyMember member = party.getMember(player);
         Object2BooleanMap<String> settings = new Object2BooleanLinkedOpenHashMap<>();
         Set<String> oldSettings = new HashSet<>(member.settings().settings());
@@ -77,11 +82,9 @@ public final class PartyMemberCommands {
         for (String setting : oldSettings) {
             settings.put(setting, false);
         }
-        BasicContentMenuProvider.open(
+
+        NetworkHandler.CHANNEL.sendToPlayer(new ClientboundOpenPartySettingsMenuPacket(
             new PartySettingsContent(false, settings),
-            ConstantComponents.MEMBER_SETTINGS_TITLE,
-            PartySettingsMenu::new,
-            player
-        );
+            ConstantComponents.MEMBER_SETTINGS_TITLE), player);
     }
 }

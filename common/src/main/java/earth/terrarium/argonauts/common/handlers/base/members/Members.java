@@ -23,7 +23,12 @@ public abstract class Members<T extends Member> implements Iterable<T> {
         return this.members.get(uuid);
     }
 
+    public int size() {
+        return this.members.size();
+    }
+
     public abstract void add(GameProfile profile);
+
 
     public void invite(GameProfile profile) {
         this.members.put(profile.getId(), factory.createMember(profile, MemberState.INVITED));

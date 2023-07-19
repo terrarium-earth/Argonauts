@@ -13,6 +13,7 @@ logoFile = "icon.png"
 authors = "Alex Nijjar, ThatGravyBoat"
 credits = ""
 description = "A guild and party mod to work and play together with your teammates on a server!"
+displayTest="IGNORE_ALL_VERSION"
 
 [[dependencies.argonauts]]
 modId = "forge"

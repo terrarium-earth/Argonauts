@@ -18,9 +18,8 @@ public final class GuildChatCommands {
 
     public static void openChatScreen(ServerPlayer player) throws MemberException {
         Guild guild = GuildApi.API.get(player);
-        if (guild == null) {
-            throw MemberException.YOU_ARE_NOT_IN_GUILD;
-        }
+        if (guild == null) throw MemberException.YOU_ARE_NOT_IN_GUILD;
+
         ChatCommands.openChatScreen(player,
             guild,
             ChatMessageType.GUILD,

@@ -9,7 +9,6 @@ import earth.terrarium.argonauts.common.compat.cadmus.CadmusIntegration;
 import earth.terrarium.argonauts.common.compat.heracles.HeraclesIntegration;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
-import earth.terrarium.argonauts.common.registries.ModMenus;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +19,6 @@ public class Argonauts {
     public static final String MOD_ID = "argonauts";
 
     public static void init() {
-        ModMenus.MENUS.init();
         NetworkHandler.init();
         if (isCadmusLoaded()) {
             CadmusIntegration.init();

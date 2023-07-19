@@ -7,11 +7,11 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
+import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,10 +36,10 @@ public final class ManageCommands {
                     }
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         group.members().invite(target.getGameProfile());
-                        player.displayClientMessage(Component.translatable("text.argonauts.invited", target.getName().getString()), false);
-                        target.displayClientMessage(Component.translatable("text.argonauts.member." + kind + "_invite", player.getName().getString()), false);
+                        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.invited", target.getName().getString()), false);
+                        target.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member." + kind + "_invite", player.getName().getString()), false);
                         target.displayClientMessage(ConstantComponents.CLICK_HERE_TO_JOIN.copy().withStyle(Style.EMPTY
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("text.argonauts.member.join", group.displayName())))
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ModUtils.serverTranslation("text.argonauts.member.join", group.displayName())))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + kind + " join " + player.getGameProfile().getName()))), false);
                     } else {
                         throw youCantManageMembersException;

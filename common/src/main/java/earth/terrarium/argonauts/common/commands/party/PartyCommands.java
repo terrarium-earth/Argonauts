@@ -61,9 +61,7 @@ public final class PartyCommands {
                     if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         Consumer<GameProfile> action = subCommand.equals("ignore") ? party.ignored()::add : party.ignored()::remove;
                         profiles.forEach(action);
-                    } else {
-                        throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY;
-                    }
+                    } else throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_PARTY;
                 });
                 return 1;
             }));

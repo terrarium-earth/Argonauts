@@ -28,9 +28,8 @@ public final class GuildHqCommands {
         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
         CommandHelper.runAction(() -> {
             GlobalPos hq = guild.settings().hq().orElse(null);
-            if (hq == null) {
-                throw MemberException.HQ_NOT_SET;
-            }
+            if (hq == null) throw MemberException.HQ_NOT_SET;
+
             if (EventUtils.tpCommand(player, hq.pos())) {
                 player.teleportTo(
                     player.server.getLevel(hq.dimension()),

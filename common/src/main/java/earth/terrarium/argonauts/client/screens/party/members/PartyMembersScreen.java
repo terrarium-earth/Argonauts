@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.client.screens.party.members.guild.members;
+package earth.terrarium.argonauts.client.screens.party.members;
 
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
@@ -6,21 +6,24 @@ import earth.terrarium.argonauts.client.screens.base.members.MembersScreen;
 import earth.terrarium.argonauts.client.screens.base.members.entries.BooleanEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.DividerEntry;
 import earth.terrarium.argonauts.client.utils.MouseLocationFix;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
+import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import earth.terrarium.argonauts.common.menus.base.MembersMenu;
+import earth.terrarium.argonauts.common.menus.base.MembersContent;
+import earth.terrarium.argonauts.common.menus.party.PartyMembersContent;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ServerboundRequestShowCadmusPermissionsPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Collection;
 
 public class PartyMembersScreen extends MembersScreen {
     public boolean showCadmusScreen;
 
-    public PartyMembersScreen(MembersMenu menu, Inventory inventory, Component component) {
-        super(menu, inventory, component);
+    public PartyMembersScreen(MembersContent menuContent, Component displayName) {
+        super(menuContent, displayName);
         NetworkHandler.CHANNEL.sendToServer(new ServerboundRequestShowCadmusPermissionsPacket());
     }
 
@@ -41,7 +44,7 @@ public class PartyMembersScreen extends MembersScreen {
             if (Argonauts.isCadmusLoaded()) {
                 list.addEntry(new DividerEntry(Component.translatable("argonauts.member.cadmus_permissions")));
                 for (String permission : MemberPermissions.CADMUS_PERMISSIONS) {
-                    list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menu.canManagePermissions() && self.hasPermission(permission)));
+                    list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menuContent.canManagePermissions() && self.hasPermission(permission), this::groupType, () -> this.menuContent.getSelected().profile().getId()));
                 }
             }
         }
@@ -55,5 +58,28 @@ public class PartyMembersScreen extends MembersScreen {
     public void refreshPermissions() {
         showCadmusScreen = true;
         this.repositionElements();
+    }
+
+    @Override
+    public GroupType groupType() {
+        return GroupType.PARTY;
+    }
+
+    @Override
+    public void openScreen(int selected) {
+        open(
+            new PartyMembersContent(
+                this.menuContent.id(),
+                selected,
+                this.menuContent.members(),
+                this.menuContent.canManageMembers(),
+                this.menuContent.canManagePermissions()
+            ),
+            ConstantComponents.PARTY_MEMBERS_TITLE
+        );
+    }
+
+    public static void open(MembersContent menuContent, Component displayName) {
+        Minecraft.getInstance().setScreen(new PartyMembersScreen(menuContent, displayName));
     }
 }
