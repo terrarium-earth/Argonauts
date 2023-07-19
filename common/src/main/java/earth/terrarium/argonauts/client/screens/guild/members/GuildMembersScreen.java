@@ -1,11 +1,11 @@
 package earth.terrarium.argonauts.client.screens.guild.members;
 
+import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
 import earth.terrarium.argonauts.client.screens.base.members.MembersScreen;
 import earth.terrarium.argonauts.client.screens.base.members.entries.BooleanEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.DividerEntry;
-import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
@@ -35,7 +35,7 @@ public class GuildMembersScreen extends MembersScreen {
     @Override
     public void additionalEntries(MemberSettingList list, Member member, boolean cantModify, Member self) {
         if (Argonauts.isCadmusLoaded()) {
-            list.addEntry(new DividerEntry(Component.translatable("argonauts.member.cadmus_permissions")));
+            list.addEntry(new DividerEntry(ConstantComponents.CADMUS_PERMISSIONS));
             list.addEntry(new BooleanEntry(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS, member.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS), !cantModify && this.menuContent.canManagePermissions() && self.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS), this::groupType, () -> this.menuContent.getSelected().profile().getId()));
         }
     }

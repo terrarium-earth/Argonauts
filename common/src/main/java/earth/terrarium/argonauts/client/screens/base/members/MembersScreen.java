@@ -1,9 +1,10 @@
 package earth.terrarium.argonauts.client.screens.base.members;
 
+import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.BaseScreen;
 import earth.terrarium.argonauts.client.screens.base.members.entries.*;
-import earth.terrarium.argonauts.client.utils.MouseLocationFix;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
@@ -47,7 +48,7 @@ public abstract class MembersScreen extends BaseScreen<MembersContent> {
             Component status = member.getState() == MemberState.INVITED ? Component.translatable("argonauts.member.status.invited") : Component.translatable("argonauts.member.status.accepted");
             list.addEntry(new TextEntry(Component.translatable("argonauts.member.status.text"), status));
 
-            list.addEntry(new DividerEntry(Component.translatable("argonauts.member.settings")));
+            list.addEntry(new DividerEntry(ConstantComponents.SETTINGS));
 
             var entry = new RoleNameEntry(!cantModify, this::groupType, () -> this.menuContent.getSelected().profile().getId());
             list.addEntry(entry);
@@ -68,7 +69,7 @@ public abstract class MembersScreen extends BaseScreen<MembersContent> {
 
             additionalEntries(list, member, cantModify, self);
 
-            list.addEntry(new DividerEntry(Component.translatable("argonauts.member.actions")));
+            list.addEntry(new DividerEntry(ConstantComponents.ACTIONS));
             list.addEntry(new CommandEntry(
                 Component.translatable("argonauts.member.remove"),
                 Component.translatable("argonauts.member.remove.button"),

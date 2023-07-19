@@ -14,8 +14,13 @@ public class ConstantComponents {
     public static final Component GUILD_MEMBERS_TITLE = Component.translatable("gui.argonauts.guild_members.title");
     public static final Component MEMBER_SETTINGS_TITLE = Component.translatable("gui.argonauts.member_settings.title");
 
-    public static final Component PARTY_CREATE = ModUtils.serverTranslation("text.argonauts.member.party_create");
+    public static final Component CADMUS_PERMISSIONS = Component.translatable("argonauts.member.cadmus_permissions");
+    public static final Component SETTINGS = Component.translatable("argonauts.member.settings");
+    public static final Component ACTIONS = Component.translatable("argonauts.member.actions");
+    public static final Component LEAVE_PARTY = Component.translatable("argonauts.member.leave_party");
+    public static final Component LEAVE = Component.translatable("argonauts.member.leave");
 
+    public static final Component PARTY_CREATE = ModUtils.serverTranslation("text.argonauts.member.party_create");
 
     public static final Component CLICK_HERE_TO_JOIN = ModUtils.serverTranslation("text.argonauts.member.click_to_join");
 

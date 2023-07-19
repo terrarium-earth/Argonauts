@@ -6,6 +6,9 @@
     "argonauts.member.permissions": "Permissions",
     "argonauts.member.cadmus_permissions": "Cadmus Permissions",
 
+    "argonauts.member.leave_party": "Leave Party",
+    "argonauts.member.leave": "Leave",
+
     "argonauts.permission.manage.members": "Manage Members",
     "argonauts.permission.roles.members": "Manage Member Role",
     "argonauts.permission.permissions.members": "Manage Member Permissions",

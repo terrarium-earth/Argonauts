@@ -1,12 +1,13 @@
 package earth.terrarium.argonauts.client.screens.party.settings;
 
+import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.BaseScreen;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
 import earth.terrarium.argonauts.client.screens.base.members.entries.BooleanEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.CommandEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.DividerEntry;
-import earth.terrarium.argonauts.client.utils.MouseLocationFix;
+import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.menus.party.PartySettingsContent;
 import net.minecraft.client.Minecraft;
@@ -29,12 +30,12 @@ public class PartySettingsScreen extends BaseScreen<PartySettingsContent> {
         super.init();
 
         var list = addRenderableWidget(new MemberSettingList(this.leftPos + 8, this.topPos + 18, 184, 180));
-        list.addEntry(new DividerEntry(Component.literal("Settings")));
+        list.addEntry(new DividerEntry(ConstantComponents.SETTINGS));
         this.menuContent.settings().forEach((setting, value) ->
             list.addEntry(new BooleanEntry("setting", setting, value, true, () -> GroupType.PARTY, () -> null)));
         if (!this.menuContent.partySettings()) {
-            list.addEntry(new DividerEntry(Component.literal("Actions")));
-            list.addEntry(new CommandEntry(Component.literal("Leave Party"), Component.literal("Leave"), "party leave"));
+            list.addEntry(new DividerEntry(ConstantComponents.ACTIONS));
+            list.addEntry(new CommandEntry(ConstantComponents.LEAVE_PARTY, ConstantComponents.LEAVE, "party leave"));
         }
     }
 

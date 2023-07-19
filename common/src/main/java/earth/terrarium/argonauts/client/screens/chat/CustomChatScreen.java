@@ -2,13 +2,13 @@ package earth.terrarium.argonauts.client.screens.chat;
 
 import com.google.common.primitives.UnsignedInteger;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.BaseScreen;
 import earth.terrarium.argonauts.client.screens.chat.embeds.EmbedHandler;
 import earth.terrarium.argonauts.client.screens.chat.messages.ChatMemberList;
 import earth.terrarium.argonauts.client.screens.chat.messages.ChatMessagesList;
 import earth.terrarium.argonauts.client.utils.ClientUtils;
-import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.menus.ChatContent;
 import earth.terrarium.argonauts.common.network.NetworkHandler;

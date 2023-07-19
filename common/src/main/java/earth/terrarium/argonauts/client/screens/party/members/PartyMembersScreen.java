@@ -1,11 +1,11 @@
 package earth.terrarium.argonauts.client.screens.party.members;
 
+import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.base.members.MemberSettingList;
 import earth.terrarium.argonauts.client.screens.base.members.MembersScreen;
 import earth.terrarium.argonauts.client.screens.base.members.entries.BooleanEntry;
 import earth.terrarium.argonauts.client.screens.base.members.entries.DividerEntry;
-import earth.terrarium.argonauts.client.utils.MouseLocationFix;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
