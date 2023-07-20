@@ -2,8 +2,10 @@ package earth.terrarium.argonauts.common.utils.fabric;
 
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.utils.UnsafeUtils;
+import earth.terrarium.argonauts.compat.fabric.placeholderapi.ArgonautsPlaceholders;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
 
@@ -27,5 +29,9 @@ public class ModUtilsImpl {
             }
         } catch (Throwable ignored) {}
         return fakePlayers;
+    }
+
+    public static Component getParsedComponent(Component component, ServerPlayer player) {
+        return ArgonautsPlaceholders.getPlaceholder(component, player);
     }
 }

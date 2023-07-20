@@ -1,6 +1,6 @@
 package earth.terrarium.argonauts.common.constants;
 
-import earth.terrarium.cadmus.common.util.ModUtils;
+import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
@@ -20,22 +20,22 @@ public class ConstantComponents {
     public static final Component LEAVE_PARTY = Component.translatable("argonauts.member.leave_party");
     public static final Component LEAVE = Component.translatable("argonauts.member.leave");
 
-    public static final Component PARTY_CREATE = ModUtils.serverTranslation("text.argonauts.member.party_create");
+    public static final Component PARTY_CREATE = CommonUtils.serverTranslatable("text.argonauts.member.party_create");
 
-    public static final Component CLICK_HERE_TO_JOIN = ModUtils.serverTranslation("text.argonauts.member.click_to_join");
+    public static final Component CLICK_HERE_TO_JOIN = CommonUtils.serverTranslatable("text.argonauts.member.click_to_join");
 
-    public static final Component MOTD = ModUtils.serverTranslation("text.argonauts.member.motd");
-    public static final Component MOTD_HEADER = ModUtils.serverTranslation("text.argonauts.member.motd_header").copy().setStyle(Style.EMPTY
+    public static final Component MOTD = CommonUtils.serverTranslatable("text.argonauts.member.motd");
+    public static final Component MOTD_HEADER = CommonUtils.serverTranslatable("text.argonauts.member.motd_header").copy().setStyle(Style.EMPTY
         .withColor(ChatFormatting.GRAY)
         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ConstantComponents.MOTD)));
 
-    public static final Component LINE = ModUtils.serverTranslation("text.argonauts.member.line").copy().setStyle(Style.EMPTY
+    public static final Component LINE = CommonUtils.serverTranslatable("text.argonauts.member.line").copy().setStyle(Style.EMPTY
         .withStrikethrough(true)
         .withColor(ChatFormatting.GRAY));
-    public static final Component OWNER = ModUtils.serverTranslation("text.argonauts.member.owner").copy().setStyle(Style.EMPTY
+    public static final Component OWNER = CommonUtils.serverTranslatable("text.argonauts.member.owner").copy().setStyle(Style.EMPTY
         .withStrikethrough(true)
         .withColor(ChatFormatting.GRAY));
-    public static final Component MEMBERS = ModUtils.serverTranslation("text.argonauts.member.members").copy().setStyle(Style.EMPTY
+    public static final Component MEMBERS = CommonUtils.serverTranslatable("text.argonauts.member.members").copy().setStyle(Style.EMPTY
         .withStrikethrough(true)
         .withColor(ChatFormatting.GRAY));
 

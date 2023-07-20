@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
@@ -17,6 +18,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+
+import java.util.Locale;
 
 public final class GuildSettingsCommands {
 
@@ -125,7 +128,7 @@ public final class GuildSettingsCommands {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
                         }
                         guild.settings().setColor(color);
-                        player.displayClientMessage(setCurrentComponent("color", guild.color().name().toLowerCase()), false);
+                        player.displayClientMessage(setCurrentComponent("color", guild.color().name().toLowerCase(Locale.ROOT)), false);
                     });
                     return 1;
                 }))
@@ -133,7 +136,7 @@ public final class GuildSettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
-                    player.displayClientMessage(getCurrentComponent("color", guild.color().name().toLowerCase()), false);
+                    player.displayClientMessage(getCurrentComponent("color", guild.color().name().toLowerCase(Locale.ROOT)), false);
                 });
                 return 1;
             });
@@ -153,10 +156,10 @@ public final class GuildSettingsCommands {
     }
 
     private static Component getCurrentComponent(String command, Object value) {
-        return ModUtils.serverTranslation("text.argonauts.guild_settings.current", command, value);
+        return CommonUtils.serverTranslatable("text.argonauts.guild_settings.current", command, value);
     }
 
     private static Component setCurrentComponent(String command, Object value) {
-        return ModUtils.serverTranslation("text.argonauts.guild_settings.set", command, value);
+        return CommonUtils.serverTranslatable("text.argonauts.guild_settings.set", command, value);
     }
 }

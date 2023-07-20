@@ -8,13 +8,25 @@ val common: Configuration by configurations.creating {
     configurations["developmentFabric"].extendsFrom(this)
 }
 
+repositories {
+    maven {
+        url = uri("https://maven.nucleoid.xyz/")
+        content {
+            includeGroup("eu.pb4")
+        }
+    }
+}
+
 dependencies {
     val minecraftVersion: String by project
     val fabricLoaderVersion: String by project
     val fabricApiVersion: String by project
+    val placeholderApiVersion: String by project
 
     modImplementation(group = "net.fabricmc", name = "fabric-loader", version = fabricLoaderVersion)
     modApi(group = "net.fabricmc.fabric-api", name = "fabric-api", version = "$fabricApiVersion+$minecraftVersion")
+    include(modImplementation(group = "eu.pb4", name = "placeholder-api", version = "$placeholderApiVersion+1.20"))
+
 
     common(project(":common", configuration = "namedElements")) {
         isTransitive = false

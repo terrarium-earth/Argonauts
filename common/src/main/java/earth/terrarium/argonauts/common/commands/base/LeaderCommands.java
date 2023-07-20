@@ -2,10 +2,10 @@ package earth.terrarium.argonauts.common.commands.base;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -27,7 +27,7 @@ public final class LeaderCommands {
                     group.members().forEach(p -> {
                         ServerPlayer groupMember = player.server.getPlayerList().getPlayer(p.profile().getId());
                         if (groupMember != null) {
-                            groupMember.displayClientMessage(ModUtils.serverTranslation("text.argonauts.member.disband", group.displayName()), false);
+                            groupMember.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.disband", group.displayName()), false);
                         }
                     });
                 });
@@ -44,8 +44,8 @@ public final class LeaderCommands {
                 CommandHelper.runAction(() -> {
                     if (group.members().isLeader(player.getUUID())) {
                         CommandHelper.runAction(() -> group.members().setLeader(target.getUUID()));
-                        player.displayClientMessage(ModUtils.serverTranslation("text.argonauts.leader.transfer", group.displayName(), target.getGameProfile().getName()), false);
-                        target.displayClientMessage(ModUtils.serverTranslation("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(), group.displayName()), false);
+                        player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.leader.transfer", group.displayName(), target.getGameProfile().getName()), false);
+                        target.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(), group.displayName()), false);
                     } else {
                         throw youAreNotTheLeaderOfGroup;
                     }
