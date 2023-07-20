@@ -10,7 +10,6 @@ import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
-import earth.terrarium.argonauts.common.menus.party.PartySettingsMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -48,17 +47,13 @@ public record ServerboundSetSettingPacket(String setting,
             return (player, level) ->
                 CommandHelper.runNetworkAction(player, () -> {
                     Party party = PartyApi.API.get(player);
-                    if (player.containerMenu instanceof PartySettingsMenu menu && party != null) {
-                        PartyMember member = party.getMember(player);
-                        if (menu.isPartyScreen()) {
-                            if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
-                                throw MemberException.NO_PERMISSIONS;
-                            }
-                            party.settings().set(message.setting, message.value);
-                        } else {
-                            member.settings().set(message.setting, message.value);
-                        }
+                    if (party == null) return;
+
+                    PartyMember member = party.getMember(player);
+                    if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
+                        throw MemberException.NO_PERMISSIONS;
                     }
+                    party.settings().set(message.setting, message.value);
                 });
         }
     }

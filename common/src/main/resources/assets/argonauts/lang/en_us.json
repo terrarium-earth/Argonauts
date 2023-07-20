@@ -43,8 +43,8 @@
     "text.argonauts.party_name": "%s's Party",
     "text.argonauts.invited": "You've invited %s",
 
-    "text.argonauts.guild_settings.current": "Setting %s is currently set to: \"%s\"",
-    "text.argonauts.guild_settings.set": "Setting %s is now set to: \"%s\"",
+    "text.argonauts.settings.current": "Setting %s is currently set to: \"%s\"",
+    "text.argonauts.settings.set": "Setting %s is now set to: \"%s\"",
 
     "text.argonauts.leader.transfer": "You've transferred \"%s\" to %s",
     "text.argonauts.leader.transfer_receive": "%s has transferred ownership of \"%s\" to you",

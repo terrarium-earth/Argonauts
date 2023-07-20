@@ -9,6 +9,7 @@ import net.minecraft.commands.Commands;
 
 public class ModCommands {
 
+    @SuppressWarnings("unused")
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx, Commands.CommandSelection environment) {
         PartyCommand.register(dispatcher);
         PartyCommands.register(dispatcher);
@@ -16,6 +17,7 @@ public class ModCommands {
         PartyManageCommands.register(dispatcher);
         PartyModCommands.register(dispatcher);
         PartyMemberCommands.register(dispatcher);
+        PartySettingsCommands.register(dispatcher);
         PartyChatCommands.register(dispatcher);
 
         GuildCommand.register(dispatcher);

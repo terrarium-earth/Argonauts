@@ -156,10 +156,10 @@ public final class GuildSettingsCommands {
     }
 
     private static Component getCurrentComponent(String command, Object value) {
-        return CommonUtils.serverTranslatable("text.argonauts.guild_settings.current", command, value);
+        return CommonUtils.serverTranslatable("text.argonauts.settings.current", command, value);
     }
 
     private static Component setCurrentComponent(String command, Object value) {
-        return CommonUtils.serverTranslatable("text.argonauts.guild_settings.set", command, value);
+        return CommonUtils.serverTranslatable("text.argonauts.settings.set", command, value);
     }
 }
