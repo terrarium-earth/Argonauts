@@ -70,7 +70,7 @@ public record ServerboundSetPermissionPacket(String permission,
                     if (!member.hasPermission(MemberPermissions.MANAGE_PERMISSIONS)) {
                         throw MemberException.NO_PERMISSIONS;
                     }
-                    Member selected = group.getMember(player);
+                    Member selected = group.getMember(message.member());
                     if (selected != null && !selected.getState().isLeader()) {
                         if (!member.hasPermission(message.permission)) {
                             throw MemberException.YOU_CANT_GIVE_PERMISSIONS;

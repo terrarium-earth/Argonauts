@@ -17,7 +17,11 @@ public abstract class Group<T extends Member> {
 
     public abstract boolean isPublic();
 
-    public abstract T getMember(Player player) throws MemberException;
+    public T getMember(Player player) throws MemberException {
+        return this.getMember(player.getUUID());
+    }
+
+    public abstract T getMember(UUID player) throws MemberException;
 
     public UUID id() {return id;}
 

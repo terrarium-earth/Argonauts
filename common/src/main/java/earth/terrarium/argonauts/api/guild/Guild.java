@@ -29,11 +29,11 @@ public final class Guild extends Group<GuildMember> {
     }
 
     @Override
-    public GuildMember getMember(Player player) throws MemberException {
-        if (!this.members().isMember(player.getUUID())) {
+    public GuildMember getMember(UUID player) throws MemberException {
+        if (!this.members().isMember(player)) {
             throw MemberException.YOU_ARE_NOT_IN_THIS_GUILD;
         }
-        return this.members().get(player.getUUID());
+        return this.members().get(player);
     }
 
     public GuildSettings settings() {return settings;}

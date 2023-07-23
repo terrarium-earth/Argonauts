@@ -33,11 +33,11 @@ public final class Party extends Group<PartyMember> {
     }
 
     @Override
-    public PartyMember getMember(Player player) throws MemberException {
-        if (!this.members().isMember(player.getUUID())) {
+    public PartyMember getMember(UUID player) throws MemberException {
+        if (!this.members().isMember(player)) {
             throw MemberException.YOU_ARE_NOT_IN_THIS_PARTY;
         }
-        return this.members().get(player.getUUID());
+        return this.members().get(player);
     }
 
     public PartySettings settings() {return settings;}
