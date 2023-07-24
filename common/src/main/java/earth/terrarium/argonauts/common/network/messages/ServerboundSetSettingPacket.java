@@ -13,8 +13,10 @@ import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public record ServerboundSetSettingPacket(String setting,
-                                          boolean value) implements Packet<ServerboundSetSettingPacket> {
+import java.util.UUID;
+
+public record ServerboundSetSettingPacket(String setting, boolean value,
+                                          UUID member) implements Packet<ServerboundSetSettingPacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "set_setting");
     public static final PacketHandler<ServerboundSetSettingPacket> HANDLER = new Handler();
@@ -35,25 +37,29 @@ public record ServerboundSetSettingPacket(String setting,
         public void encode(ServerboundSetSettingPacket message, FriendlyByteBuf buffer) {
             buffer.writeUtf(message.setting);
             buffer.writeBoolean(message.value);
+            buffer.writeUUID(message.member);
         }
 
         @Override
         public ServerboundSetSettingPacket decode(FriendlyByteBuf buffer) {
-            return new ServerboundSetSettingPacket(buffer.readUtf(), buffer.readBoolean());
+            return new ServerboundSetSettingPacket(
+                buffer.readUtf(),
+                buffer.readBoolean(),
+                buffer.readUUID());
         }
 
         @Override
         public PacketContext handle(ServerboundSetSettingPacket message) {
             return (player, level) ->
                 CommandHelper.runNetworkAction(player, () -> {
-                    Party party = PartyApi.API.get(player);
+                    Party party = PartyApi.API.getPlayerParty(message.member());
                     if (party == null) return;
 
-                    PartyMember member = party.getMember(player);
+                    PartyMember member = party.getMember(message.member());
                     if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
                         throw MemberException.NO_PERMISSIONS;
                     }
-                    party.settings().set(message.setting, message.value);
+                    member.settings().set(message.setting, message.value);
                 });
         }
     }

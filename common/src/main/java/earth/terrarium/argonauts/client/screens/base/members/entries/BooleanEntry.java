@@ -76,7 +76,10 @@ public class BooleanEntry extends ListEntry {
             if (x > 156 && x < 179) {
                 value = !value;
                 if (prefix.equals("setting")) {
-                    NetworkHandler.CHANNEL.sendToServer(new ServerboundSetSettingPacket(id, value));
+                    NetworkHandler.CHANNEL.sendToServer(new ServerboundSetSettingPacket(
+                        id,
+                        value,
+                        getMember.get()));
                 } else if (prefix.equals("permission")) {
                     NetworkHandler.CHANNEL.sendToServer(new ServerboundSetPermissionPacket(
                         id,

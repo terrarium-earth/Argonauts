@@ -16,6 +16,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class PartySettingsScreen extends BaseScreen<PartySettingsContent> {
 
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/party_settings.png");
@@ -32,7 +34,7 @@ public class PartySettingsScreen extends BaseScreen<PartySettingsContent> {
         var list = addRenderableWidget(new MemberSettingList(this.leftPos + 8, this.topPos + 18, 184, 180));
         list.addEntry(new DividerEntry(ConstantComponents.SETTINGS));
         this.menuContent.settings().forEach((setting, value) ->
-            list.addEntry(new BooleanEntry("setting", setting, value, true, () -> GroupType.PARTY, () -> null)));
+            list.addEntry(new BooleanEntry("setting", setting, value, true, () -> GroupType.PARTY, () -> Objects.requireNonNull(Minecraft.getInstance().player).getUUID())));
         if (!this.menuContent.partySettings()) {
             list.addEntry(new DividerEntry(ConstantComponents.ACTIONS));
             list.addEntry(new CommandEntry(ConstantComponents.LEAVE_PARTY, ConstantComponents.LEAVE, "party leave"));

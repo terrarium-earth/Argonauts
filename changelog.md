@@ -1,3 +1,6 @@
+# -----{ 0.1.3 }-----
+- Fix party member Passive TP Setting not being applied
+
 # -----{ 0.1.2 }-----
 - Fix permission menu not saving.
 
