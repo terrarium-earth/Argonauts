@@ -88,9 +88,9 @@ public record ServerboundChatWindowPacket(String message,
 
         for (Member member : group.members()) {
             var memberPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
-            if (memberPlayer != null) {
-                NetworkHandler.CHANNEL.sendToPlayer(packet, memberPlayer);
-            }
+            if (memberPlayer == null) continue;
+            if (!NetworkHandler.CHANNEL.canSendPlayerPackets(memberPlayer)) continue;
+            NetworkHandler.CHANNEL.sendToPlayer(packet, memberPlayer);
         }
     }
 }

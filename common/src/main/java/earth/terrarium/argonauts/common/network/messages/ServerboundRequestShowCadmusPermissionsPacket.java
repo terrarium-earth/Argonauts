@@ -49,9 +49,11 @@ public record ServerboundRequestShowCadmusPermissionsPacket() implements Packet<
                 Guild guild = GuildApi.API.getPlayerGuild(player.getServer(), player.getUUID());
                 if (guild == null) return;
                 Member member = guild.members().get(player.getUUID());
-                if (member.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS) || member.getState().isLeader()) {
-                    NetworkHandler.CHANNEL.sendToPlayer(new ClientboundReceiveShowCadmusPermissionsPacket(), player);
+                if (!member.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS) && !member.getState().isLeader()) {
+                    return;
                 }
+                if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) return;
+                NetworkHandler.CHANNEL.sendToPlayer(new ClientboundReceiveShowCadmusPermissionsPacket(), player);
             };
         }
     }

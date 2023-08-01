@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component;
 import java.util.Collection;
 
 public class PartyMembersScreen extends MembersScreen {
-    public boolean showCadmusScreen;
+    private boolean showCadmusScreen;
 
     public PartyMembersScreen(MembersContent menuContent, Component displayName) {
         super(menuContent, displayName);
@@ -40,13 +40,12 @@ public class PartyMembersScreen extends MembersScreen {
 
     @Override
     public void additionalEntries(MemberSettingList list, Member member, boolean cantModify, Member self) {
-        if (showCadmusScreen) {
-            if (Argonauts.isCadmusLoaded()) {
-                list.addEntry(new DividerEntry(Component.translatable("argonauts.member.cadmus_permissions")));
-                for (String permission : MemberPermissions.CADMUS_PERMISSIONS) {
-                    list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menuContent.canManagePermissions() && self.hasPermission(permission), this::groupType, () -> this.menuContent.getSelected().profile().getId()));
-                }
-            }
+        if (!showCadmusScreen) return;
+        if (!Argonauts.isCadmusLoaded()) return;
+
+        list.addEntry(new DividerEntry(Component.translatable("argonauts.member.cadmus_permissions")));
+        for (String permission : MemberPermissions.CADMUS_PERMISSIONS) {
+            list.addEntry(new BooleanEntry(permission, member.hasPermission(permission), !cantModify && this.menuContent.canManagePermissions() && self.hasPermission(permission), this::groupType, () -> this.menuContent.getSelected().profile().getId()));
         }
     }
 
@@ -55,7 +54,7 @@ public class PartyMembersScreen extends MembersScreen {
         return MemberPermissions.CADMUS_PERMISSIONS;
     }
 
-    public void refreshPermissions() {
+    public void showCadmusPermissions() {
         showCadmusScreen = true;
         this.repositionElements();
     }

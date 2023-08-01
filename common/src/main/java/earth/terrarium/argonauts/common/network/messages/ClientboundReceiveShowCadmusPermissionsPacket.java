@@ -39,7 +39,7 @@ public record ClientboundReceiveShowCadmusPermissionsPacket() implements Packet<
         public PacketContext handle(ClientboundReceiveShowCadmusPermissionsPacket message) {
             return (player, level) -> {
                 if (Minecraft.getInstance().screen instanceof PartyMembersScreen screen) {
-                    screen.refreshPermissions();
+                    screen.showCadmusPermissions();
                 }
             };
         }
