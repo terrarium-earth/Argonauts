@@ -13,7 +13,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ColorArgument;
-import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
@@ -36,11 +35,11 @@ public final class GuildSettingsCommands {
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> hq() {
         return Commands.literal("hq")
-            .then(Commands.argument("value", BlockPosArgument.blockPos())
+            .then(Commands.literal("set")
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        BlockPos pos = BlockPosArgument.getBlockPos(context, "value");
+                        BlockPos pos = player.blockPosition();
                         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         if (!guild.members().isLeader(player.getUUID())) {
                             throw MemberException.YOU_ARE_NOT_THE_OWNER_OF_GUILD;
