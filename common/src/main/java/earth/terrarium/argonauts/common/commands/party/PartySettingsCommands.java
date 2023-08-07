@@ -40,7 +40,7 @@ public class PartySettingsCommands {
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> publicParty() {
-        return Commands.literal(DefaultPartySettings.PUBLIC)
+        return Commands.literal("publicParty")
             .then(Commands.argument("value", BoolArgumentType.bool())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
@@ -52,8 +52,8 @@ public class PartySettingsCommands {
                             throw MemberException.NO_PERMISSIONS;
                         }
 
-                        party.settings().set(DefaultPartySettings.PUBLIC, publicParty);
-                        player.displayClientMessage(setCurrentComponent("public party", publicParty), false);
+                        party.settings().set("publicParty", publicParty);
+                        player.displayClientMessage(setCurrentComponent("publicParty", publicParty), false);
                     });
                     return 1;
                 }))
@@ -61,15 +61,15 @@ public class PartySettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                    boolean publicParty = party.settings().settings().contains(DefaultPartySettings.PUBLIC);
-                    player.displayClientMessage(getCurrentComponent("public party", publicParty), false);
+                    boolean publicParty = party.settings().settings().contains("publicParty");
+                    player.displayClientMessage(getCurrentComponent("publicParty", publicParty), false);
                 });
                 return 1;
             });
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> friendlyFire() {
-        return Commands.literal(DefaultPartySettings.FRIENDLY_FIRE)
+        return Commands.literal("friendlyFire")
             .then(Commands.argument("value", BoolArgumentType.bool())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
@@ -81,8 +81,8 @@ public class PartySettingsCommands {
                             throw MemberException.NO_PERMISSIONS;
                         }
 
-                        party.settings().set(DefaultPartySettings.FRIENDLY_FIRE, friendlyFire);
-                        player.displayClientMessage(setCurrentComponent("friendly fire", friendlyFire), false);
+                        party.settings().set("friendlyFire", friendlyFire);
+                        player.displayClientMessage(setCurrentComponent("friendlyFire", friendlyFire), false);
                     });
                     return 1;
                 }))
@@ -90,15 +90,15 @@ public class PartySettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                    boolean friendlyFire = party.settings().settings().contains(DefaultPartySettings.FRIENDLY_FIRE);
-                    player.displayClientMessage(getCurrentComponent("friendly fire", friendlyFire), false);
+                    boolean friendlyFire = party.settings().settings().contains("friendlyFire");
+                    player.displayClientMessage(getCurrentComponent("friendlyFire", friendlyFire), false);
                 });
                 return 1;
             });
     }
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> passiveTeleport() {
-        return Commands.literal(DefaultPartySettings.PASSIVE_TP)
+        return Commands.literal("passiveTeleport")
             .then(Commands.argument("value", BoolArgumentType.bool())
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
@@ -110,8 +110,8 @@ public class PartySettingsCommands {
                             throw MemberException.NO_PERMISSIONS;
                         }
 
-                        party.settings().set(DefaultPartySettings.PASSIVE_TP, passiveTeleport);
-                        player.displayClientMessage(setCurrentComponent("passive teleport", passiveTeleport), false);
+                        party.settings().set("passiveTeleport", passiveTeleport);
+                        player.displayClientMessage(setCurrentComponent("passiveTeleport", passiveTeleport), false);
                     });
                     return 1;
                 }))
@@ -119,8 +119,8 @@ public class PartySettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                    boolean passiveTeleport = party.settings().settings().contains(DefaultPartySettings.PASSIVE_TP);
-                    player.displayClientMessage(getCurrentComponent("passive teleport", passiveTeleport), false);
+                    boolean passiveTeleport = party.settings().settings().contains("passiveTeleport");
+                    player.displayClientMessage(getCurrentComponent("passiveTeleport", passiveTeleport), false);
                 });
                 return 1;
             });

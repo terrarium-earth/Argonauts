@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.UUID;
 
 public record ServerboundSetSettingPacket(String setting, boolean value,
-                                          UUID member) implements Packet<ServerboundSetSettingPacket> {
+                                          UUID member, boolean partySettings) implements Packet<ServerboundSetSettingPacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "set_setting");
     public static final PacketHandler<ServerboundSetSettingPacket> HANDLER = new Handler();
@@ -38,6 +38,7 @@ public record ServerboundSetSettingPacket(String setting, boolean value,
             buffer.writeUtf(message.setting);
             buffer.writeBoolean(message.value);
             buffer.writeUUID(message.member);
+            buffer.writeBoolean(message.partySettings);
         }
 
         @Override
@@ -45,7 +46,8 @@ public record ServerboundSetSettingPacket(String setting, boolean value,
             return new ServerboundSetSettingPacket(
                 buffer.readUtf(),
                 buffer.readBoolean(),
-                buffer.readUUID());
+                buffer.readUUID(),
+                buffer.readBoolean());
         }
 
         @Override
@@ -59,7 +61,11 @@ public record ServerboundSetSettingPacket(String setting, boolean value,
                     if (!member.hasPermission(MemberPermissions.MANAGE_SETTINGS)) {
                         throw MemberException.NO_PERMISSIONS;
                     }
-                    member.settings().set(message.setting, message.value);
+                    if (message.partySettings()) {
+                        party.settings().set(message.setting, message.value);
+                    } else {
+                        member.settings().set(message.setting, message.value);
+                    }
                 });
         }
     }

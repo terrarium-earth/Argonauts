@@ -47,4 +47,8 @@ public abstract class BaseScreen<T extends MenuContent<T>> extends BaseCursorScr
     protected abstract void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY);
 
     protected abstract void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY);
+
+    public T menuContent() {
+        return this.menuContent;
+    }
 }
