@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import org.jetbrains.annotations.Nullable;
 
@@ -125,5 +126,17 @@ public class ArgonautsTeamProvider implements TeamProvider {
     public void onTeamRemoved(MinecraftServer server, String id) {
         TeamProvider.super.onTeamRemoved(server, id);
         server.getAllLevels().forEach(l -> ClaimHandler.clear(l, ClaimHandler.TEAM_PREFIX + id));
+    }
+
+    @Override
+    public boolean canModifySettings(String id, Player player) {
+        Guild guild = GuildApi.API.get(player.getServer(), UUID.fromString(id));
+        if (guild == null) return false;
+        try {
+            GuildMember member = guild.getMember(player.getUUID());
+            return member != null && member.hasPermission(MemberPermissions.MANAGE_SETTINGS);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

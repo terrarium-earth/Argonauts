@@ -41,6 +41,7 @@ subprojects {
         maven(url = "https://maven.architectury.dev/")
         maven(url = "https://maven.minecraftforge.net/")
         maven(url = "https://maven.resourcefulbees.com/repository/maven-public/")
+        mavenLocal()
     }
 
     dependencies {
