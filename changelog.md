@@ -1,1 +1,3 @@
 - Fix settings screen not saving
+- Fix hq taking an argument as a setting
+- Implement Cadmus personal settings permissions
