@@ -2,6 +2,12 @@ architectury {
     forge()
 }
 
+loom {
+    forge {
+        mixinConfig("argonauts-common.mixins.json")
+    }
+}
+
 val common: Configuration by configurations.creating {
     configurations.compileClasspath.get().extendsFrom(this)
     configurations.runtimeClasspath.get().extendsFrom(this)

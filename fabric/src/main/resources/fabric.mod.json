@@ -29,6 +29,9 @@
             "earth.terrarium.argonauts.client.compat.rei.ArgonautsReiClientPlugin"
         ]
     },
+    "mixins": [
+        "argonauts-common.mixins.json"
+    ],
     "depends": {
         "fabric": "*",
         "minecraft": ">=1.20",

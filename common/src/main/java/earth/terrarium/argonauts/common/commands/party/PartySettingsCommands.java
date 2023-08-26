@@ -52,7 +52,7 @@ public class PartySettingsCommands {
                             throw MemberException.NO_PERMISSIONS;
                         }
 
-                        party.settings().set("publicParty", publicParty);
+                        party.settings().set(DefaultPartySettings.PUBLIC, publicParty);
                         player.displayClientMessage(setCurrentComponent("publicParty", publicParty), false);
                     });
                     return 1;
@@ -61,7 +61,7 @@ public class PartySettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                    boolean publicParty = party.settings().settings().contains("publicParty");
+                    boolean publicParty = party.settings().settings().contains(DefaultPartySettings.PUBLIC);
                     player.displayClientMessage(getCurrentComponent("publicParty", publicParty), false);
                 });
                 return 1;
@@ -81,7 +81,7 @@ public class PartySettingsCommands {
                             throw MemberException.NO_PERMISSIONS;
                         }
 
-                        party.settings().set("friendlyFire", friendlyFire);
+                        party.settings().set(DefaultPartySettings.FRIENDLY_FIRE, friendlyFire);
                         player.displayClientMessage(setCurrentComponent("friendlyFire", friendlyFire), false);
                     });
                     return 1;
@@ -90,7 +90,7 @@ public class PartySettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                    boolean friendlyFire = party.settings().settings().contains("friendlyFire");
+                    boolean friendlyFire = party.settings().settings().contains(DefaultPartySettings.FRIENDLY_FIRE);
                     player.displayClientMessage(getCurrentComponent("friendlyFire", friendlyFire), false);
                 });
                 return 1;
@@ -110,7 +110,7 @@ public class PartySettingsCommands {
                             throw MemberException.NO_PERMISSIONS;
                         }
 
-                        party.settings().set("passiveTeleport", passiveTeleport);
+                        party.settings().set(DefaultPartySettings.PASSIVE_TP, passiveTeleport);
                         player.displayClientMessage(setCurrentComponent("passiveTeleport", passiveTeleport), false);
                     });
                     return 1;
@@ -119,7 +119,7 @@ public class PartySettingsCommands {
                 ServerPlayer player = context.getSource().getPlayerOrException();
                 CommandHelper.runAction(() -> {
                     Party party = PartyCommandHelper.getPartyOrThrow(player, false);
-                    boolean passiveTeleport = party.settings().settings().contains("passiveTeleport");
+                    boolean passiveTeleport = party.settings().settings().contains(DefaultPartySettings.PASSIVE_TP);
                     player.displayClientMessage(getCurrentComponent("passiveTeleport", passiveTeleport), false);
                 });
                 return 1;

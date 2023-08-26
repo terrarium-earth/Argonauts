@@ -1,3 +1,2 @@
-- Fix settings screen not saving
-- Fix hq taking an argument as a setting
-- Implement Cadmus personal settings permissions
+- Fix friendly fire not doing anything in parties
+- Fix party settings command setting incorrect values

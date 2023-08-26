@@ -44,6 +44,10 @@ public final class Party extends Group<PartyMember> {
 
     public IgnoredPartyMembers ignored() {return ignored;}
 
+    public boolean friendlyFireEnabled() {
+        return this.settings.has(DefaultPartySettings.FRIENDLY_FIRE);
+    }
+
     @Override
     public Component displayName() {
         return CommonUtils.serverTranslatable("text.argonauts.party_name", this.members().getLeader().profile().getName());
