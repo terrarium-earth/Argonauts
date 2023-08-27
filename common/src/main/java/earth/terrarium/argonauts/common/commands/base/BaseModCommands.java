@@ -64,14 +64,11 @@ public final class BaseModCommands {
     public static void tpAllMembers(Group<?> group, ServerPlayer target) {
         PlayerList list = target.server.getPlayerList();
         for (Member member : group.members()) {
-            if (member.profile().getId().equals(target.getUUID())) {
-                continue;
-            }
+            if (member.profile().getId().equals(target.getUUID())) continue;
             ServerPlayer player = list.getPlayer(member.profile().getId());
-            if (player != null) {
-                if (EventUtils.tpCommand(player, target.blockPosition())) {
-                    player.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
-                }
+            if (player == null) continue;
+            if (EventUtils.tpCommand(player, target.blockPosition())) {
+                player.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
             }
         }
     }

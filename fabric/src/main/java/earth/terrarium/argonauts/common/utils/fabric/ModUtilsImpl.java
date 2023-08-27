@@ -10,14 +10,13 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.*;
 
 public class ModUtilsImpl {
-
     private static Collection<FakePlayer> fakePlayerCache;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static List<Pair<UUID, Component>> getFakePlayers() {
         List<Pair<UUID, Component>> fakePlayers = new ArrayList<>();
         try {
-            var ignored = FakePlayer.class.getName();
+            var ignored = FakePlayer.class.getName(); // Force class loading
             Collection<FakePlayer> fakePlayerMap;
             if (fakePlayerCache == null) {
                 fakePlayerCache = ((Map) UnsafeUtils.getStaticField(FakePlayer.class, "FAKE_PLAYER_MAP")).values();

@@ -16,7 +16,7 @@ public class ModUtilsImpl {
     public static List<Pair<UUID, Component>> getFakePlayers() {
         List<Pair<UUID, Component>> fakePlayers = new ArrayList<>();
         try {
-            var ignored = FakePlayerFactory.class.getName();
+            var ignored = FakePlayerFactory.class.getName(); // Force class loading
             Collection<FakePlayer> fakePlayerMap;
             if (fakePlayerCache == null) {
                 fakePlayerCache = ((Map) UnsafeUtils.getStaticField(FakePlayerFactory.class, "FAKE_PLAYER_MAP")).values();

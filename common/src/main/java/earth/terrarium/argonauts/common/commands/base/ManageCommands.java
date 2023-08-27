@@ -34,16 +34,16 @@ public final class ManageCommands {
                     if (group.members().isMember(target.getUUID())) {
                         throw alreadyInGroupException;
                     }
-                    if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
-                        group.members().invite(target.getGameProfile());
-                        player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.invited", target.getName().getString()), false);
-                        target.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member." + kind + "_invite", player.getName().getString()), false);
-                        target.displayClientMessage(ConstantComponents.CLICK_HERE_TO_JOIN.copy().withStyle(Style.EMPTY
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, CommonUtils.serverTranslatable("text.argonauts.member.join", group.displayName())))
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + kind + " join " + player.getGameProfile().getName()))), false);
-                    } else {
+                    if (!member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         throw youCantManageMembersException;
                     }
+
+                    group.members().invite(target.getGameProfile());
+                    player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.invited", target.getName().getString()), false);
+                    target.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member." + kind + "_invite", player.getName().getString()), false);
+                    target.displayClientMessage(ConstantComponents.CLICK_HERE_TO_JOIN.copy().withStyle(Style.EMPTY
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, CommonUtils.serverTranslatable("text.argonauts.member.join", group.displayName())))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + kind + " join " + player.getGameProfile().getName()))), false);
                 });
                 return 1;
             }));
@@ -57,17 +57,17 @@ public final class ManageCommands {
                 var group = groupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     Member member = group.getMember(player);
-                    if (member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
-                        if (player.getUUID().equals(target.getUUID())) {
-                            throw youCantRemoveYourselfFromGroupException;
-                        }
-                        if (group.members().isLeader(target.getUUID())) {
-                            throw youCantRemoveGroupLeaderException;
-                        }
-                        action.remove(group.id(), target);
-                    } else {
+                    if (!member.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                         throw youCantManageMembersInGroupException;
                     }
+                    if (player.getUUID().equals(target.getUUID())) {
+                        throw youCantRemoveYourselfFromGroupException;
+                    }
+                    if (group.members().isLeader(target.getUUID())) {
+                        throw youCantRemoveGroupLeaderException;
+                    }
+
+                    action.remove(group.id(), target);
                 });
                 return 1;
             }));

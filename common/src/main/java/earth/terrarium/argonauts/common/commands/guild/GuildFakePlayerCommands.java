@@ -31,7 +31,7 @@ public class GuildFakePlayerCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("guild")
-            .then(Commands.literal("fakePlayers")
+            .then(Commands.literal("fakeplayers")
                 .then(add())
                 .then(remove())
             ));
@@ -39,17 +39,18 @@ public class GuildFakePlayerCommands {
 
     public static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> add() {
         return Commands.literal("add")
-            .then(Commands.argument("value", UuidArgument.uuid())
+            .then(Commands.argument("uuid", UuidArgument.uuid())
                 .suggests(SUGGESTION_PROVIDER)
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        UUID id = UuidArgument.getUuid(context, "value");
+                        UUID id = UuidArgument.getUuid(context, "uuid");
                         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         GuildMember guildMember = guild.members().get(player.getUUID());
                         if (guildMember == null) throw MemberException.YOU_ARE_NOT_IN_GUILD;
-                        if (!guildMember.hasPermission(MemberPermissions.MANAGE_MEMBERS))
+                        if (!guildMember.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                             throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD;
+                        }
                         ((GuildMembers) guild.members()).fakePlayers().add(id);
                     });
                     return 1;
@@ -58,17 +59,18 @@ public class GuildFakePlayerCommands {
 
     public static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> remove() {
         return Commands.literal("remove")
-            .then(Commands.argument("value", UuidArgument.uuid())
+            .then(Commands.argument("uuid", UuidArgument.uuid())
                 .suggests(CURRENT_FAKE_PLAYERS_SUGGESTION_PROVIDER)
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     CommandHelper.runAction(() -> {
-                        UUID id = UuidArgument.getUuid(context, "value");
+                        UUID id = UuidArgument.getUuid(context, "uuid");
                         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
                         GuildMember guildMember = guild.members().get(player.getUUID());
                         if (guildMember == null) throw MemberException.YOU_ARE_NOT_IN_GUILD;
-                        if (!guildMember.hasPermission(MemberPermissions.MANAGE_MEMBERS))
+                        if (!guildMember.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                             throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD;
+                        }
                         ((GuildMembers) guild.members()).fakePlayers().remove(id);
                     });
                     return 1;

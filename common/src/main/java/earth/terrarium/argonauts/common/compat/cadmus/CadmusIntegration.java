@@ -3,10 +3,8 @@ package earth.terrarium.argonauts.common.compat.cadmus;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.cadmus.api.teams.TeamProviderApi;
-import earth.terrarium.cadmus.common.claims.ClaimHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 public class CadmusIntegration {
@@ -33,15 +31,5 @@ public class CadmusIntegration {
         if (TeamProviderApi.API.getSelected() instanceof ArgonautsTeamProvider provider) {
             provider.onTeamRemoved(server, guild.id().toString());
         }
-    }
-
-    public static int getChunksForGuild(Guild guild, MinecraftServer server) {
-        int claims = 0;
-        for (ServerLevel allLevel : server.getAllLevels()) {
-            var teamClaims = ClaimHandler.getTeamClaims(allLevel, guild.id().toString());
-            if (teamClaims == null) continue;
-            claims += teamClaims.size();
-        }
-        return claims;
     }
 }
