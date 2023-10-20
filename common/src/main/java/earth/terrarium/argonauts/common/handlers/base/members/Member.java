@@ -2,6 +2,7 @@ package earth.terrarium.argonauts.common.handlers.base.members;
 
 import com.mojang.authlib.GameProfile;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +20,13 @@ public abstract class Member {
         this.profile = profile;
         this.state = state;
         this.permissions.addAll(permissions);
+    }
+
+    public Member(GameProfile gameProfile, Collection<String> strings, MemberState memberState, String role) {
+        this.profile = gameProfile;
+        this.state = memberState;
+        this.permissions.addAll(strings);
+        this.role = role;
     }
 
     public GameProfile profile() {

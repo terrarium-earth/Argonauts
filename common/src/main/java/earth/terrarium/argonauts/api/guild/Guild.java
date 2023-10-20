@@ -1,5 +1,7 @@
 package earth.terrarium.argonauts.api.guild;
 
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
@@ -11,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
-public final class Guild extends Group<GuildMember> {
+public final class Guild extends Group<GuildMember, GuildMembers> {
     private final GuildSettings settings;
 
     public Guild(UUID id, GuildSettings settings, GuildMembers members) {
@@ -50,4 +52,11 @@ public final class Guild extends Group<GuildMember> {
     public ChatFormatting color() {
         return this.settings.color();
     }
+
+    public static final ByteCodec<Guild> BYTE_CODEC = ObjectByteCodec.create(
+        ByteCodec.UUID.fieldOf(Guild::id),
+        GuildSettings.BYTE_CODEC.fieldOf(Guild::settings),
+        GuildMembers.BYTE_CODEC.fieldOf(Guild::members),
+        Guild::new
+    );
 }

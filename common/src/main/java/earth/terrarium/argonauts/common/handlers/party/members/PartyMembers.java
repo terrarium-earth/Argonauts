@@ -6,8 +6,6 @@ import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 import earth.terrarium.argonauts.common.handlers.base.members.Members;
 import net.minecraft.Optionull;
 
-import java.util.UUID;
-
 public class PartyMembers extends Members<PartyMember> {
 
     public PartyMembers(GameProfile leader) {
@@ -26,15 +24,15 @@ public class PartyMembers extends Members<PartyMember> {
     }
 
     @Override
-    public void setLeader(UUID uuid) throws MemberException {
-        if (!isMember(uuid)) {
+    public void setLeader(GameProfile leader) throws MemberException {
+        if (!isMember(leader.getId())) {
             throw MemberException.YOU_CANT_SET_LEADER_TO_NON_PARTY_MEMBER;
         }
-        if (this.leader.equals(uuid)) {
+        if (this.leader.equals(leader)) {
             throw MemberException.YOU_CANT_SET_LEADER_TO_CURRENT_LEADER;
         }
         forEach(member -> member.setState(MemberState.MEMBER));
-        this.members.get(uuid).setState(MemberState.OWNER);
-        this.leader = uuid;
+        this.members.get(leader.getId()).setState(MemberState.OWNER);
+        this.leader = leader;
     }
 }

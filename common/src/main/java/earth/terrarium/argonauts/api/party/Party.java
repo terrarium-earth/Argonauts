@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
-public final class Party extends Group<PartyMember> {
+public final class Party extends Group<PartyMember, PartyMembers> {
     private final PartySettings settings;
     private final IgnoredPartyMembers ignored;
 

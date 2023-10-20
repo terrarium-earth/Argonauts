@@ -16,7 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.UUID;
 
 public record ServerboundSetSettingPacket(String setting, boolean value,
-                                          UUID member, boolean partySettings) implements Packet<ServerboundSetSettingPacket> {
+                                          UUID member,
+                                          boolean partySettings) implements Packet<ServerboundSetSettingPacket> {
 
     public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "set_setting");
     public static final PacketHandler<ServerboundSetSettingPacket> HANDLER = new Handler();

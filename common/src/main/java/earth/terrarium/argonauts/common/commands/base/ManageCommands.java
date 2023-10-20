@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public final class ManageCommands {
 
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite(String kind, MemberException youCantManageMembersException, MemberException alreadyInGroupException, CommandHelper.GetGroupAction<M, T> groupAction) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> invite(String kind, MemberException youCantManageMembersException, MemberException alreadyInGroupException, CommandHelper.GetGroupAction<M, T> groupAction) {
         return Commands.literal("invite").then(Commands.argument("player", EntityArgument.player())
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
@@ -49,7 +49,7 @@ public final class ManageCommands {
             }));
     }
 
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> remove(MemberException youCantRemoveYourselfFromGroupException, MemberException youCantRemoveGroupLeaderException, MemberException youCantManageMembersInGroupException, CommandHelper.GetGroupAction<M, T> groupAction, RemoveAction action) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> remove(MemberException youCantRemoveYourselfFromGroupException, MemberException youCantRemoveGroupLeaderException, MemberException youCantManageMembersInGroupException, CommandHelper.GetGroupAction<M, T> groupAction, RemoveAction action) {
         return Commands.literal("remove").then(Commands.argument("player", EntityArgument.player())
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();

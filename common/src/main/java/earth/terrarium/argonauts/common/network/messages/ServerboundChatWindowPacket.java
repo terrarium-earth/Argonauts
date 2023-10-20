@@ -76,7 +76,7 @@ public record ServerboundChatWindowPacket(String message,
         }
     }
 
-    private static void sendMessage(ServerPlayer player, Group<?> group, String message, MessageChannel channel) {
+    private static void sendMessage(ServerPlayer player, Group<?, ?> group, String message, MessageChannel channel) {
         ChatMessage chatMessage = new ChatMessage(
             player.getGameProfile(),
             message,

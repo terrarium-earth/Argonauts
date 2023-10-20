@@ -13,7 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class LeaderCommands {
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband(CommandHelper.GetGroupAction<M, T> getGroupAction, RemoveAction<M, T> removeAction, MemberException youAreNotTheLeaderOfGroup) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> disband(CommandHelper.GetGroupAction<M, T> getGroupAction, RemoveAction<M, T> removeAction, MemberException youAreNotTheLeaderOfGroup) {
         return Commands.literal("disband")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
@@ -35,7 +35,7 @@ public final class LeaderCommands {
             });
     }
 
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> transfer(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException youAreNotTheLeaderOfGroup) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> transfer(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException youAreNotTheLeaderOfGroup) {
         return Commands.literal("transfer").then(Commands.argument("player", EntityArgument.player())
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
@@ -43,7 +43,7 @@ public final class LeaderCommands {
                 var group = getGroupAction.getGroup(player, false);
                 CommandHelper.runAction(() -> {
                     if (group.members().isLeader(player.getUUID())) {
-                        CommandHelper.runAction(() -> group.members().setLeader(target.getUUID()));
+                        CommandHelper.runAction(() -> group.members().setLeader(target.getGameProfile()));
                         player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.leader.transfer", group.displayName(), target.getGameProfile().getName()), false);
                         target.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.leader.transfer_receive", target.getGameProfile().getName(), group.displayName()), false);
                     } else {
@@ -55,7 +55,7 @@ public final class LeaderCommands {
     }
 
     @FunctionalInterface
-    public interface RemoveAction<M extends Member, T extends Group<M>> {
+    public interface RemoveAction<M extends Member, T extends Group<M, ?>> {
         void remove(T group, MinecraftServer server) throws MemberException;
     }
 }

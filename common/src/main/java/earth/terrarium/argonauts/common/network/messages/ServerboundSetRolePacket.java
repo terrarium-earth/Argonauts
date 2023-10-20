@@ -55,7 +55,7 @@ public record ServerboundSetRolePacket(String role, GroupType type,
         public PacketContext handle(ServerboundSetRolePacket message) {
             return (player, level) ->
                 CommandHelper.runNetworkAction(player, () -> {
-                    Group<?> group = null;
+                    Group<?, ?> group = null;
                     if (message.type == GroupType.GUILD) {
                         group = GuildApi.API.get((ServerPlayer) player);
                     } else if (message.type == GroupType.PARTY) {

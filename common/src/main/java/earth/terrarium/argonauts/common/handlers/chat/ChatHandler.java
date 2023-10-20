@@ -16,11 +16,11 @@ public class ChatHandler {
         return CHANNELS.computeIfAbsent(type, t -> new HashMap<>());
     }
 
-    public static MessageChannel getChannel(Group<?> group, ChatMessageType type) {
+    public static MessageChannel getChannel(Group<?, ?> group, ChatMessageType type) {
         return getChannels(type).computeIfAbsent(group.id(), i -> new MessageChannel(type));
     }
 
-    public static void remove(Group<?> group, ChatMessageType type) {
+    public static void remove(Group<?, ?> group, ChatMessageType type) {
         getChannels(type).remove(group.id());
     }
 }

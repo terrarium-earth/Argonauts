@@ -50,7 +50,7 @@ public final class CommandHelper {
     }
 
     @FunctionalInterface
-    public interface GetGroupAction<M extends Member, T extends Group<M>> {
+    public interface GetGroupAction<M extends Member, T extends Group<M, ?>> {
         T getGroup(ServerPlayer player, boolean otherPlayer);
     }
 }

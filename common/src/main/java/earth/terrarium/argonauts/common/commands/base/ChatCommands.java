@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ChatCommands {
-    public static void openChatScreen(ServerPlayer player, Group<?> group, ChatMessageType type, Component title) throws MemberException {
+    public static void openChatScreen(ServerPlayer player, Group<?, ?> group, ChatMessageType type, Component title) throws MemberException {
         if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
 
         List<String> usernames = new ArrayList<>();

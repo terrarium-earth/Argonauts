@@ -6,11 +6,11 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
-public abstract class Group<T extends Member> {
+public abstract class Group<T extends Member, U extends Members<T>> {
     private final UUID id;
-    private final Members<T> members;
+    private final U members;
 
-    public Group(UUID id, Members<T> members) {
+    public Group(UUID id, U members) {
         this.id = id;
         this.members = members;
     }
@@ -25,7 +25,7 @@ public abstract class Group<T extends Member> {
 
     public UUID id() {return id;}
 
-    public Members<T> members() {return members;}
+    public U members() {return members;}
 
     public abstract Component displayName();
 }

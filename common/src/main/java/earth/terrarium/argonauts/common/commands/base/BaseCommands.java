@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.UUID;
 
 public final class BaseCommands {
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> leave(CommandHelper.GetGroupAction<M, T> getGroupAction, RemoveAction removeAction) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> leave(CommandHelper.GetGroupAction<M, T> getGroupAction, RemoveAction removeAction) {
         return Commands.literal("leave")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
@@ -23,7 +23,7 @@ public final class BaseCommands {
             });
     }
 
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> join(CommandHelper.GetGroupAction<M, T> getGroupAction, JoinAction joinAction) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> join(CommandHelper.GetGroupAction<M, T> getGroupAction, JoinAction joinAction) {
         return Commands.literal("join").then(Commands.argument("player", EntityArgument.player())
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
@@ -41,6 +41,6 @@ public final class BaseCommands {
 
     @FunctionalInterface
     public interface JoinAction {
-        void join(Group<?> group, ServerPlayer player) throws MemberException;
+        void join(Group<?, ?> group, ServerPlayer player) throws MemberException;
     }
 }

@@ -9,11 +9,11 @@ import java.util.*;
 
 public abstract class Members<T extends Member> implements Iterable<T> {
     protected final Map<UUID, T> members = new HashMap<>();
-    protected UUID leader;
+    protected GameProfile leader;
     private final Factory<T> factory;
 
     public Members(GameProfile leader, Factory<T> factory) {
-        this.leader = leader.getId();
+        this.leader = leader;
         this.members.put(leader.getId(), factory.createMember(leader, MemberState.OWNER));
         this.factory = factory;
     }
@@ -38,10 +38,14 @@ public abstract class Members<T extends Member> implements Iterable<T> {
         this.members.remove(uuid);
     }
 
-    public abstract void setLeader(UUID uuid) throws MemberException;
+    public abstract void setLeader(GameProfile leader) throws MemberException;
 
     public T getLeader() {
-        return this.members.get(this.leader);
+        return this.members.get(this.leader.getId());
+    }
+
+    public GameProfile leader() {
+        return this.leader;
     }
 
     public boolean isMember(UUID uuid) {
@@ -53,7 +57,7 @@ public abstract class Members<T extends Member> implements Iterable<T> {
     }
 
     public boolean isLeader(UUID uuid) {
-        return this.leader.equals(uuid);
+        return this.leader.getId().equals(uuid);
     }
 
     public List<T> allMembers() {

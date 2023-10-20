@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 
 public final class BaseModCommands {
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> tp(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException notInSameGroupException, MemberException youCantTpMembersInGroupException, AdditionalChecks<M, T> additionalChecks) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> tp(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException notInSameGroupException, MemberException youCantTpMembersInGroupException, AdditionalChecks<M, T> additionalChecks) {
         return Commands.literal("tp")
             .then(Commands.argument("player", EntityArgument.player())
                 .executes(context -> {
@@ -44,7 +44,7 @@ public final class BaseModCommands {
                 }));
     }
 
-    public static <M extends Member, T extends Group<M>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> warp(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException youCantTpMembersException) {
+    public static <M extends Member, T extends Group<M, ?>> ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> warp(CommandHelper.GetGroupAction<M, T> getGroupAction, MemberException youCantTpMembersException) {
         return Commands.literal("warp")
             .executes(context -> {
                 ServerPlayer player = context.getSource().getPlayerOrException();
@@ -61,7 +61,7 @@ public final class BaseModCommands {
             });
     }
 
-    public static void tpAllMembers(Group<?> group, ServerPlayer target) {
+    public static void tpAllMembers(Group<?, ?> group, ServerPlayer target) {
         PlayerList list = target.server.getPlayerList();
         for (Member member : group.members()) {
             if (member.profile().getId().equals(target.getUUID())) continue;
@@ -74,7 +74,7 @@ public final class BaseModCommands {
     }
 
     @FunctionalInterface
-    public interface AdditionalChecks<M extends Member, T extends Group<M>> {
+    public interface AdditionalChecks<M extends Member, T extends Group<M, ?>> {
         void check(T group, Member targetMember) throws MemberException;
     }
 }

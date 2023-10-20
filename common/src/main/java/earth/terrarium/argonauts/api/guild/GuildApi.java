@@ -28,7 +28,7 @@ public interface GuildApi {
      *
      * @param server The server.
      * @param id     The id of the guild.
-     * @return The guild with the given id.
+     * @return The guild with the given id, or null if the guild does not exist.
      */
     @Nullable
     Guild get(MinecraftServer server, UUID id);
@@ -37,7 +37,7 @@ public interface GuildApi {
      * Gets the guild the player is in.
      *
      * @param player The player to get the guild for.
-     * @return The guild the player is in.
+     * @return The guild the player is in, or null if the player is not in a guild.
      */
     @Nullable
     Guild get(ServerPlayer player);
@@ -47,7 +47,7 @@ public interface GuildApi {
      *
      * @param server The server.
      * @param player The player to get the guild for.
-     * @return The guild the player is in.
+     * @return The guild the player is in, or null if the player is not in a guild.
      */
     @Nullable
     Guild getPlayerGuild(MinecraftServer server, UUID player);

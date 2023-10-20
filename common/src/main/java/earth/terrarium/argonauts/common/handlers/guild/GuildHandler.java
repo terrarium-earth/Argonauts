@@ -11,6 +11,8 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.handlers.guild.settings.GuildSettings;
+import earth.terrarium.argonauts.common.network.NetworkHandler;
+import earth.terrarium.argonauts.common.network.messages.ClientboundSyncGuildsPacket;
 import earth.terrarium.argonauts.common.utils.EventUtils;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.ChatFormatting;
@@ -20,10 +22,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class GuildHandler extends SaveHandler implements GuildApi {
@@ -88,6 +87,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
         guild.settings().setDisplayName(displayName);
         data.guilds.put(id, guild);
         data.playerGuilds.put(player.getUUID(), id);
+        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncGuildsPacket(Set.of(guild), Set.of()), player.server);
         player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.guild_create", guild.settings().displayName().getString()), false);
 
         EventUtils.created(guild, player);
@@ -146,6 +146,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
 
         guild.members().add(player.getGameProfile());
         data.playerGuilds.put(player.getUUID(), guild.id());
+        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncGuildsPacket(Set.of(guild), Set.of()), player.server);
         player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.guild_join", guild.settings().displayName().getString()), false);
 
         EventUtils.joined(guild, player);
@@ -178,6 +179,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             serverPlayer.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.guild_perspective_leave", player.getName().getString(), guild.settings().displayName().getString()), false);
         }
         data.playerGuilds.remove(player.getUUID());
+        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncGuildsPacket(Set.of(guild), Set.of()), player.server);
 
         EventUtils.left(guild, player);
         if (Argonauts.isCadmusLoaded()) {
@@ -201,6 +203,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
     public void remove(boolean force, Guild guild, MinecraftServer server) {
         var data = read(server);
         data.guilds.remove(guild.id());
+        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncGuildsPacket(Set.of(), Set.of(guild.id())), server);
         EventUtils.removed(force, guild);
         if (Argonauts.isCadmusLoaded()) {
             CadmusIntegration.disbandCadmusTeam(guild, server);

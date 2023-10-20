@@ -7,7 +7,6 @@ import earth.terrarium.argonauts.api.party.Party;
 import earth.terrarium.argonauts.api.party.PartyApi;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
-import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.cadmus.api.claims.InteractionType;
 import earth.terrarium.cadmus.api.teams.TeamProvider;
 import earth.terrarium.cadmus.common.claims.ClaimHandler;
@@ -102,7 +101,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
         if (TeamHelper.isMember(id, server, player)) return true;
         Guild guild = GuildApi.API.get(server, UUID.fromString(id.substring(2)));
         if (guild == null) return false;
-        if (guild.settings().allowFakePlayers() && guild.members() instanceof GuildMembers members && members.fakePlayers().contains(player)) {
+        if (guild.settings().allowFakePlayers() && guild.members().fakePlayers().contains(player)) {
             return true;
         }
 
