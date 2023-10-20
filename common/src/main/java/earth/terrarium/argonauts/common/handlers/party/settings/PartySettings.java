@@ -1,5 +1,8 @@
 package earth.terrarium.argonauts.common.handlers.party.settings;
 
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -20,4 +23,9 @@ public record PartySettings(Set<String> settings) {
             settings.remove(setting);
         }
     }
+
+    public static final ByteCodec<PartySettings> BYTE_CODEC = ObjectByteCodec.create(
+        ByteCodec.STRING.setOf().fieldOf(PartySettings::settings),
+        PartySettings::new
+    );
 }

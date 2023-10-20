@@ -38,7 +38,7 @@ public class GuildMember extends Member {
 
     public static final ByteCodec<GuildMember> BYTE_CODEC = ObjectByteCodec.create(
         GAME_PROFILE_CODEC.fieldOf(GuildMember::profile),
-        ByteCodec.STRING.setOf().fieldOf(Member::permissions),
+        ByteCodec.STRING.setOf().fieldOf(GuildMember::permissions),
         ByteCodec.ofEnum(MemberState.class).fieldOf(GuildMember::getState),
         ByteCodec.STRING.fieldOf(GuildMember::getRole),
         GuildMember::new

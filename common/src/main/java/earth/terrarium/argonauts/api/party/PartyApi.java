@@ -5,8 +5,10 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public interface PartyApi {
@@ -14,12 +16,21 @@ public interface PartyApi {
     PartyApi API = ApiHelper.load(PartyApi.class);
 
     /**
+     * @deprecated Use {@link #createParty(ServerPlayer)} instead.
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20.2")
+    default void createParty(Player player) throws MemberException {
+        createParty((ServerPlayer) player);
+    }
+
+    /**
      * Creates a new party with the given player as the leader.
      *
      * @param player The player to create the party for.
      * @throws MemberException If the player is already in a party.
      */
-    void createParty(Player player) throws MemberException;
+    void createParty(ServerPlayer player) throws MemberException;
 
     /**
      * Gets the party with the given id.
@@ -73,4 +84,11 @@ public interface PartyApi {
      * @param server The server.
      */
     void disband(Party party, MinecraftServer server);
+
+    /**
+     * Gets all parties.
+     *
+     * @return All parties.
+     */
+    Collection<Party> getAll();
 }

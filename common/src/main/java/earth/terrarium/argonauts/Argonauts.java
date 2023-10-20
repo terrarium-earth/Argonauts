@@ -10,6 +10,7 @@ import earth.terrarium.argonauts.common.compat.heracles.HeraclesIntegration;
 import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ClientboundSyncGuildsPacket;
+import earth.terrarium.argonauts.common.network.messages.ClientboundSyncPartiesPacket;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,10 +33,10 @@ public class Argonauts {
         }
     }
 
-    // Message of the day
     public static void onPlayerJoin(Player player) {
         if (player.level().isClientSide()) return;
         NetworkHandler.CHANNEL.sendToPlayer(new ClientboundSyncGuildsPacket(new HashSet<>(GuildApi.API.getAll(player.getServer())), Set.of()), player);
+        NetworkHandler.CHANNEL.sendToPlayer(new ClientboundSyncPartiesPacket(new HashSet<>(PartyApi.API.getAll()), Set.of()), player);
         Guild guild = GuildApi.API.get((ServerPlayer) player);
         if (guild == null) return;
         Component motd = guild.settings().motd();

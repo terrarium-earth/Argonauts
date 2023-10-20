@@ -26,5 +26,6 @@ public class NetworkHandler {
         CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundOpenPartySettingsMenuPacket.ID, ClientboundOpenPartySettingsMenuPacket.HANDLER, ClientboundOpenPartySettingsMenuPacket.class);
 
         CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundSyncGuildsPacket.ID, ClientboundSyncGuildsPacket.HANDLER, ClientboundSyncGuildsPacket.class);
+        CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, ClientboundSyncPartiesPacket.ID, ClientboundSyncPartiesPacket.HANDLER, ClientboundSyncPartiesPacket.class);
     }
 }

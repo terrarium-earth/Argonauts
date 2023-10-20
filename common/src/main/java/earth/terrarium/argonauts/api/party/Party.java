@@ -1,5 +1,7 @@
 package earth.terrarium.argonauts.api.party;
 
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
@@ -52,4 +54,12 @@ public final class Party extends Group<PartyMember, PartyMembers> {
     public Component displayName() {
         return CommonUtils.serverTranslatable("text.argonauts.party_name", this.members().getLeader().profile().getName());
     }
+
+    public static final ByteCodec<Party> BYTE_CODEC = ObjectByteCodec.create(
+        ByteCodec.UUID.fieldOf(Party::id),
+        PartySettings.BYTE_CODEC.fieldOf(Party::settings),
+        PartyMembers.BYTE_CODEC.fieldOf(Party::members),
+        ByteCodec.UUID.setOf().map(IgnoredPartyMembers::new, IgnoredPartyMembers::getIgnored).fieldOf(Party::ignored),
+        Party::new
+    );
 }

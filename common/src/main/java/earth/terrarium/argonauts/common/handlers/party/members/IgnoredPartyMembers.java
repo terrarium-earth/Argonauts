@@ -8,6 +8,12 @@ import java.util.UUID;
 
 public class IgnoredPartyMembers {
 
+    public IgnoredPartyMembers() {}
+
+    public IgnoredPartyMembers(Set<UUID> ignored) {
+        this.ignored.addAll(ignored);
+    }
+
     private final Set<UUID> ignored = new HashSet<>();
 
     public boolean has(UUID uuid) {
@@ -24,5 +30,9 @@ public class IgnoredPartyMembers {
 
     public void clear() {
         this.ignored.clear();
+    }
+
+    public Set<UUID> getIgnored() {
+        return this.ignored;
     }
 }
