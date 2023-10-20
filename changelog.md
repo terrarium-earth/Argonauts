@@ -1,3 +1,1 @@
-- Fix friendly fire not doing anything in parties
-- Fix party settings command setting incorrect values
-- Remove Admin claiming commands as they are now part of Cadmus
+- Add guild and party client API (#9)
