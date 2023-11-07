@@ -4,7 +4,9 @@ import com.google.common.primitives.UnsignedInteger;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.exceptions.NotImplementedException;
+import com.teamresourceful.resourcefullib.common.networking.base.Packet;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
@@ -12,6 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
@@ -76,5 +79,14 @@ public final class ModUtils {
     @ExpectPlatform
     public static Component getParsedComponent(Component component, ServerPlayer player) {
         throw new NotImplementedException();
+    }
+
+    // Sends to all clients that have Argonauts installed
+    public static <T extends Packet<T>> void sendToAllClientPlayers(T packet, MinecraftServer server) {
+        server.getPlayerList().getPlayers().forEach(player -> {
+            if (NetworkHandler.CHANNEL.canSendPlayerPackets(player)) {
+                NetworkHandler.CHANNEL.sendToPlayer(packet, player);
+            }
+        });
     }
 }

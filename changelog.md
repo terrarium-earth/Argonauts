@@ -1,1 +1,1 @@
-- Add guild and party client API (#9)
+- Fix sending packets to client when Argonauts is not installed on client.

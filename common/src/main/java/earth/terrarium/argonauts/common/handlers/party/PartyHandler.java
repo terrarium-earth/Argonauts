@@ -8,8 +8,8 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.chat.ChatHandler;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
-import earth.terrarium.argonauts.common.network.NetworkHandler;
 import earth.terrarium.argonauts.common.network.messages.ClientboundSyncPartiesPacket;
+import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +32,7 @@ public class PartyHandler implements PartyApi {
         Party party = new Party(id, player);
         PARTIES.put(id, party);
         PLAYER_PARTIES.put(player.getUUID(), id);
-        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncPartiesPacket(Set.of(party), Set.of()), player.server);
+        ModUtils.sendToAllClientPlayers(new ClientboundSyncPartiesPacket(Set.of(party), Set.of()), player.server);
         player.displayClientMessage(ConstantComponents.PARTY_CREATE, false);
     }
 
@@ -69,7 +69,7 @@ public class PartyHandler implements PartyApi {
 
             party.members().add(player.getGameProfile());
             PLAYER_PARTIES.put(player.getUUID(), party.id());
-            NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncPartiesPacket(Set.of(party), Set.of()), player.server);
+            ModUtils.sendToAllClientPlayers(new ClientboundSyncPartiesPacket(Set.of(party), Set.of()), player.server);
             player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.party_join", party.members().getLeader().profile().getName()), false);
         } else {
             throw MemberException.NOT_ALLOWED_TO_JOIN_PARTY;
@@ -88,7 +88,7 @@ public class PartyHandler implements PartyApi {
         }
         PLAYER_PARTIES.remove(player.getUUID());
         party.members().remove(player.getUUID());
-        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncPartiesPacket(Set.of(party), Set.of()), player.server);
+        ModUtils.sendToAllClientPlayers(new ClientboundSyncPartiesPacket(Set.of(party), Set.of()), player.server);
 
         player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.party_leave", party.members().getLeader().profile().getName()), false);
 
@@ -102,7 +102,7 @@ public class PartyHandler implements PartyApi {
     @Override
     public void disband(Party party, MinecraftServer server) {
         PARTIES.remove(party.id());
-        NetworkHandler.CHANNEL.sendToAllPlayers(new ClientboundSyncPartiesPacket(Set.of(), Set.of(party.id())), server);
+        ModUtils.sendToAllClientPlayers(new ClientboundSyncPartiesPacket(Set.of(), Set.of(party.id())), server);
         party.members().forEach(member -> {
             if (PLAYER_PARTIES.get(member.profile().getId()) == party.id()) {
                 PLAYER_PARTIES.remove(member.profile().getId());
