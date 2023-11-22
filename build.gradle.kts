@@ -8,7 +8,7 @@ plugins {
     java
     id("maven-publish")
     id("com.teamresourceful.resourcefulgradle") version "0.0.+"
-    id("dev.architectury.loom") version "1.3-SNAPSHOT" apply false
+    id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
 }
@@ -38,10 +38,8 @@ subprojects {
     }
 
     repositories {
-        maven(url = "https://maven.architectury.dev/")
-        maven(url = "https://maven.minecraftforge.net/")
         maven(url = "https://maven.resourcefulbees.com/repository/maven-public/")
-        mavenLocal()
+        maven(url = "https://maven.neoforged.net/releases/")
     }
 
     dependencies {
@@ -58,7 +56,7 @@ subprojects {
 
             officialMojangMappings()
 
-            parchment(create(group = "org.parchmentmc.data", name = "parchment-$minecraftVersion", version = parchmentVersion))
+            parchment(create(group = "org.parchmentmc.data", name = "parchment-1.20.1", version = parchmentVersion))
         })
 
         compileOnly(group = "com.teamresourceful", name = "yabn", version = "1.0.3")
@@ -67,7 +65,7 @@ subprojects {
             "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-$minecraftVersion", version = cadmusVersion) {
                 isTransitive = false
             }
-            "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-$minecraftVersion", version = heraclesVersion) {
+            "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion) {
                 isTransitive = false
             }
 
@@ -77,9 +75,9 @@ subprojects {
             "modLocalRuntime"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-$minecraftVersion", version = cadmusVersion) {
                 isTransitive = false
             }
-            "modLocalRuntime"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-$minecraftVersion", version = heraclesVersion)
+//            "modLocalRuntime"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion)
 
-            "modRuntimeOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-$modLoader", version = reiVersion)
+//            "modRuntimeOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-$modLoader", version = reiVersion)
             "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-api-$modLoader", version = reiVersion)
             "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-default-plugin-$modLoader", version = reiVersion)
         }

@@ -88,12 +88,6 @@ public abstract class MembersScreen extends BaseScreen<MembersContent> {
     public abstract String runRemoveCommand(Member member);
 
     @Override
-    public void render(@NotNull GuiGraphics graphics, int i, int j, float f) {
-        this.renderBackground(graphics);
-        super.render(graphics, i, j, f);
-    }
-
-    @Override
     protected void renderLabels(@NotNull GuiGraphics graphics, int i, int j) {
         graphics.drawString(font, title, this.titleLabelX, this.titleLabelY, 0x404040, false);
     }

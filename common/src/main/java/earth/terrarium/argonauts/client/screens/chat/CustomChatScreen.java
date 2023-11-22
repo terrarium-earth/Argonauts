@@ -69,10 +69,8 @@ public class CustomChatScreen extends BaseScreen<ChatContent> {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics graphics, int i, int j, float f) {
-        this.renderBackground(graphics);
-        super.render(graphics, i, j, f);
-
+    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(graphics, mouseX, mouseY, partialTick);
         if (this.embedUrl != null) {
             EmbedHandler.handle(graphics, embedUrl);
             this.embedUrl = null;

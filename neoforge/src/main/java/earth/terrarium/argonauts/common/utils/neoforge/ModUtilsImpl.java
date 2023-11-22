@@ -1,11 +1,11 @@
-package earth.terrarium.argonauts.common.utils.forge;
+package earth.terrarium.argonauts.common.utils.neoforge;
 
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.utils.UnsafeUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 
 import java.util.*;
 

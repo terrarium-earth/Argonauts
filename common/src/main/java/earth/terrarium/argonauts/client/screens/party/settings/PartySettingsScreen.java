@@ -42,12 +42,6 @@ public class PartySettingsScreen extends BaseScreen<PartySettingsContent> {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics graphics, int i, int j, float f) {
-        this.renderBackground(graphics);
-        super.render(graphics, i, j, f);
-    }
-
-    @Override
     protected void renderLabels(@NotNull GuiGraphics graphics, int i, int j) {
         graphics.drawString(
             font,

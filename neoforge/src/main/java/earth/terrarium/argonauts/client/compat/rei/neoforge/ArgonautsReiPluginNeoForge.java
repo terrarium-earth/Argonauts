@@ -1,8 +1,7 @@
-package earth.terrarium.argonauts.client.compat.rei.forge;
+package earth.terrarium.argonauts.client.compat.rei.neoforge;
 
 import earth.terrarium.argonauts.client.compat.rei.ArgonautsReiClientPlugin;
 import me.shedaniel.rei.forge.REIPluginClient;
 
 @REIPluginClient
-public class ArgonautsReiPluginForge extends ArgonautsReiClientPlugin {
-}
+public class ArgonautsReiPluginNeoForge extends ArgonautsReiClientPlugin {}

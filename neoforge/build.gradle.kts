@@ -1,33 +1,27 @@
 architectury {
-    forge()
-}
-
-loom {
-    forge {
-        mixinConfig("argonauts-common.mixins.json")
-    }
+    neoForge()
 }
 
 val common: Configuration by configurations.creating {
     configurations.compileClasspath.get().extendsFrom(this)
     configurations.runtimeClasspath.get().extendsFrom(this)
-    configurations["developmentForge"].extendsFrom(this)
+    configurations["developmentNeoForge"].extendsFrom(this)
 }
 
 dependencies {
     val minecraftVersion: String by project
-    val forgeVersion: String by project
+    val neoforgeVersion: String by project
     val reiVersion: String by project
 
-    forge(group = "net.minecraftforge", name = "forge", version = "$minecraftVersion-$forgeVersion")
+    neoForge(group = "net.neoforged", name = "neoforge", version = neoforgeVersion)
 
     modCompileOnly(group = "me.shedaniel", name = "RoughlyEnoughItems-api-forge", version = reiVersion)
-    modLocalRuntime(group = "me.shedaniel", name = "RoughlyEnoughItems-forge", version = reiVersion)
+//    modLocalRuntime(group = "me.shedaniel", name = "RoughlyEnoughItems-forge", version = reiVersion)
 
     common(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    shadowCommon(project(path = ":common", configuration = "transformProductionForge")) {
+    shadowCommon(project(path = ":common", configuration = "transformProductionNeoForge")) {
         isTransitive = false
     }
 

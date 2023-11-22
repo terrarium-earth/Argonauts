@@ -6,7 +6,6 @@ import com.teamresourceful.resourcefullib.client.screens.BaseCursorScreen;
 import com.teamresourceful.resourcefullib.common.menu.MenuContent;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseScreen<T extends MenuContent<T>> extends BaseCursorScreen {
 
@@ -33,10 +32,11 @@ public abstract class BaseScreen<T extends MenuContent<T>> extends BaseCursorScr
         this.topPos = (this.height - this.imageHeight) / 2;
     }
 
-    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    @Override
+    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(graphics, mouseX, mouseY, partialTick);
         this.renderBg(graphics, partialTick, mouseX, mouseY);
         RenderSystem.disableDepthTest();
-        super.render(graphics, mouseX, mouseY, partialTick);
         try (var pose = new CloseablePoseStack(graphics)) {
             pose.translate(this.leftPos, this.topPos, 0.0F);
             this.renderLabels(graphics, mouseX, mouseY);

@@ -72,7 +72,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
     }
 
     public static GuildHandler read(MinecraftServer server) {
-        return read(server.overworld().getDataStorage(), GuildHandler::new, "argonauts_guilds");
+        return read(server.overworld().getDataStorage(), HandlerType.create(GuildHandler::new), "argonauts_guilds");
     }
 
     @Override

@@ -6,14 +6,10 @@ import com.teamresourceful.resourcefullib.common.menu.MenuContent;
 import com.teamresourceful.resourcefullib.common.menu.MenuContentSerializer;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
-import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 
-import java.util.List;
-import java.util.OptionalInt;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class MembersContent implements MenuContent<MembersContent> {
     private final UUID id;
@@ -49,7 +45,7 @@ public abstract class MembersContent implements MenuContent<MembersContent> {
 
     public Member getSelf() {
         for (Member member : this.members()) {
-            if (ModUtils.areProfilesSame(member.profile(), Minecraft.getInstance().getUser().getGameProfile())) {
+            if (Objects.equals(member.profile().getId(), Minecraft.getInstance().getUser().getProfileId())) {
                 return member;
             }
         }

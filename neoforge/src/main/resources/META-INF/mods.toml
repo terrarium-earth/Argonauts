@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[1,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/terrarium-earth/argonauts/issues"
 
@@ -15,23 +15,26 @@ credits = ""
 description = "A guild and party mod to work and play together with your teammates on a server!"
 displayTest="IGNORE_ALL_VERSION"
 
+[[mixins]]
+config = "argonauts-common.mixins.json"
+
 [[dependencies.argonauts]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
-versionRange = "[47,)"
+versionRange = "[20.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.argonauts]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,)"
+versionRange = "[1.20.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.argonauts]]
 modId = "resourcefullib"
 mandatory = true
-versionRange = "[2.1.1,)"
+versionRange = "[2.2.1,)"
 ordering = "NONE"
 side = "BOTH"

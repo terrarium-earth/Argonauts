@@ -1,8 +1,8 @@
-package earth.terrarium.argonauts.forge.events;
+package earth.terrarium.argonauts.neoforge.events;
 
 import earth.terrarium.argonauts.api.guild.Guild;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public class GuildEvent extends Event {
 

@@ -79,11 +79,13 @@ public class MembersList extends SelectionList<MembersList.Entry> {
             if (Minecraft.getInstance().getConnection() != null) {
                 for (PlayerInfo player : Minecraft.getInstance().getConnection().getOnlinePlayers()) {
                     if (ModUtils.areProfilesSame(player.getProfile(), profile)) {
-                        return player.getSkinLocation();
+                        return player.getSkin().texture();
                     }
                 }
             }
-            return profile.getId() == null ? DefaultPlayerSkin.getDefaultSkin() : DefaultPlayerSkin.getDefaultSkin(profile.getId());
+            return profile.getId() == null ?
+                DefaultPlayerSkin.getDefaultTexture() :
+                DefaultPlayerSkin.get(profile.getId()).texture();
         }
 
         @Override
