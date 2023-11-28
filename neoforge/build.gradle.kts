@@ -15,8 +15,8 @@ dependencies {
 
     neoForge(group = "net.neoforged", name = "neoforge", version = neoforgeVersion)
 
-    modCompileOnly(group = "me.shedaniel", name = "RoughlyEnoughItems-api-forge", version = reiVersion)
-//    modLocalRuntime(group = "me.shedaniel", name = "RoughlyEnoughItems-forge", version = reiVersion)
+    modCompileOnly(group = "me.shedaniel", name = "RoughlyEnoughItems-neoforge", version = reiVersion)
+//    modLocalRuntime(group = "me.shedaniel", name = "RoughlyEnoughItems-neoforge", version = reiVersion)
 
     common(project(":common", configuration = "namedElements")) {
         isTransitive = false

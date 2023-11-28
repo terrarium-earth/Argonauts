@@ -1,1 +1,1 @@
-- Fix sending packets to client when Argonauts is not installed on client.
+- 1.20.2
