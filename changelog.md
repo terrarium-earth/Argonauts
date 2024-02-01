@@ -1,3 +1,4 @@
 - 1.20.4 Port.
 - Added guild allies (#12).
 - Added quick chat commands (#11).
+- Guild/party chat messages are now displayed in chat.
