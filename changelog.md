@@ -1,1 +1,2 @@
 - 1.20.4 Port.
+- Added guild allies (#12).

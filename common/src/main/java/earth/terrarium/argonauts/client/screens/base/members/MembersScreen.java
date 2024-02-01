@@ -8,7 +8,6 @@ import earth.terrarium.argonauts.common.constants.ConstantComponents;
 import earth.terrarium.argonauts.common.handlers.GroupType;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import earth.terrarium.argonauts.common.handlers.base.members.MemberState;
 import earth.terrarium.argonauts.common.menus.base.MembersContent;
 import net.minecraft.Optionull;
 import net.minecraft.client.Minecraft;
@@ -45,8 +44,13 @@ public abstract class MembersScreen extends BaseScreen<MembersContent> {
         if (member != null && self != null) {
             boolean cantModify = member.equals(self) || member.getState().isLeader();
 
-            Component status = member.getState() == MemberState.INVITED ? Component.translatable("argonauts.member.status.invited") : Component.translatable("argonauts.member.status.accepted");
-            list.addEntry(new TextEntry(Component.translatable("argonauts.member.status.text"), status));
+            Component status = switch (member.getState()) {
+                case INVITED -> ConstantComponents.INVITED;
+                case ALLIED -> ConstantComponents.ALLIED;
+                default -> ConstantComponents.ACCEPTED;
+            };
+
+            list.addEntry(new TextEntry(ConstantComponents.STATUS, status));
 
             list.addEntry(new DividerEntry(ConstantComponents.SETTINGS));
 
@@ -54,7 +58,7 @@ public abstract class MembersScreen extends BaseScreen<MembersContent> {
             list.addEntry(entry);
             entry.setText(member.getRole());
 
-            list.addEntry(new DividerEntry(Component.translatable("argonauts.member.permissions")));
+            list.addEntry(new DividerEntry(ConstantComponents.PERMISSIONS));
             List<String> leftOver = new ArrayList<>(member.permissions());
             leftOver.remove(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS);
             for (String permission : MemberPermissions.ALL_PERMISSIONS) {
@@ -71,8 +75,8 @@ public abstract class MembersScreen extends BaseScreen<MembersContent> {
 
             list.addEntry(new DividerEntry(ConstantComponents.ACTIONS));
             list.addEntry(new CommandEntry(
-                Component.translatable("argonauts.member.remove"),
-                Component.translatable("argonauts.member.remove.button"),
+                ConstantComponents.REMOVE,
+                ConstantComponents.REMOVE_BUTTON,
                 runRemoveCommand(member),
                 !cantModify && this.menuContent.canManageMembers()
             ));

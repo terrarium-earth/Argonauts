@@ -36,7 +36,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
             .allMembers()
             .stream()
             .map(GuildMember::profile)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
     public boolean isMember(String id, MinecraftServer server, UUID player) {
         var guild = GuildApi.API.get(server, UUID.fromString(id));
         if (guild == null) return id.equals(player.toString());
-        return guild.members().isMember(player);
+        return guild.members().isMember(player) || guild.members().isAllied(player);
     }
 
     @Override

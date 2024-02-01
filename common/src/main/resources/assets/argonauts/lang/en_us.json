@@ -1,7 +1,8 @@
 {
     "argonauts.member.settings": "Settings",
-    "argonauts.member.status.invited": "§6ℹ Invited",
-    "argonauts.member.status.accepted": "§a ✔ Accepted",
+    "argonauts.member.status.allied": "✦ Allied",
+    "argonauts.member.status.invited": "ℹ Invited",
+    "argonauts.member.status.accepted": "✔ Accepted",
     "argonauts.member.status.text": "Member Status: ",
     "argonauts.member.permissions": "Permissions",
     "argonauts.member.cadmus_permissions": "Cadmus Permissions",
@@ -42,6 +43,7 @@
     "text.argonauts.guild_name": "%s's Guild",
     "text.argonauts.party_name": "%s's Party",
     "text.argonauts.invited": "You've invited %s",
+    "text.argonauts.allied": "%s is now allied to your guild",
 
     "text.argonauts.settings.current": "Setting %s is currently set to: \"%s\"",
     "text.argonauts.settings.set": "Setting %s is now set to: \"%s\"",
@@ -51,6 +53,7 @@
 
     "text.argonauts.member.party_invite": "You've been invited to join %s's Party",
     "text.argonauts.member.guild_invite": "You've been invited to join guild: %s",
+    "text.argonauts.member.guild_allied": "You are now allied with %s's Guild",
     "text.argonauts.member.click_to_join": "§bClick here to join",
     "text.argonauts.member.join": "Join \"%s\"",
 
@@ -92,6 +95,7 @@
     "command.argonauts.exception.hq_not_set": "The headquarters have not been set.",
     "command.argonauts.exception.you_cant_invite_yourself": "You can't invite yourself.",
     "command.argonauts.exception.not_installed_on_client": "Argonauts must be installed on the client to use this command.",
+    "command.argonauts.exception.you_cant_ally_yourself": "You can't ally yourself.",
 
     "command.argonauts.exception.already_in_party": "You are already in a party.",
     "command.argonauts.exception.player_already_in_party": "The player is already in a party.",
@@ -125,6 +129,7 @@
     "command.argonauts.exception.you_cant_set_owner_to_non_guild_member": "You can't set the owner to a non-guild member.",
     "command.argonauts.exception.you_cant_set_owner_to_current_owner": "You can't set the owner to the current owner.",
     "command.argonauts.exception.there_are_no_guilds": "There are no guilds.",
+    "command.argonauts.exception.not_an_ally": "This player is not an ally.",
 
     "rei.sections.odyssey": "Project Odyssey",
     "rei.argonauts.party_chat.tooltip": "Open Party Chat",

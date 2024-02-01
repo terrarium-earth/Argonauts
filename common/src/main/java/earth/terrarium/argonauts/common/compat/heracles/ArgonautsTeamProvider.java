@@ -29,7 +29,7 @@ public class ArgonautsTeamProvider implements TeamProvider {
         return Stream.of(guild.members()
             .allMembers()
             .stream()
-            .filter(member -> member.getState() != MemberState.INVITED)
+            .filter(member -> member.getState().isPermanentMember())
             .map(GuildMember::profile)
             .map(GameProfile::getId)
             .filter(uuid -> !uuid.equals(player))

@@ -11,6 +11,7 @@ public class MemberException extends Exception {
     public static final MemberException HQ_NOT_SET = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.hq_not_set"));
     public static final MemberException YOU_CANT_INVITE_YOURSELF = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.you_cant_invite_yourself"));
     public static final MemberException NOT_INSTALLED_ON_CLIENT = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.not_installed_on_client"));
+    public static final MemberException YOU_CANT_ALLY_YOURSELF = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.you_cant_ally_yourself"));
 
     public static final MemberException ALREADY_IN_PARTY = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.already_in_party"));
     public static final MemberException PLAYER_ALREADY_IN_PARTY = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.player_already_in_party"));
@@ -29,6 +30,7 @@ public class MemberException extends Exception {
     public static final MemberException YOU_CANT_SET_LEADER_TO_NON_PARTY_MEMBER = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.you_cant_set_leader_to_non_party_member"));
     public static final MemberException YOU_CANT_SET_LEADER_TO_CURRENT_LEADER = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.you_cant_set_leader_to_current_leader"));
     public static final MemberException THERE_ARE_NO_GUILDS = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.there_are_no_guilds"));
+    public static final MemberException NOT_AN_ALLY = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.not_an_ally"));
 
     public static final MemberException ALREADY_IN_GUILD = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.already_in_guild"));
     public static final MemberException PLAYER_ALREADY_IN_GUILD = new MemberException(CommonUtils.serverTranslatable("command.argonauts.exception.player_already_in_guild"));
