@@ -7,6 +7,7 @@ import com.teamresourceful.resourcefullib.common.network.Packet;
 import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import com.teamresourceful.resourcefullib.common.network.base.ServerboundPacketType;
 import com.teamresourceful.resourcefullib.common.network.defaults.CodecPacketType;
+import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
@@ -19,6 +20,7 @@ import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.handlers.chat.MessageChannel;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -86,6 +88,14 @@ public record ServerboundChatWindowPacket(String message,
         for (Member member : group.members()) {
             var memberPlayer = player.server.getPlayerList().getPlayer(member.profile().getId());
             if (memberPlayer == null) continue;
+            if (member.getState().isPermanentMember()) {
+                Component messageComponent = CommonUtils.serverTranslatable("text.argonauts.chat_message",
+                    group.displayName().getString(),
+                    player.getGameProfile().getName(),
+                    message);
+                memberPlayer.displayClientMessage(messageComponent, false);
+            }
+
             if (!NetworkHandler.CHANNEL.canSendToPlayer(memberPlayer, packet.type())) continue;
             NetworkHandler.CHANNEL.sendToPlayer(packet, memberPlayer);
         }
