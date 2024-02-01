@@ -1,2 +1,3 @@
 - 1.20.4 Port.
 - Added guild allies (#12).
+- Added quick chat commands (#11).
