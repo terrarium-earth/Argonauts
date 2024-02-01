@@ -1,1 +1,2 @@
-- Added guild allies (#12)
+- Added guild allies (#12).
+- Added quick chat commands (#11).
