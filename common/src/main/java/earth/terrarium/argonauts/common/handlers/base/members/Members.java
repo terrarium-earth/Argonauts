@@ -34,6 +34,10 @@ public abstract class Members<T extends Member> implements Iterable<T> {
         this.members.put(profile.getId(), factory.createMember(profile, MemberState.INVITED));
     }
 
+    public void ally(GameProfile profile) {
+        this.members.put(profile.getId(), factory.createMember(profile, MemberState.ALLIED));
+    }
+
     public void remove(UUID uuid) {
         this.members.remove(uuid);
     }
@@ -49,11 +53,15 @@ public abstract class Members<T extends Member> implements Iterable<T> {
     }
 
     public boolean isMember(UUID uuid) {
-        return this.members.containsKey(uuid) && this.members.get(uuid).getState() != MemberState.INVITED;
+        return this.members.containsKey(uuid) && this.members.get(uuid).getState().isPermanentMember();
     }
 
     public boolean isInvited(UUID uuid) {
         return this.members.containsKey(uuid) && this.members.get(uuid).getState() == MemberState.INVITED;
+    }
+
+    public boolean isAllied(UUID uuid) {
+        return this.members.containsKey(uuid) && this.members.get(uuid).getState() == MemberState.ALLIED;
     }
 
     public boolean isLeader(UUID uuid) {
@@ -68,7 +76,7 @@ public abstract class Members<T extends Member> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         List<T> members = new ArrayList<>(this.members.values());
-        members.removeIf(member -> member.getState() == MemberState.INVITED);
+        members.removeIf(member -> !member.getState().isPermanentMember());
         return members.iterator();
     }
 

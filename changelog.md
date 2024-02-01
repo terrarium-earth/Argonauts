@@ -1,1 +1,1 @@
-- Fix REI Party Management not registered
+- Added guild allies (#12)

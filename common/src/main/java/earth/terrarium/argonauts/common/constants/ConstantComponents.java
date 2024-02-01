@@ -42,4 +42,12 @@ public class ConstantComponents {
     public static final Component KEY_OPEN_PARTY_CHAT = Component.translatable("key.argonauts.open_party_chat");
     public static final Component KEY_OPEN_GUILD_CHAT = Component.translatable("key.argonauts.open_guild_chat");
     public static final Component ODYSSEY_CATEGORY = Component.translatable("key.categories.project_odyssey");
+
+    public static final Component ALLIED = Component.translatable("argonauts.member.status.allied").withStyle(ChatFormatting.AQUA);
+    public static final Component INVITED = Component.translatable("argonauts.member.status.invited").withStyle(ChatFormatting.GOLD);
+    public static final Component ACCEPTED = Component.translatable("argonauts.member.status.accepted").withStyle(ChatFormatting.GREEN);
+    public static final Component PERMISSIONS = Component.translatable("argonauts.member.permissions");
+    public static final Component STATUS = Component.translatable("argonauts.member.status.text");
+    public static final Component REMOVE = Component.translatable("argonauts.member.remove");
+    public static final Component REMOVE_BUTTON = Component.translatable("argonauts.member.remove.button");
 }
