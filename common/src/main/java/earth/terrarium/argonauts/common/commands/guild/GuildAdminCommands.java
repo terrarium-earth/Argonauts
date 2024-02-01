@@ -1,6 +1,7 @@
 package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import earth.terrarium.argonauts.api.guild.Guild;
@@ -13,7 +14,6 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class GuildAdminCommands {
@@ -39,7 +39,13 @@ public class GuildAdminCommands {
                 .then(Commands.literal("disbandall")
                     .executes(context -> {
                         ServerPlayer player = context.getSource().getPlayerOrException();
-                        new ArrayList<>(GuildApi.API.getAll(player.server)).forEach(guild -> removeGuild(guild, player));
+                        GuildApi.API.getAll(player.server).forEach(guild -> {
+                            try {
+                                removeGuild(guild, player);
+                            } catch (CommandSyntaxException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
                         return 1;
                     }))
                 .then(Commands.literal("join")
@@ -54,7 +60,7 @@ public class GuildAdminCommands {
             ));
     }
 
-    public static void removeGuild(Guild guild, ServerPlayer player) {
+    public static void removeGuild(Guild guild, ServerPlayer player) throws CommandSyntaxException {
         CommandHelper.runAction(() -> {
             if (guild == null) throw MemberException.GUILD_DOES_NOT_EXIST;
             player.displayClientMessage(CommonUtils.serverTranslatable("text.argonauts.member.guild_disband", guild.settings().displayName().getString()), false);
@@ -68,7 +74,7 @@ public class GuildAdminCommands {
         });
     }
 
-    public static void joinGuild(Guild guild, ServerPlayer player) {
+    public static void joinGuild(Guild guild, ServerPlayer player) throws CommandSyntaxException {
         CommandHelper.runAction(() -> {
             if (guild == null) throw MemberException.GUILD_DOES_NOT_EXIST;
             GuildApi.API.join(guild, player);

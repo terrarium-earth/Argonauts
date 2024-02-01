@@ -1,11 +1,12 @@
 package earth.terrarium.argonauts.common.commands.base;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,11 +24,11 @@ public final class CommandHelper {
                 })));
     }
 
-    public static void runAction(Action action) throws CommandRuntimeException {
+    public static void runAction(Action action) throws CommandSyntaxException {
         try {
             action.run();
         } catch (MemberException e) {
-            throw new CommandRuntimeException(e.message());
+            throw new SimpleCommandExceptionType(e.message()).create();
         }
     }
 
@@ -36,12 +37,14 @@ public final class CommandHelper {
             action.run();
         } catch (MemberException e) {
             player.sendSystemMessage(e.message().copy().withStyle(ChatFormatting.RED));
+        } catch (CommandSyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @FunctionalInterface
     public interface Action {
-        void run() throws MemberException;
+        void run() throws MemberException, CommandSyntaxException;
     }
 
     @FunctionalInterface
@@ -51,6 +54,6 @@ public final class CommandHelper {
 
     @FunctionalInterface
     public interface GetGroupAction<M extends Member, T extends Group<M, ?>> {
-        T getGroup(ServerPlayer player, boolean otherPlayer);
+        T getGroup(ServerPlayer player, boolean otherPlayer) throws CommandSyntaxException;
     }
 }

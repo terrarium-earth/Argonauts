@@ -25,7 +25,7 @@ dependencies {
 
     modImplementation(group = "net.fabricmc", name = "fabric-loader", version = fabricLoaderVersion)
     modApi(group = "net.fabricmc.fabric-api", name = "fabric-api", version = "$fabricApiVersion+$minecraftVersion")
-    include(modImplementation(group = "eu.pb4", name = "placeholder-api", version = "$placeholderApiVersion+1.20"))
+    include(modImplementation(group = "eu.pb4", name = "placeholder-api", version = "$placeholderApiVersion+1.20.3"))
 
 
     common(project(":common", configuration = "namedElements")) {
