@@ -1,8 +1,11 @@
 package earth.terrarium.argonauts.common.network.messages;
 
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
+import com.teamresourceful.resourcefullib.common.network.base.ServerboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.defaults.CodecPacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.guild.GuildApi;
 import earth.terrarium.argonauts.api.party.PartyApi;
@@ -12,53 +15,46 @@ import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.base.members.Group;
 import earth.terrarium.argonauts.common.handlers.base.members.Member;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
-public record ServerboundSetRolePacket(String role, GroupType type,
+public record ServerboundSetRolePacket(String role, GroupType group,
                                        UUID member) implements Packet<ServerboundSetRolePacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "set_role");
-    public static final PacketHandler<ServerboundSetRolePacket> HANDLER = new Handler();
+    public static final ServerboundPacketType<ServerboundSetRolePacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ServerboundSetRolePacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ServerboundSetRolePacket> getHandler() {
-        return HANDLER;
-    }
+    private static class Type extends CodecPacketType<ServerboundSetRolePacket> implements ServerboundPacketType<ServerboundSetRolePacket> {
 
-    private static class Handler implements PacketHandler<ServerboundSetRolePacket> {
-
-        @Override
-        public void encode(ServerboundSetRolePacket message, FriendlyByteBuf buffer) {
-            buffer.writeUtf(message.role);
-            buffer.writeEnum(message.type);
-            buffer.writeUUID(message.member);
+        public Type() {
+            super(
+                ServerboundSetRolePacket.class,
+                new ResourceLocation(Argonauts.MOD_ID, "set_role"),
+                ObjectByteCodec.create(
+                    ByteCodec.STRING.fieldOf(ServerboundSetRolePacket::role),
+                    ByteCodec.ofEnum(GroupType.class).fieldOf(ServerboundSetRolePacket::group),
+                    ByteCodec.UUID.fieldOf(ServerboundSetRolePacket::member),
+                    ServerboundSetRolePacket::new
+                )
+            );
         }
 
         @Override
-        public ServerboundSetRolePacket decode(FriendlyByteBuf buffer) {
-            return new ServerboundSetRolePacket(
-                buffer.readUtf(),
-                buffer.readEnum(GroupType.class),
-                buffer.readUUID());
-        }
-
-        @Override
-        public PacketContext handle(ServerboundSetRolePacket message) {
-            return (player, level) ->
+        public Consumer<Player> handle(ServerboundSetRolePacket packet) {
+            return player ->
                 CommandHelper.runNetworkAction(player, () -> {
                     Group<?, ?> group = null;
-                    if (message.type == GroupType.GUILD) {
+                    if (packet.group == GroupType.GUILD) {
                         group = GuildApi.API.get((ServerPlayer) player);
-                    } else if (message.type == GroupType.PARTY) {
+                    } else if (packet.group == GroupType.PARTY) {
                         group = PartyApi.API.get(player);
                     }
                     if (group == null) return;
@@ -67,9 +63,9 @@ public record ServerboundSetRolePacket(String role, GroupType type,
                     if (!member.hasPermission(MemberPermissions.MANAGE_ROLES)) {
                         throw MemberException.NO_PERMISSIONS;
                     }
-                    Member selected = group.members().get(message.member);
+                    Member selected = group.members().get(packet.member);
                     if (selected != null && !selected.getState().isLeader()) {
-                        selected.setRole(message.role);
+                        selected.setRole(packet.role);
                     }
                 });
         }

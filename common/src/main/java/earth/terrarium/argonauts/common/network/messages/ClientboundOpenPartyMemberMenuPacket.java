@@ -1,8 +1,8 @@
 package earth.terrarium.argonauts.common.network.messages;
 
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.party.members.PartyMembersScreen;
 import earth.terrarium.argonauts.common.menus.party.PartyMembersContent;
@@ -13,20 +13,24 @@ import net.minecraft.resources.ResourceLocation;
 public record ClientboundOpenPartyMemberMenuPacket(PartyMembersContent menuContent,
                                                    Component displayName) implements Packet<ClientboundOpenPartyMemberMenuPacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "open_party_member_menu");
-    public static final PacketHandler<ClientboundOpenPartyMemberMenuPacket> HANDLER = new Handler();
+    public static final ClientboundPacketType<ClientboundOpenPartyMemberMenuPacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ClientboundOpenPartyMemberMenuPacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ClientboundOpenPartyMemberMenuPacket> getHandler() {
-        return HANDLER;
-    }
+    private static class Type implements ClientboundPacketType<ClientboundOpenPartyMemberMenuPacket> {
 
-    private static class Handler implements PacketHandler<ClientboundOpenPartyMemberMenuPacket> {
+        @Override
+        public Class<ClientboundOpenPartyMemberMenuPacket> type() {
+            return ClientboundOpenPartyMemberMenuPacket.class;
+        }
+
+        @Override
+        public ResourceLocation id() {
+            return new ResourceLocation(Argonauts.MOD_ID, "open_party_member_menu");
+        }
 
         @Override
         public void encode(ClientboundOpenPartyMemberMenuPacket message, FriendlyByteBuf buffer) {
@@ -43,8 +47,8 @@ public record ClientboundOpenPartyMemberMenuPacket(PartyMembersContent menuConte
         }
 
         @Override
-        public PacketContext handle(ClientboundOpenPartyMemberMenuPacket message) {
-            return (player, level) -> PartyMembersScreen.open(message.menuContent, message.displayName);
+        public Runnable handle(ClientboundOpenPartyMemberMenuPacket packet) {
+            return () -> PartyMembersScreen.open(packet.menuContent, packet.displayName);
         }
     }
 }

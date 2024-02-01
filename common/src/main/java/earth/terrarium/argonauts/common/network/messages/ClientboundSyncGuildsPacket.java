@@ -2,10 +2,10 @@ package earth.terrarium.argonauts.common.network.messages;
 
 import com.teamresourceful.bytecodecs.base.ByteCodec;
 import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
-import com.teamresourceful.resourcefullib.common.networking.base.CodecPacketHandler;
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
+import com.teamresourceful.resourcefullib.common.network.defaults.CodecPacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.client.handlers.guild.GuildClientApiImpl;
@@ -17,32 +17,29 @@ import java.util.UUID;
 public record ClientboundSyncGuildsPacket(Set<Guild> guilds,
                                           Set<UUID> removed) implements Packet<ClientboundSyncGuildsPacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "sync_guilds");
-    public static final PacketHandler<ClientboundSyncGuildsPacket> HANDLER = new Handler();
+    public static final ClientboundPacketType<ClientboundSyncGuildsPacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ClientboundSyncGuildsPacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ClientboundSyncGuildsPacket> getHandler() {
-        return HANDLER;
-    }
+    private static class Type extends CodecPacketType<ClientboundSyncGuildsPacket> implements ClientboundPacketType<ClientboundSyncGuildsPacket> {
 
-    private static class Handler extends CodecPacketHandler<ClientboundSyncGuildsPacket> {
-
-        public Handler() {
-            super(ObjectByteCodec.create(
-                Guild.BYTE_CODEC.setOf().fieldOf(ClientboundSyncGuildsPacket::guilds),
-                ByteCodec.UUID.setOf().fieldOf(ClientboundSyncGuildsPacket::removed),
-                ClientboundSyncGuildsPacket::new
-            ));
+        public Type() {
+            super(
+                ClientboundSyncGuildsPacket.class,
+                new ResourceLocation(Argonauts.MOD_ID, "sync_guilds"),
+                ObjectByteCodec.create(
+                    Guild.BYTE_CODEC.setOf().fieldOf(ClientboundSyncGuildsPacket::guilds),
+                    ByteCodec.UUID.setOf().fieldOf(ClientboundSyncGuildsPacket::removed),
+                    ClientboundSyncGuildsPacket::new
+                ));
         }
 
         @Override
-        public PacketContext handle(ClientboundSyncGuildsPacket message) {
-            return (player, level) -> GuildClientApiImpl.update(message.guilds, message.removed);
+        public Runnable handle(ClientboundSyncGuildsPacket packet) {
+            return () -> GuildClientApiImpl.update(packet.guilds, packet.removed);
         }
     }
 }

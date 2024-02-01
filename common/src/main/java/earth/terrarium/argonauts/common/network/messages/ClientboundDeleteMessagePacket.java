@@ -1,9 +1,9 @@
 package earth.terrarium.argonauts.common.network.messages;
 
 import com.google.common.primitives.UnsignedInteger;
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
 import net.minecraft.client.Minecraft;
@@ -12,20 +12,24 @@ import net.minecraft.resources.ResourceLocation;
 
 public record ClientboundDeleteMessagePacket(UnsignedInteger id) implements Packet<ClientboundDeleteMessagePacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "delete_message");
-    public static final PacketHandler<ClientboundDeleteMessagePacket> HANDLER = new Handler();
+    public static final ClientboundPacketType<ClientboundDeleteMessagePacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ClientboundDeleteMessagePacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ClientboundDeleteMessagePacket> getHandler() {
-        return HANDLER;
-    }
+    private static class Type implements ClientboundPacketType<ClientboundDeleteMessagePacket> {
 
-    private static class Handler implements PacketHandler<ClientboundDeleteMessagePacket> {
+        @Override
+        public Class<ClientboundDeleteMessagePacket> type() {
+            return ClientboundDeleteMessagePacket.class;
+        }
+
+        @Override
+        public ResourceLocation id() {
+            return new ResourceLocation(Argonauts.MOD_ID, "delete_message");
+        }
 
         @Override
         public void encode(ClientboundDeleteMessagePacket message, FriendlyByteBuf buffer) {
@@ -40,10 +44,10 @@ public record ClientboundDeleteMessagePacket(UnsignedInteger id) implements Pack
         }
 
         @Override
-        public PacketContext handle(ClientboundDeleteMessagePacket message) {
-            return (player, level) -> {
+        public Runnable handle(ClientboundDeleteMessagePacket packet) {
+            return () -> {
                 if (Minecraft.getInstance().screen instanceof CustomChatScreen screen) {
-                    screen.deleteMessage(message.id);
+                    screen.deleteMessage(packet.id);
                 }
             };
         }

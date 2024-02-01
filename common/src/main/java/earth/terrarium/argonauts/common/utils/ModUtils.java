@@ -4,7 +4,7 @@ import com.google.common.primitives.UnsignedInteger;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.exceptions.NotImplementedException;
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
+import com.teamresourceful.resourcefullib.common.network.Packet;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
@@ -84,7 +84,7 @@ public final class ModUtils {
     // Sends to all clients that have Argonauts installed
     public static <T extends Packet<T>> void sendToAllClientPlayers(T packet, MinecraftServer server) {
         server.getPlayerList().getPlayers().forEach(player -> {
-            if (NetworkHandler.CHANNEL.canSendPlayerPackets(player)) {
+            if (NetworkHandler.CHANNEL.canSendToPlayer(player, packet.type())) {
                 NetworkHandler.CHANNEL.sendToPlayer(packet, player);
             }
         });

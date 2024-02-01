@@ -16,7 +16,8 @@ import java.util.List;
 
 public final class ChatCommands {
     public static void openChatScreen(ServerPlayer player, Group<?, ?> group, ChatMessageType type, Component title) throws MemberException {
-        if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
+        if (!NetworkHandler.CHANNEL.canSendToPlayer(player, ClientboundOpenChatMenuPacket.TYPE))
+            throw MemberException.NOT_INSTALLED_ON_CLIENT;
 
         List<String> usernames = new ArrayList<>();
         for (Member member : group.members()) {

@@ -1,8 +1,8 @@
 package earth.terrarium.argonauts.common.network.messages;
 
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
 import earth.terrarium.argonauts.common.menus.ChatContent;
@@ -13,20 +13,24 @@ import net.minecraft.resources.ResourceLocation;
 public record ClientboundOpenChatMenuPacket(ChatContent menuContent,
                                             Component displayName) implements Packet<ClientboundOpenChatMenuPacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "open_chat_menu");
-    public static final PacketHandler<ClientboundOpenChatMenuPacket> HANDLER = new Handler();
+    public static final ClientboundPacketType<ClientboundOpenChatMenuPacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ClientboundOpenChatMenuPacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ClientboundOpenChatMenuPacket> getHandler() {
-        return HANDLER;
-    }
+    private static class Type implements ClientboundPacketType<ClientboundOpenChatMenuPacket> {
 
-    private static class Handler implements PacketHandler<ClientboundOpenChatMenuPacket> {
+        @Override
+        public Class<ClientboundOpenChatMenuPacket> type() {
+            return ClientboundOpenChatMenuPacket.class;
+        }
+
+        @Override
+        public ResourceLocation id() {
+            return new ResourceLocation(Argonauts.MOD_ID, "open_chat_menu");
+        }
 
         @Override
         public void encode(ClientboundOpenChatMenuPacket message, FriendlyByteBuf buffer) {
@@ -43,8 +47,8 @@ public record ClientboundOpenChatMenuPacket(ChatContent menuContent,
         }
 
         @Override
-        public PacketContext handle(ClientboundOpenChatMenuPacket message) {
-            return (player, level) -> CustomChatScreen.open(message.menuContent, message.displayName);
+        public Runnable handle(ClientboundOpenChatMenuPacket packet) {
+            return () -> CustomChatScreen.open(packet.menuContent, packet.displayName);
         }
     }
 }

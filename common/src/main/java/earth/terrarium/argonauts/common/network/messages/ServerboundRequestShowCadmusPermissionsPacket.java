@@ -1,8 +1,8 @@
 package earth.terrarium.argonauts.common.network.messages;
 
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
+import com.teamresourceful.resourcefullib.common.network.base.ServerboundPacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
@@ -13,27 +13,33 @@ import earth.terrarium.argonauts.common.handlers.base.members.Member;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.function.Consumer;
 
 public record ServerboundRequestShowCadmusPermissionsPacket() implements Packet<ServerboundRequestShowCadmusPermissionsPacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "request_show_cadmus_permissions");
-    public static final Handler HANDLER = new Handler();
+    public static final ServerboundPacketType<ServerboundRequestShowCadmusPermissionsPacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ServerboundRequestShowCadmusPermissionsPacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ServerboundRequestShowCadmusPermissionsPacket> getHandler() {
-        return HANDLER;
-    }
-
-    private static class Handler implements PacketHandler<ServerboundRequestShowCadmusPermissionsPacket> {
+    private static class Type implements ServerboundPacketType<ServerboundRequestShowCadmusPermissionsPacket> {
 
         @Override
-        public void encode(ServerboundRequestShowCadmusPermissionsPacket message, FriendlyByteBuf buffer) {
+        public Class<ServerboundRequestShowCadmusPermissionsPacket> type() {
+            return ServerboundRequestShowCadmusPermissionsPacket.class;
         }
+
+        @Override
+        public ResourceLocation id() {
+            return new ResourceLocation(Argonauts.MOD_ID, "request_show_cadmus_permissions");
+        }
+
+        @Override
+        public void encode(ServerboundRequestShowCadmusPermissionsPacket message, FriendlyByteBuf buffer) {}
 
         @Override
         public ServerboundRequestShowCadmusPermissionsPacket decode(FriendlyByteBuf buffer) {
@@ -41,8 +47,8 @@ public record ServerboundRequestShowCadmusPermissionsPacket() implements Packet<
         }
 
         @Override
-        public PacketContext handle(ServerboundRequestShowCadmusPermissionsPacket message) {
-            return (player, level) -> {
+        public Consumer<Player> handle(ServerboundRequestShowCadmusPermissionsPacket packet) {
+            return player -> {
                 Party party = PartyApi.API.getPlayerParty(player.getUUID());
                 if (party == null) return;
                 if (!party.members().get(player.getUUID()).getState().isLeader()) return;
@@ -52,7 +58,9 @@ public record ServerboundRequestShowCadmusPermissionsPacket() implements Packet<
                 if (!member.hasPermission(MemberPermissions.TEMPORARY_GUILD_PERMISSIONS) && !member.getState().isLeader()) {
                     return;
                 }
-                if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) return;
+                if (!NetworkHandler.CHANNEL.canSendToPlayer(player, ClientboundReceiveShowCadmusPermissionsPacket.TYPE)) {
+                    return;
+                }
                 NetworkHandler.CHANNEL.sendToPlayer(new ClientboundReceiveShowCadmusPermissionsPacket(), player);
             };
         }

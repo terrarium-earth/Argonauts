@@ -146,7 +146,8 @@ public class PartySettingsCommands {
     }
 
     public static void openSettingsScreen(ServerPlayer player) throws MemberException {
-        if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
+        if (!NetworkHandler.CHANNEL.canSendToPlayer(player, ClientboundOpenPartySettingsMenuPacket.TYPE))
+            throw MemberException.NOT_INSTALLED_ON_CLIENT;
 
         Party party = PartyApi.API.get(player);
         if (party == null) throw MemberException.YOU_ARE_NOT_IN_PARTY;

@@ -1,9 +1,9 @@
 package earth.terrarium.argonauts.common.network.messages;
 
 import com.google.common.primitives.UnsignedInteger;
-import com.teamresourceful.resourcefullib.common.networking.base.Packet;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketContext;
-import com.teamresourceful.resourcefullib.common.networking.base.PacketHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.client.screens.chat.CustomChatScreen;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
@@ -14,20 +14,24 @@ import net.minecraft.resources.ResourceLocation;
 public record ClientboundReceiveMessagePacket(UnsignedInteger id,
                                               ChatMessage message) implements Packet<ClientboundReceiveMessagePacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "receive_message");
-    public static final PacketHandler<ClientboundReceiveMessagePacket> HANDLER = new Handler();
+    public static final ClientboundPacketType<ClientboundReceiveMessagePacket> TYPE = new Type();
 
     @Override
-    public ResourceLocation getID() {
-        return ID;
+    public PacketType<ClientboundReceiveMessagePacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public PacketHandler<ClientboundReceiveMessagePacket> getHandler() {
-        return HANDLER;
-    }
+    private static class Type implements ClientboundPacketType<ClientboundReceiveMessagePacket> {
 
-    private static class Handler implements PacketHandler<ClientboundReceiveMessagePacket> {
+        @Override
+        public Class<ClientboundReceiveMessagePacket> type() {
+            return ClientboundReceiveMessagePacket.class;
+        }
+
+        @Override
+        public ResourceLocation id() {
+            return new ResourceLocation(Argonauts.MOD_ID, "receive_message");
+        }
 
         @Override
         public void encode(ClientboundReceiveMessagePacket message, FriendlyByteBuf buffer) {
@@ -44,10 +48,10 @@ public record ClientboundReceiveMessagePacket(UnsignedInteger id,
         }
 
         @Override
-        public PacketContext handle(ClientboundReceiveMessagePacket message) {
-            return (player, level) -> {
+        public Runnable handle(ClientboundReceiveMessagePacket packet) {
+            return () -> {
                 if (Minecraft.getInstance().screen instanceof CustomChatScreen screen) {
-                    screen.addMessage(message.id, message.message);
+                    screen.addMessage(packet.id, packet.message);
                 }
             };
         }

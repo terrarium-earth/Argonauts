@@ -24,7 +24,8 @@ public final class GuildMemberCommands {
     }
 
     public static void openMembersScreen(ServerPlayer player, int selected) throws MemberException {
-        if (!NetworkHandler.CHANNEL.canSendPlayerPackets(player)) throw MemberException.NOT_INSTALLED_ON_CLIENT;
+        if (!NetworkHandler.CHANNEL.canSendToPlayer(player, ClientboundOpenGuildMemberMenuPacket.TYPE))
+            throw MemberException.NOT_INSTALLED_ON_CLIENT;
 
         Guild guild = GuildApi.API.get(player);
         if (guild == null) throw MemberException.YOU_ARE_NOT_IN_GUILD;
