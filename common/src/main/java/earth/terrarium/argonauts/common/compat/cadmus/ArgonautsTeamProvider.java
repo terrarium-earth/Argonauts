@@ -129,13 +129,13 @@ public class ArgonautsTeamProvider implements TeamProvider {
 
     @Override
     public boolean canModifySettings(String id, Player player) {
-        Guild guild = GuildApi.API.get(player.getServer(), UUID.fromString(id));
-        if (guild == null) return false;
         try {
+            Guild guild = GuildApi.API.get(player.getServer(), UUID.fromString(id));
+            if (guild == null) return false;
             GuildMember member = guild.getMember(player.getUUID());
             return member != null && member.hasPermission(MemberPermissions.MANAGE_SETTINGS);
         } catch (Exception e) {
-            return false;
+            return true;
         }
     }
 }

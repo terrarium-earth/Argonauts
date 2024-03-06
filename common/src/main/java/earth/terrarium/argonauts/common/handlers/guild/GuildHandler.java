@@ -16,6 +16,7 @@ import earth.terrarium.argonauts.common.utils.EventUtils;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,8 +41,10 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             if (!settingsTag.getCompound("hq").isEmpty()) {
                 settings.setHq(ModUtils.readGlobalPos(settingsTag.getCompound("hq")));
             }
-            settings.setDisplayName(Component.Serializer.fromJson(settingsTag.getString("name")));
-            settings.setMotd(Component.Serializer.fromJson(settingsTag.getString("motd")));
+            var name = Component.Serializer.fromJson(settingsTag.getString("name"));
+            settings.setDisplayName(name == null ? CommonComponents.EMPTY : name);
+            var motd = Component.Serializer.fromJson(settingsTag.getString("motd"));
+            settings.setMotd(motd == null ? CommonComponents.EMPTY : motd);
             settings.setColor(ChatFormatting.getById(settingsTag.getByte("color")));
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
             membersTag.getAllKeys().forEach(memberTag ->
