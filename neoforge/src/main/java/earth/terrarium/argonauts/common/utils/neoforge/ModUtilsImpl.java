@@ -12,15 +12,21 @@ import java.util.*;
 
 public class ModUtilsImpl {
     private static Collection<FakePlayer> fakePlayerCache;
+    private static long lastTry = 0;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static List<Pair<UUID, Component>> getFakePlayers() {
+        boolean lessThan5Seconds = System.currentTimeMillis() - lastTry < 5000;
         List<Pair<UUID, Component>> fakePlayers = new ArrayList<>();
+        if (lessThan5Seconds && fakePlayerCache == null) {
+            return fakePlayers;
+        }
         try {
-            var ignored = FakePlayerFactory.class.getName(); // Force class loading
             Collection<FakePlayer> fakePlayerMap;
             if (fakePlayerCache == null) {
+                var ignored = new FakePlayerFactory(); // Force class loading
                 fakePlayerCache = ((Map) UnsafeUtils.getStaticField(FakePlayerFactory.class, "fakePlayers")).values();
+                lastTry = System.currentTimeMillis();
             }
             fakePlayerMap = fakePlayerCache;
 

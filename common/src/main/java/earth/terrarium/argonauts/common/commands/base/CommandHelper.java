@@ -14,6 +14,15 @@ import net.minecraft.world.entity.player.Player;
 
 public final class CommandHelper {
 
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, String command, CommandAction runAction) {
+        dispatcher.register(Commands.literal(command)
+            .executes(context -> {
+                ServerPlayer player = context.getSource().getPlayerOrException();
+                CommandHelper.runAction(() -> runAction.accept(player));
+                return 1;
+            }));
+    }
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, String command, String command2, CommandAction runAction) {
         dispatcher.register(Commands.literal(command)
             .then(Commands.literal(command2)

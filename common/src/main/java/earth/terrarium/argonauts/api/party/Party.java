@@ -10,6 +10,7 @@ import earth.terrarium.argonauts.common.handlers.party.members.PartyMember;
 import earth.terrarium.argonauts.common.handlers.party.members.PartyMembers;
 import earth.terrarium.argonauts.common.handlers.party.settings.DefaultPartySettings;
 import earth.terrarium.argonauts.common.handlers.party.settings.PartySettings;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
@@ -53,6 +54,11 @@ public final class Party extends Group<PartyMember, PartyMembers> {
     @Override
     public Component displayName() {
         return CommonUtils.serverTranslatable("text.argonauts.party_name", this.members().getLeader().profile().getName());
+    }
+
+    @Override
+    public ChatFormatting color() {
+        return ChatFormatting.WHITE;
     }
 
     public static final ByteCodec<Party> BYTE_CODEC = ObjectByteCodec.create(

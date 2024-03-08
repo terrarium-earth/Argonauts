@@ -49,6 +49,7 @@ public final class Guild extends Group<GuildMember, GuildMembers> {
         return this.settings.displayName();
     }
 
+    @Override
     public ChatFormatting color() {
         return this.settings.color();
     }

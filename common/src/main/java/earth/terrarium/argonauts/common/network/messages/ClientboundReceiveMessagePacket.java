@@ -11,8 +11,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public record ClientboundReceiveMessagePacket(UnsignedInteger id,
-                                              ChatMessage message) implements Packet<ClientboundReceiveMessagePacket> {
+public record ClientboundReceiveMessagePacket(
+    UnsignedInteger id, ChatMessage message
+) implements Packet<ClientboundReceiveMessagePacket> {
 
     public static final ClientboundPacketType<ClientboundReceiveMessagePacket> TYPE = new Type();
 

@@ -2,7 +2,6 @@ package earth.terrarium.argonauts.common.commands.guild;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
@@ -19,9 +18,12 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class GuildChatCommands {
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         CommandHelper.register(dispatcher, "guild", "chat", GuildChatCommands::openChatScreen);
-        dispatcher.register(Commands.literal("guild").then(sendMessage()));
+        CommandHelper.register(dispatcher, "gc", GuildChatCommands::openChatScreen);
+        dispatcher.register(Commands.literal("guild").then(sendMessage("chat")));
+        dispatcher.register(sendMessage("gc"));
     }
 
     public static void openChatScreen(ServerPlayer player) throws MemberException {
@@ -35,8 +37,8 @@ public final class GuildChatCommands {
         );
     }
 
-    private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> sendMessage() {
-        return Commands.literal("chat").then(Commands.argument("message", StringArgumentType.greedyString())
+    private static LiteralArgumentBuilder<CommandSourceStack> sendMessage(String name) {
+        return Commands.literal(name).then(Commands.argument("message", StringArgumentType.greedyString())
             .executes(context -> {
                 CommandHelper.runAction(() -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();

@@ -20,6 +20,7 @@ import earth.terrarium.argonauts.common.handlers.chat.ChatMessage;
 import earth.terrarium.argonauts.common.handlers.chat.ChatMessageType;
 import earth.terrarium.argonauts.common.handlers.chat.MessageChannel;
 import earth.terrarium.argonauts.common.network.NetworkHandler;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -90,9 +91,10 @@ public record ServerboundChatWindowPacket(String message,
             if (memberPlayer == null) continue;
             if (member.getState().isPermanentMember()) {
                 Component messageComponent = CommonUtils.serverTranslatable("text.argonauts.chat_message",
-                    group.displayName().getString(),
-                    player.getGameProfile().getName(),
-                    message);
+                    group.displayName().plainCopy().withStyle(group.color()),
+                    ChatType.bind(ChatType.CHAT, player).name(),
+                    message
+                );
                 memberPlayer.displayClientMessage(messageComponent, false);
             }
 

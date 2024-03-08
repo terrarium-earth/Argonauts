@@ -89,4 +89,12 @@ public final class ModUtils {
             }
         });
     }
+
+    public static UUID parseUuidOrNull(String text) {
+        try {
+            return UUID.fromString(text);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }

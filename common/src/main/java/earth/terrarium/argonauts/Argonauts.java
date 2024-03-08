@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts;
 
+import com.mojang.logging.LogUtils;
 import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 import earth.terrarium.argonauts.api.guild.Guild;
 import earth.terrarium.argonauts.api.guild.GuildApi;
@@ -15,6 +16,7 @@ import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import org.slf4j.Logger;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,6 +24,7 @@ import java.util.Set;
 
 public class Argonauts {
     public static final String MOD_ID = "argonauts";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static void init() {
         NetworkHandler.init();

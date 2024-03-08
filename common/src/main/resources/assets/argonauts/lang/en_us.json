@@ -45,7 +45,7 @@
     "text.argonauts.invited": "You've invited %s",
     "text.argonauts.allied": "%s is now allied to your guild",
 
-    "text.argonauts.chat_message": "<%s> <%s> %s",
+    "text.argonauts.chat_message": "[%s] <%s> %s",
 
     "text.argonauts.settings.current": "Setting %s is currently set to: \"%s\"",
     "text.argonauts.settings.set": "Setting %s is now set to: \"%s\"",
