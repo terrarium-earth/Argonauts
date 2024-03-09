@@ -50,6 +50,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             var motd = Component.Serializer.fromJson(settingsTag.getString("motd"));
             settings.setMotd(motd == null ? CommonComponents.EMPTY : motd);
             settings.setColor(ChatFormatting.getById(settingsTag.getByte("color")));
+            settings.setAllowFakePlayers(settingsTag.getBoolean("allowFakePlayers"));
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
             membersTag.getAllKeys().forEach(memberTag ->
                 members.add(ModUtils.readBasicProfile(membersTag.getCompound(memberTag)))
@@ -80,6 +81,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             settingsTag.putString("name", Component.Serializer.toJson(guild.settings().displayName()));
             settingsTag.putString("motd", Component.Serializer.toJson(guild.settings().motd()));
             settingsTag.putByte("color", (byte) guild.settings().color().getId());
+            settingsTag.putBoolean("allowFakePlayers", guild.settings().allowFakePlayers());
             guildTag.put("settings", settingsTag);
             guildTag.put("owner", ModUtils.writeBasicProfile(guild.members().getLeader().profile()));
             guild.members().forEach(member -> membersTag.put(member.profile().getId().toString(), ModUtils.writeBasicProfile(member.profile())));

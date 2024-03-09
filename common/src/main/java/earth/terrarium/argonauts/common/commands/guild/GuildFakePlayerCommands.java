@@ -10,7 +10,6 @@ import earth.terrarium.argonauts.common.commands.base.CommandHelper;
 import earth.terrarium.argonauts.common.handlers.base.MemberException;
 import earth.terrarium.argonauts.common.handlers.base.MemberPermissions;
 import earth.terrarium.argonauts.common.handlers.guild.members.GuildMember;
-import earth.terrarium.argonauts.common.handlers.guild.members.GuildMembers;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -26,7 +25,7 @@ public class GuildFakePlayerCommands {
     private static final SuggestionProvider<CommandSourceStack> CURRENT_FAKE_PLAYERS_SUGGESTION_PROVIDER = (context, builder) -> {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Guild guild = GuildCommandHelper.getGuildOrThrow(player, false);
-        return SharedSuggestionProvider.suggest(((GuildMembers) guild.members()).fakePlayers().stream().map(UUID::toString), builder);
+        return SharedSuggestionProvider.suggest(guild.members().fakePlayers().stream().map(UUID::toString), builder);
     };
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -51,7 +50,7 @@ public class GuildFakePlayerCommands {
                         if (!guildMember.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                             throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD;
                         }
-                        ((GuildMembers) guild.members()).fakePlayers().add(id);
+                        guild.members().fakePlayers().add(id);
                     });
                     return 1;
                 }));
@@ -71,7 +70,7 @@ public class GuildFakePlayerCommands {
                         if (!guildMember.hasPermission(MemberPermissions.MANAGE_MEMBERS)) {
                             throw MemberException.YOU_CANT_MANAGE_MEMBERS_IN_GUILD;
                         }
-                        ((GuildMembers) guild.members()).fakePlayers().remove(id);
+                        guild.members().fakePlayers().remove(id);
                     });
                     return 1;
                 }));
