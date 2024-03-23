@@ -40,6 +40,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             CompoundTag guildTag = tag.getCompound(key);
             CompoundTag settingsTag = guildTag.getCompound("settings");
             CompoundTag membersTag = guildTag.getCompound("members");
+            CompoundTag alliesTag = guildTag.getCompound("allies");
             ListTag fakePlayersTag = guildTag.getList("fakePlayers", Tag.TAG_STRING);
             GuildSettings settings = new GuildSettings();
             if (!settingsTag.getCompound("hq").isEmpty()) {
@@ -54,6 +55,9 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             GuildMembers members = new GuildMembers(ModUtils.readBasicProfile(guildTag.getCompound("owner")));
             membersTag.getAllKeys().forEach(memberTag ->
                 members.add(ModUtils.readBasicProfile(membersTag.getCompound(memberTag)))
+            );
+            alliesTag.getAllKeys().forEach(allyTag ->
+                members.ally(ModUtils.readBasicProfile(alliesTag.getCompound(allyTag)))
             );
             for (Tag tag1 : fakePlayersTag) {
                 String uuidText = tag1.getAsString();
@@ -76,6 +80,7 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             CompoundTag guildTag = new CompoundTag();
             CompoundTag settingsTag = new CompoundTag();
             CompoundTag membersTag = new CompoundTag();
+            CompoundTag alliesTag = new CompoundTag();
             ListTag fakePlayersTag = new ListTag();
             settingsTag.put("hq", guild.settings().hq().isPresent() ? ModUtils.writeGlobalPos(guild.settings().hq().get()) : new CompoundTag());
             settingsTag.putString("name", Component.Serializer.toJson(guild.settings().displayName()));
@@ -85,8 +90,10 @@ public class GuildHandler extends SaveHandler implements GuildApi {
             guildTag.put("settings", settingsTag);
             guildTag.put("owner", ModUtils.writeBasicProfile(guild.members().getLeader().profile()));
             guild.members().forEach(member -> membersTag.put(member.profile().getId().toString(), ModUtils.writeBasicProfile(member.profile())));
+            guild.members().allies().forEach(member -> alliesTag.put(member.profile().getId().toString(), ModUtils.writeBasicProfile(member.profile())));
             guild.members().fakePlayers().forEach(fakePlayer -> fakePlayersTag.add(StringTag.valueOf(fakePlayer.toString())));
             guildTag.put("members", membersTag);
+            guildTag.put("allies", alliesTag);
             guildTag.put("fakePlayers", fakePlayersTag);
             tag.put(uuid.toString(), guildTag);
         });

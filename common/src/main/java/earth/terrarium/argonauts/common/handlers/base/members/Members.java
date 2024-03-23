@@ -72,6 +72,12 @@ public abstract class Members<T extends Member> implements Iterable<T> {
         return new ArrayList<>(this.members.values());
     }
 
+    public List<T> allies() {
+        List<T> allies = new ArrayList<>(this.members.values());
+        allies.removeIf(member -> member.getState() != MemberState.ALLIED);
+        return allies;
+    }
+
     @NotNull
     @Override
     public Iterator<T> iterator() {
