@@ -15,7 +15,7 @@ import java.util.Objects;
 public class ArgonautsPlaceholders {
 
     public static void init() {
-        Placeholders.register(new ResourceLocation(Argonauts.MOD_ID, "guild"), (ctx, arg) -> {
+        Placeholders.register(Argonauts.id("guild"), (ctx, arg) -> {
             if (!ctx.hasPlayer()) return PlaceholderResult.invalid("No Player");
 
             var guild = GuildApi.API.getPlayerGuild(ctx.world(), Objects.requireNonNull(ctx.player()).getUUID()).orElse(null);
@@ -24,7 +24,7 @@ public class ArgonautsPlaceholders {
             return PlaceholderResult.value(guild.displayName());
         });
 
-        Placeholders.register(new ResourceLocation(Argonauts.MOD_ID, "party"), (ctx, arg) -> {
+        Placeholders.register(Argonauts.id("party"), (ctx, arg) -> {
             if (!ctx.hasPlayer()) return PlaceholderResult.invalid("No Player");
 
             var party = PartyApi.API.getPlayerParty(Objects.requireNonNull(ctx.player()).getUUID()).orElse(null);

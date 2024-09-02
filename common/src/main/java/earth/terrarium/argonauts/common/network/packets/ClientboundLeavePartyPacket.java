@@ -30,7 +30,7 @@ public record ClientboundLeavePartyPacket(
         public Type() {
             super(
                 ClientboundLeavePartyPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "leave_party"),
+                Argonauts.id("leave_party"),
                 ObjectByteCodec.create(
                     ByteCodec.UUID.fieldOf(ClientboundLeavePartyPacket::id),
                     ByteCodec.UUID.fieldOf(ClientboundLeavePartyPacket::playerId),

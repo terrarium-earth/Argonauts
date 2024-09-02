@@ -27,7 +27,7 @@ public record ClientboundAddGuildPacket(
         public Type() {
             super(
                 ClientboundAddGuildPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "add_guild"),
+                Argonauts.id("add_guild"),
                 ObjectByteCodec.create(
                     Guild.BYTE_CODEC.fieldOf(ClientboundAddGuildPacket::guild),
                     ClientboundAddGuildPacket::new

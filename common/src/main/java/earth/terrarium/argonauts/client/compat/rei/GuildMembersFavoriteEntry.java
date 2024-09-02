@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 @SuppressWarnings("UnstableApiUsage")
 public class GuildMembersFavoriteEntry extends BaseFavoriteEntry {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "guild_members");
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/icons/chat.png");
+    public static final ResourceLocation ID = Argonauts.id("guild_members");
+    private static final ResourceLocation TEXTURE = Argonauts.id("textures/gui/icons/chat.png");
 
     public GuildMembersFavoriteEntry() {
         super(ID, TEXTURE, MembersScreen::openGuild);

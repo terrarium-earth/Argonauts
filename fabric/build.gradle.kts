@@ -15,6 +15,7 @@ repositories {
             includeGroup("eu.pb4")
         }
     }
+    mavenLocal()
 }
 
 dependencies {
@@ -25,8 +26,7 @@ dependencies {
 
     modImplementation(group = "net.fabricmc", name = "fabric-loader", version = fabricLoaderVersion)
     modApi(group = "net.fabricmc.fabric-api", name = "fabric-api", version = "$fabricApiVersion+$minecraftVersion")
-    include(modImplementation(group = "eu.pb4", name = "placeholder-api", version = "$placeholderApiVersion+1.20.3"))
-
+    include(modImplementation(group = "eu.pb4", name = "placeholder-api", version = "$placeholderApiVersion"))
 
     common(project(":common", configuration = "namedElements")) {
         isTransitive = false

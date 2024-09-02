@@ -36,7 +36,7 @@ public record ClientboundSendMessagePacket(
         public Type() {
             super(
                 ClientboundSendMessagePacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "send_message"),
+                Argonauts.id("send_message"),
                 ObjectByteCodec.create(
                     ByteCodec.UUID.fieldOf(ClientboundSendMessagePacket::id),
                     ChatMessage.BYTE_CODEC.fieldOf(ClientboundSendMessagePacket::message),

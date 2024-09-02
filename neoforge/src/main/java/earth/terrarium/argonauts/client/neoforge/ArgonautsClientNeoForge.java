@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.client.neoforge;
 
+import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.guild.GuildApi;
 import earth.terrarium.argonauts.api.teams.party.PartyApi;
 import earth.terrarium.argonauts.client.ArgonautsClient;
@@ -12,29 +13,24 @@ import net.minecraft.commands.Commands;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod(value = Argonauts.MOD_ID, dist = Dist.CLIENT)
 public class ArgonautsClientNeoForge {
 
-    public static void init() {
+    public ArgonautsClientNeoForge() {
         NeoForge.EVENT_BUS.addListener(ArgonautsClientNeoForge::onClientTick);
         NeoForge.EVENT_BUS.addListener(ArgonautsClientNeoForge::onPlayerLoggedOut);
         NeoForge.EVENT_BUS.addListener(ArgonautsClientNeoForge::onRegisterClientCommands);
-        if (FMLEnvironment.dist.isClient()) {
-            ArgonautsClient.init();
-        }
+        ArgonautsClient.init();
     }
 
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.START)) {
-            ArgonautsClient.clientTick();
-        }
+    public static void onClientTick(ClientTickEvent.Pre event) {
+        ArgonautsClient.clientTick();
     }
 
     @SubscribeEvent
@@ -53,11 +49,13 @@ public class ArgonautsClientNeoForge {
             ChatScreen.openGuild();
             return 0;
         }))));
+
         event.getDispatcher().register((Commands.literal("party").then(Commands.literal("chat").executes(context -> {
             if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_PARTY.create();
             ChatScreen.openParty();
             return 0;
         }))));
+
         event.getDispatcher().register(Commands.literal("gc").executes(context -> {
             if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_GUILD.create();
             ChatScreen.openGuild();

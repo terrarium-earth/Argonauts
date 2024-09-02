@@ -32,7 +32,7 @@ public record ClientboundModifyPartyPermissionPacket(
         public Type() {
             super(
                 ClientboundModifyPartyPermissionPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "modify_party_permission"),
+                Argonauts.id("modify_party_permission"),
                 ObjectByteCodec.create(
                     ByteCodec.UUID.fieldOf(ClientboundModifyPartyPermissionPacket::id),
                     ByteCodec.UUID.fieldOf(ClientboundModifyPartyPermissionPacket::playerId),

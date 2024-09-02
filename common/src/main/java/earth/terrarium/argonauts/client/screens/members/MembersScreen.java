@@ -1,7 +1,6 @@
 package earth.terrarium.argonauts.client.screens.members;
 
 import com.mojang.authlib.GameProfile;
-import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.Member;
@@ -27,7 +26,7 @@ import java.util.*;
 
 public class MembersScreen extends BaseScreen {
 
-    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = Argonauts.id("textures/gui/members.png");
 
     private final Team team;
     private final Set<String> permissions;
@@ -57,7 +56,7 @@ public class MembersScreen extends BaseScreen {
 
     @Override
     protected void init() {
-        MouseLocationFix.fix(this.getClass());
+        //MouseLocationFix.fix(this.getClass());
         super.init();
 
         addRenderableWidget(new MembersList(this.leftPos + 8, this.topPos + 29, 70, 180, 20, this.members, entry -> {
@@ -116,7 +115,7 @@ public class MembersScreen extends BaseScreen {
     @Override
     public void removed() {
         super.removed();
-        MouseLocationFix.setFix(clazz -> clazz == MembersScreen.class);
+        //MouseLocationFix.setFix(clazz -> clazz == MembersScreen.class);
     }
 
     public static void openGuild() {

@@ -1,6 +1,5 @@
 package earth.terrarium.argonauts.client.screens.settings;
 
-import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.Team;
@@ -24,7 +23,7 @@ import java.util.UUID;
 
 public class SettingsScreen extends BaseScreen {
 
-    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/settings.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = Argonauts.id("textures/gui/settings.png");
 
     private final Team team;
     private final Map<String, Setting<?>> settings;
@@ -40,7 +39,7 @@ public class SettingsScreen extends BaseScreen {
 
     @Override
     protected void init() {
-        MouseLocationFix.fix(this.getClass());
+        //MouseLocationFix.fix(this.getClass());
         super.init();
 
         SettingList list = addRenderableWidget(new SettingList(this.leftPos + 8, this.topPos + 18, 184, 180));
@@ -89,7 +88,7 @@ public class SettingsScreen extends BaseScreen {
     @Override
     public void removed() {
         super.removed();
-        MouseLocationFix.setFix(clazz -> clazz == SettingsScreen.class);
+        //MouseLocationFix.setFix(clazz -> clazz == SettingsScreen.class);
     }
 
     @Override
