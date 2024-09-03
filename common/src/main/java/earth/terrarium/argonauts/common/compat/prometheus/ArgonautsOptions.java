@@ -2,6 +2,8 @@ package earth.terrarium.argonauts.common.compat.prometheus;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.prometheus.Prometheus;
 import earth.terrarium.prometheus.api.roles.options.RoleOption;
@@ -17,6 +19,11 @@ public record ArgonautsOptions(int maxGuildMembers, int maxPartyMembers) impleme
             Codec.INT.fieldOf("maxGuildMembers").orElse(Argonauts.DEFAULT_MAX_GUILD_MEMBERS).forGetter(ArgonautsOptions::maxGuildMembers),
             Codec.INT.fieldOf("maxPartyMembers").orElse(Argonauts.DEFAULT_MAX_PARTY_MEMBERS).forGetter(ArgonautsOptions::maxPartyMembers)
         ).apply(instance, ArgonautsOptions::new)),
+        ObjectByteCodec.create(
+            ByteCodec.INT.fieldOf(ArgonautsOptions::maxGuildMembers),
+            ByteCodec.INT.fieldOf(ArgonautsOptions::maxPartyMembers),
+            ArgonautsOptions::new
+        ),
         new ArgonautsOptions(Argonauts.DEFAULT_MAX_GUILD_MEMBERS, Argonauts.DEFAULT_MAX_PARTY_MEMBERS)
     );
 

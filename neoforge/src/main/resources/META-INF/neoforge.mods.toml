@@ -21,20 +21,20 @@ config = "argonauts-common.mixins.json"
 [[dependencies.argonauts]]
 modId = "neoforge"
 type="required"
-versionRange = "[20.4,)"
+versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.argonauts]]
 modId = "minecraft"
 type="required"
-versionRange = "[1.20.4,)"
+versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.argonauts]]
 modId = "resourcefullib"
 type="required"
-versionRange = "[2.4.6,)"
+versionRange = "[3.0.0,)"
 ordering = "NONE"
 side = "BOTH"

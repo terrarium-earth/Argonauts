@@ -61,8 +61,8 @@ subprojects {
             parchment(create(group = "org.parchmentmc.data", name = "parchment-1.21", version = parchmentVersion))
         })
 
-        "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-1.21", version = resourcefulLibVersion)
-        val olympus = "modImplementation"(group = "earth.terrarium.olympus", name = "olympus-$modLoader-1.21", version = "latest.release") {
+        "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-$minecraftVersion", version = resourcefulLibVersion)
+        val olympus = "modImplementation"(group = "earth.terrarium.olympus", name = "olympus-$modLoader-$minecraftVersion", version = "latest.release") {
             isTransitive = false
         }
 
@@ -73,14 +73,14 @@ subprojects {
             "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion) {
                 isTransitive = false
             }
-            "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-1.20.4", version = prometheusVersion) {
+            "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-$minecraftVersion", version = prometheusVersion) {
                 isTransitive = false
             }
 
             "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-api", version = reiVersion)
             "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-default-plugin", version = reiVersion)
         } else {
-            "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-1.20.4", version = prometheusVersion) {
+            "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-$minecraftVersion", version = prometheusVersion) {
                 isTransitive = false
             }
             "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-1.20.4", version = cadmusVersion)
