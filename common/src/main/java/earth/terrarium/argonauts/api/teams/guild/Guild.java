@@ -3,16 +3,16 @@ package earth.terrarium.argonauts.api.teams.guild;
 import com.teamresourceful.bytecodecs.base.ByteCodec;
 import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
 import com.teamresourceful.bytecodecs.defaults.MapCodec;
+import com.teamresourceful.resourcefullib.common.color.Color;
 import earth.terrarium.argonauts.api.teams.Member;
 import earth.terrarium.argonauts.api.teams.MemberStatus;
 import earth.terrarium.argonauts.api.teams.Team;
 import earth.terrarium.argonauts.api.teams.permissions.MemberPermissionsApi;
 import earth.terrarium.argonauts.api.teams.settings.Setting;
-import earth.terrarium.argonauts.api.teams.settings.types.ChatFormattingSetting;
+import earth.terrarium.argonauts.api.teams.settings.types.ColorSettings;
 import earth.terrarium.argonauts.api.teams.settings.types.StringSetting;
 import earth.terrarium.argonauts.common.settings.Settings;
 import earth.terrarium.argonauts.common.utils.ModUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -44,7 +44,7 @@ public record Guild(
         this(UUID.randomUUID(), new HashMap<>(), new HashMap<>());
         this.members.put(creator, new Member(MemberStatus.OWNER, MemberPermissionsApi.API.getGuildPermissions()));
         this.settings.put(Settings.DISPLAY_NAME.id(), new StringSetting(Settings.DISPLAY_NAME.id(), name));
-        this.settings.put(Settings.COLOR.id(), new ChatFormattingSetting(Settings.COLOR.id(), ModUtils.uuidToColor(this.id)));
+        this.settings.put(Settings.COLOR.id(), new ColorSettings(Settings.COLOR.id(), ModUtils.uuidToColor(this.id)));
     }
 
     @Override
@@ -59,11 +59,11 @@ public record Guild(
 
     @Override
     public Component displayName() {
-        return Component.literal(Settings.DISPLAY_NAME.get(this)).withStyle(this.color());
+        return Component.literal(Settings.DISPLAY_NAME.get(this)).withColor(this.color().getValue());
     }
 
     @Override
-    public ChatFormatting color() {
+    public Color color() {
         return Settings.COLOR.get(this);
     }
 

@@ -66,13 +66,15 @@ subprojects {
             isTransitive = false
         }
 
+        "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-$minecraftVersion", version = cadmusVersion) {
+            isTransitive = false
+        }
+
         if (isCommon) {
-            "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-1.20.4", version = cadmusVersion) {
-                isTransitive = false
-            }
             "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion) {
                 isTransitive = false
             }
+
             "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-$minecraftVersion", version = prometheusVersion) {
                 isTransitive = false
             }
@@ -83,7 +85,6 @@ subprojects {
             "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-$minecraftVersion", version = prometheusVersion) {
                 isTransitive = false
             }
-            "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-1.20.4", version = cadmusVersion)
 //            "modLocalRuntime"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion)
 
             "modRuntimeOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-$modLoader", version = reiVersion)
