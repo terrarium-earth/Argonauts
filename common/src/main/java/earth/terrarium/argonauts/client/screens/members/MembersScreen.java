@@ -56,7 +56,6 @@ public class MembersScreen extends BaseScreen {
 
     @Override
     protected void init() {
-        //MouseLocationFix.fix(this.getClass());
         super.init();
 
         addRenderableWidget(new MembersList(this.leftPos + 8, this.topPos + 29, 70, 180, 20, this.members, entry -> {
@@ -110,12 +109,6 @@ public class MembersScreen extends BaseScreen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         graphics.blit(CONTAINER_BACKGROUND, x, y, 0, 0, this.imageWidth, this.imageHeight, 512, 512);
-    }
-
-    @Override
-    public void removed() {
-        super.removed();
-        //MouseLocationFix.setFix(clazz -> clazz == MembersScreen.class);
     }
 
     public static void openGuild() {

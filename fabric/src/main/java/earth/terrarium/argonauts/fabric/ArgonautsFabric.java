@@ -2,7 +2,7 @@ package earth.terrarium.argonauts.fabric;
 
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.common.commands.ArgonautsCommands;
-import earth.terrarium.argonauts.compat.fabric.placeholderapi.ArgonautsPlaceholders;
+import earth.terrarium.argonauts.common.compat.placeholdersapi.ArgonautsPlaceholders;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;

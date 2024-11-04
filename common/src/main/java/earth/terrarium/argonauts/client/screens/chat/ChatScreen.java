@@ -93,12 +93,6 @@ public class ChatScreen extends BaseScreen {
     }
 
     @Override
-    public void removed() {
-        super.removed();
-        //MouseLocationFix.setFix(clazz -> clazz == ChatScreen.class);
-    }
-
-    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.getFocused() instanceof EditBox editBox) {
             if (keyCode == InputConstants.KEY_RETURN && !editBox.getValue().isEmpty()) {

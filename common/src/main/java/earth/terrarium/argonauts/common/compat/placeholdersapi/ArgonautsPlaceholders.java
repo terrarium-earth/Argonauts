@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.compat.fabric.placeholderapi;
+package earth.terrarium.argonauts.common.compat.placeholdersapi;
 
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.guild.GuildApi;
@@ -7,13 +7,11 @@ import eu.pb4.placeholders.api.PlaceholderContext;
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Objects;
 
 public class ArgonautsPlaceholders {
-
     public static void init() {
         Placeholders.register(Argonauts.id("guild"), (ctx, arg) -> {
             if (!ctx.hasPlayer()) return PlaceholderResult.invalid("No Player");

@@ -39,7 +39,6 @@ public class SettingsScreen extends BaseScreen {
 
     @Override
     protected void init() {
-        //MouseLocationFix.fix(this.getClass());
         super.init();
 
         SettingList list = addRenderableWidget(new SettingList(this.leftPos + 8, this.topPos + 18, 184, 180));
@@ -83,12 +82,6 @@ public class SettingsScreen extends BaseScreen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         graphics.blit(CONTAINER_BACKGROUND, x, y, 0, 0, this.imageWidth, this.imageHeight);
-    }
-
-    @Override
-    public void removed() {
-        super.removed();
-        //MouseLocationFix.setFix(clazz -> clazz == SettingsScreen.class);
     }
 
     @Override

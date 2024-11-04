@@ -10,10 +10,7 @@ val common: Configuration by configurations.creating {
 
 repositories {
     maven {
-        url = uri("https://maven.nucleoid.xyz/")
-        content {
-            includeGroup("eu.pb4")
-        }
+        url = "https://api.modrinth.com/maven"
     }
     mavenLocal()
 }
@@ -26,7 +23,7 @@ dependencies {
 
     modImplementation(group = "net.fabricmc", name = "fabric-loader", version = fabricLoaderVersion)
     modApi(group = "net.fabricmc.fabric-api", name = "fabric-api", version = "$fabricApiVersion+$minecraftVersion")
-    include(modImplementation(group = "eu.pb4", name = "placeholder-api", version = "$placeholderApiVersion"))
+    modImplementation(include(group = "eu.pb4", name = "placeholder-api", version = placeholderApiVersion))
 
     common(project(":common", configuration = "namedElements")) {
         isTransitive = false
