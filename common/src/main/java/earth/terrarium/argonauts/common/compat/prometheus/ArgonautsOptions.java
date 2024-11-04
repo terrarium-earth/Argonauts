@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 public record ArgonautsOptions(int maxGuildMembers, int maxPartyMembers) implements RoleOption<ArgonautsOptions> {
 
     public static final RoleOptionSerializer<ArgonautsOptions> SERIALIZER = RoleOptionSerializer.of(
-        ResourceLocation.fromNamespaceAndPath(Prometheus.MOD_ID, Argonauts.MOD_ID),
+        Prometheus.id(Argonauts.MOD_ID),
         1,
         RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("maxGuildMembers").orElse(Argonauts.DEFAULT_MAX_GUILD_MEMBERS).forGetter(ArgonautsOptions::maxGuildMembers),

@@ -57,7 +57,6 @@ public class ChatScreen extends BaseScreen {
 
     @Override
     protected void init() {
-        //MouseLocationFix.fix(this.getClass());
         super.init();
 
         this.messages = addRenderableWidget(new ChatMessagesList(this.leftPos + 8, this.topPos + 18, ChatHandler.getChannel(this.team.id())));
