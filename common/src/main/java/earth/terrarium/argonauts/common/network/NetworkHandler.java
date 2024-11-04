@@ -10,7 +10,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class NetworkHandler {
 
-    public static final Network CHANNEL = new Network(new ResourceLocation(Argonauts.MOD_ID, "main"), 1, true);
+    public static final Network CHANNEL = new Network(Argonauts.id("main"), 1, true);
 
     public static void init() {
         CHANNEL.register(ClientboundAddGuildPacket.TYPE);

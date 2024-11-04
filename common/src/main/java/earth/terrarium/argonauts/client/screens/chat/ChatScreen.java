@@ -3,7 +3,6 @@ package earth.terrarium.argonauts.client.screens.chat;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.teamresourceful.resourcefullib.client.components.selection.ListEntry;
-import com.teamresourceful.resourcefullib.client.utils.MouseLocationFix;
 import com.teamresourceful.resourcefullib.client.utils.ScreenUtils;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.Team;
@@ -31,7 +30,7 @@ import java.util.Objects;
 
 public class ChatScreen extends BaseScreen {
 
-    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/chat.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = Argonauts.id("textures/gui/chat.png");
 
     private final Team team;
     private final int maxUsers;
@@ -58,7 +57,6 @@ public class ChatScreen extends BaseScreen {
 
     @Override
     protected void init() {
-        MouseLocationFix.fix(this.getClass());
         super.init();
 
         this.messages = addRenderableWidget(new ChatMessagesList(this.leftPos + 8, this.topPos + 18, ChatHandler.getChannel(this.team.id())));
@@ -92,12 +90,6 @@ public class ChatScreen extends BaseScreen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         graphics.blit(CONTAINER_BACKGROUND, x, y, 0, 0, this.imageWidth, this.imageHeight, 512, 512);
-    }
-
-    @Override
-    public void removed() {
-        super.removed();
-        MouseLocationFix.setFix(clazz -> clazz == ChatScreen.class);
     }
 
     @Override

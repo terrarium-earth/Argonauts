@@ -1,9 +1,9 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
+import com.teamresourceful.resourcefullib.common.color.Color;
 import earth.terrarium.argonauts.api.teams.guild.Guild;
 import earth.terrarium.argonauts.api.teams.guild.GuildApi;
 import earth.terrarium.cadmus.api.teams.Team;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class ArgonautsTeam implements Team {
     }
 
     @Override
-    public Optional<ChatFormatting> getColor(Level level, UUID id) {
+    public Optional<Color> getColor(Level level, UUID id) {
         return GuildApi.API.get(level, id).map(Guild::color);
     }
 

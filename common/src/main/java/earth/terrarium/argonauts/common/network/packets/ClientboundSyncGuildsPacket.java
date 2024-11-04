@@ -29,7 +29,7 @@ public record ClientboundSyncGuildsPacket(
         public Type() {
             super(
                 ClientboundSyncGuildsPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "sync_guilds"),
+                Argonauts.id("sync_guilds"),
                 ObjectByteCodec.create(
                     Guild.BYTE_CODEC.setOf().fieldOf(ClientboundSyncGuildsPacket::guilds),
                     ClientboundSyncGuildsPacket::new

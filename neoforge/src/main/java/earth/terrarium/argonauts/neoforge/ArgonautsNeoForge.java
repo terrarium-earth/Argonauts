@@ -18,9 +18,6 @@ public class ArgonautsNeoForge {
         NeoForge.EVENT_BUS.addListener(ArgonautsNeoForge::onPlayerLoggedIn);
         NeoForge.EVENT_BUS.addListener(ArgonautsNeoForge::onPlayerLoggedOut);
         NeoForge.EVENT_BUS.addListener(ArgonautsNeoForge::registerCommands);
-        if (FMLEnvironment.dist.isClient()) {
-            ArgonautsClientNeoForge.init();
-        }
     }
 
     private static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {

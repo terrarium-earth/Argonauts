@@ -27,7 +27,7 @@ public record ClientboundAddPartyPacket(
         public Type() {
             super(
                 ClientboundAddPartyPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "add_party"),
+                Argonauts.id("add_party"),
                 ObjectByteCodec.create(
                     Party.BYTE_CODEC.fieldOf(ClientboundAddPartyPacket::party),
                     ClientboundAddPartyPacket::new

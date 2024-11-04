@@ -1,9 +1,11 @@
 package earth.terrarium.argonauts.common.utils;
 
 import com.mojang.datafixers.util.Pair;
+import com.teamresourceful.resourcefullib.common.color.Color;
 import com.teamresourceful.resourcefullib.common.exceptions.NotImplementedException;
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import earth.terrarium.olympus.client.constants.MinecraftColors;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -25,23 +27,8 @@ public class ModUtils {
 
     public static final Pattern SPECIAL_COLOR_PATTERN = Pattern.compile("&&([0-9a-fklmnor])");
 
-    private static final ChatFormatting[] COLORS = new ChatFormatting[]{
-        ChatFormatting.DARK_BLUE,
-        ChatFormatting.DARK_GREEN,
-        ChatFormatting.DARK_AQUA,
-        ChatFormatting.DARK_RED,
-        ChatFormatting.DARK_PURPLE,
-        ChatFormatting.GOLD,
-        ChatFormatting.BLUE,
-        ChatFormatting.GREEN,
-        ChatFormatting.AQUA,
-        ChatFormatting.RED,
-        ChatFormatting.LIGHT_PURPLE,
-        ChatFormatting.YELLOW,
-    };
-
-    public static ChatFormatting uuidToColor(UUID id) {
-        return COLORS[Math.abs(id.hashCode()) % COLORS.length];
+    public static Color uuidToColor(UUID id) {
+        return MinecraftColors.COLORS[Math.abs(id.hashCode()) % MinecraftColors.COLORS.length];
     }
 
     public static Component translatableWithStyle(String key, Object... args) {

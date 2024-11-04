@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 @SuppressWarnings("UnstableApiUsage")
 public class PartyMembersFavoriteEntry extends BaseFavoriteEntry {
 
-    public static final ResourceLocation ID = new ResourceLocation(Argonauts.MOD_ID, "party_members");
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/icons/chat.png");
+    public static final ResourceLocation ID = Argonauts.id("party_management");
+    private static final ResourceLocation TEXTURE = Argonauts.id("textures/gui/icons/chat.png");
 
     public PartyMembersFavoriteEntry() {
         super(ID, TEXTURE, MembersScreen::openParty);

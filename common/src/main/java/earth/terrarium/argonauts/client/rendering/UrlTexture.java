@@ -27,7 +27,7 @@ public class UrlTexture extends SimpleTexture {
     private static final Map<String, Info> INFO = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
     private static final Info DEFAULT_INFO = new Info(24, 24, 24, 24);
 
-    private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/hourglass.png");
+    private static final ResourceLocation DEFAULT_TEXTURE = Argonauts.id("textures/gui/hourglass.png");
 
     private final String url;
     private boolean loaded;
@@ -40,7 +40,7 @@ public class UrlTexture extends SimpleTexture {
 
     @SuppressWarnings({"deprecation"})
     public static ResourceLocation getTextureId(String url) {
-        return new ResourceLocation(Argonauts.MOD_ID, "urlimages/" + Hashing.sha1().hashUnencodedChars(url));
+        return Argonauts.id("urlimages/" + Hashing.sha1().hashUnencodedChars(url));
     }
 
     public static Info getInfo(String url) {

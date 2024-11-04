@@ -30,7 +30,7 @@ public record ClientboundRemoveGuildPacket(
         public Type() {
             super(
                 ClientboundRemoveGuildPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "remove_guild"),
+                Argonauts.id("remove_guild"),
                 ObjectByteCodec.create(
                     ByteCodec.UUID.fieldOf(ClientboundRemoveGuildPacket::id),
                     ClientboundRemoveGuildPacket::new

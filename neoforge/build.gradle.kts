@@ -12,11 +12,14 @@ dependencies {
     val minecraftVersion: String by project
     val neoforgeVersion: String by project
     val reiVersion: String by project
+    val placeholderApiVersion: String by project
 
     neoForge(group = "net.neoforged", name = "neoforge", version = neoforgeVersion)
 
     modCompileOnly(group = "me.shedaniel", name = "RoughlyEnoughItems-neoforge", version = reiVersion)
 //    modLocalRuntime(group = "me.shedaniel", name = "RoughlyEnoughItems-neoforge", version = reiVersion)
+
+    modImplementation(include(group = "maven.modrinth", name = "placeholder-api", version = placeholderApiVersion))
 
     common(project(":common", configuration = "namedElements")) {
         isTransitive = false
@@ -32,7 +35,7 @@ dependencies {
 tasks.processResources {
     inputs.property("version", version)
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand("version" to version)
     }
 }

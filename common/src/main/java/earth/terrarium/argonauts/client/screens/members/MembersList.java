@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 
 public class MembersList extends SelectionList<MembersList.Entry> {
 
-    private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Argonauts.MOD_ID, "textures/gui/members.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = Argonauts.id("textures/gui/members.png");
 
     private Entry selected;
 

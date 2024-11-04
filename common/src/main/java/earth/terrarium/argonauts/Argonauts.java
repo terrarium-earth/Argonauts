@@ -15,6 +15,7 @@ import earth.terrarium.argonauts.common.settings.Settings;
 import earth.terrarium.argonauts.common.utils.ArgonautsGameRules;
 import earth.terrarium.argonauts.common.utils.ModUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class Argonauts {
@@ -36,6 +37,10 @@ public class Argonauts {
         if (IS_CADMUS_LOADED) CadmusCompat.init();
         if (IS_PROMETHEUS_LOADED) PrometheusCompat.init();
         if (IS_HERACLES_LOADED) HeraclesCompat.init();
+    }
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public static void onPlayerJoin(ServerPlayer player) {

@@ -30,7 +30,7 @@ public record ClientboundRemovePartyPacket(
         public Type() {
             super(
                 ClientboundRemovePartyPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "remove_party"),
+                Argonauts.id("remove_party"),
                 ObjectByteCodec.create(
                     ByteCodec.UUID.fieldOf(ClientboundRemovePartyPacket::id),
                     ClientboundRemovePartyPacket::new

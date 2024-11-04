@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class HeraclesCompat {
 
-    public static final ResourceLocation ARGONAUTS_ID = new ResourceLocation(Argonauts.MOD_ID, Argonauts.MOD_ID);
+    public static final ResourceLocation ARGONAUTS_ID = Argonauts.id(Argonauts.MOD_ID);
 
     public static void init() {
         TeamProviders.register(ARGONAUTS_ID, new ArgonautsTeamProvider());

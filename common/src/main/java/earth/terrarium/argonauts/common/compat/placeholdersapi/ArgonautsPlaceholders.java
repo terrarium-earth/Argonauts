@@ -1,4 +1,4 @@
-package earth.terrarium.argonauts.compat.fabric.placeholderapi;
+package earth.terrarium.argonauts.common.compat.placeholdersapi;
 
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.guild.GuildApi;
@@ -7,15 +7,13 @@ import eu.pb4.placeholders.api.PlaceholderContext;
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Objects;
 
 public class ArgonautsPlaceholders {
-
     public static void init() {
-        Placeholders.register(new ResourceLocation(Argonauts.MOD_ID, "guild"), (ctx, arg) -> {
+        Placeholders.register(Argonauts.id("guild"), (ctx, arg) -> {
             if (!ctx.hasPlayer()) return PlaceholderResult.invalid("No Player");
 
             var guild = GuildApi.API.getPlayerGuild(ctx.world(), Objects.requireNonNull(ctx.player()).getUUID()).orElse(null);
@@ -24,7 +22,7 @@ public class ArgonautsPlaceholders {
             return PlaceholderResult.value(guild.displayName());
         });
 
-        Placeholders.register(new ResourceLocation(Argonauts.MOD_ID, "party"), (ctx, arg) -> {
+        Placeholders.register(Argonauts.id("party"), (ctx, arg) -> {
             if (!ctx.hasPlayer()) return PlaceholderResult.invalid("No Player");
 
             var party = PartyApi.API.getPlayerParty(Objects.requireNonNull(ctx.player()).getUUID()).orElse(null);

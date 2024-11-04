@@ -30,7 +30,7 @@ public record ClientboundLeaveGuildPacket(
         public Type() {
             super(
                 ClientboundLeaveGuildPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "leave_guild"),
+                Argonauts.id("leave_guild"),
                 ObjectByteCodec.create(
                     ByteCodec.UUID.fieldOf(ClientboundLeaveGuildPacket::id),
                     ByteCodec.UUID.fieldOf(ClientboundLeaveGuildPacket::playerId),

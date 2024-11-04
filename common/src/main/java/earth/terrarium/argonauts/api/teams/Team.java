@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.api.teams;
 
+import com.teamresourceful.resourcefullib.common.color.Color;
 import earth.terrarium.argonauts.api.teams.settings.Setting;
 import earth.terrarium.argonauts.common.permissions.Permissions;
 import net.minecraft.ChatFormatting;
@@ -62,7 +63,7 @@ public interface Team {
      *
      * @return the color
      */
-    ChatFormatting color();
+    Color color();
 
     /**
      * Gets the type of the team. GUILD for guilds, PARTY for parties.

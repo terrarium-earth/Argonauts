@@ -3,9 +3,10 @@ package earth.terrarium.argonauts.common.settings;
 import earth.terrarium.argonauts.api.teams.settings.Setting;
 import earth.terrarium.argonauts.api.teams.settings.TeamSettingsApi;
 import earth.terrarium.argonauts.api.teams.settings.types.BooleanSetting;
-import earth.terrarium.argonauts.api.teams.settings.types.ChatFormattingSetting;
+import earth.terrarium.argonauts.api.teams.settings.types.ColorSettings;
 import earth.terrarium.argonauts.api.teams.settings.types.OptionalGlobalPosSetting;
 import earth.terrarium.argonauts.api.teams.settings.types.StringSetting;
+import earth.terrarium.olympus.client.constants.MinecraftColors;
 import net.minecraft.ChatFormatting;
 
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class Settings {
 
     public static final StringSetting DISPLAY_NAME = register(new StringSetting("displayName", ""));
-    public static final ChatFormattingSetting COLOR = register(new ChatFormattingSetting("color", ChatFormatting.WHITE));
+    public static final ColorSettings COLOR = register(new ColorSettings("color", MinecraftColors.WHITE));
 
     public static final BooleanSetting PUBLIC = register(new BooleanSetting("public", false));
     public static final BooleanSetting FRIENDLY_FIRE = register(new BooleanSetting("friendlyFire", true));

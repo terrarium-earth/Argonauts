@@ -48,7 +48,7 @@ public class ChatHandler {
             team.onlineMembers(level).forEach(member -> {
                 if (team.isMember(member.getUUID())) {
                     Component messageComponent = CommonUtils.serverTranslatable("chat.argonauts.message",
-                        team.displayName().plainCopy().withStyle(team.color()),
+                        team.displayName().plainCopy().withColor(team.color().getValue()),
                         ChatType.bind(ChatType.CHAT, member).name(),
                         message.message()
                     );

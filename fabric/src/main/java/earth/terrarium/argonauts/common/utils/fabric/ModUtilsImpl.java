@@ -2,7 +2,7 @@ package earth.terrarium.argonauts.common.utils.fabric;
 
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.utils.UnsafeUtils;
-import earth.terrarium.argonauts.compat.fabric.placeholderapi.ArgonautsPlaceholders;
+import earth.terrarium.argonauts.common.compat.placeholdersapi.ArgonautsPlaceholders;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

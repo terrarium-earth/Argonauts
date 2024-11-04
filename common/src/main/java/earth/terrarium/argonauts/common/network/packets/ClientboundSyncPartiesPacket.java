@@ -29,7 +29,7 @@ public record ClientboundSyncPartiesPacket(
         public Type() {
             super(
                 ClientboundSyncPartiesPacket.class,
-                new ResourceLocation(Argonauts.MOD_ID, "sync_parties"),
+                Argonauts.id("sync_parties"),
                 ObjectByteCodec.create(
                     Party.BYTE_CODEC.setOf().fieldOf(ClientboundSyncPartiesPacket::parties),
                     ClientboundSyncPartiesPacket::new
