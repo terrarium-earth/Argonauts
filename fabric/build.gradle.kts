@@ -9,9 +9,6 @@ val common: Configuration by configurations.creating {
 }
 
 repositories {
-    maven {
-        url = "https://api.modrinth.com/maven"
-    }
     mavenLocal()
 }
 
