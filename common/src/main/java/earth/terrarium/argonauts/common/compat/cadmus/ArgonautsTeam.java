@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
+import com.mojang.authlib.GameProfile;
 import com.teamresourceful.resourcefullib.common.color.Color;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.guild.Guild;
@@ -40,20 +41,20 @@ public class ArgonautsTeam implements TeamProvider {
     }
 
     @Override
-    public boolean isMember(Level level, UUID id, Player player) {
+    public boolean isMember(Level level, UUID id, GameProfile player) {
         return GuildApi.API.get(level, id).map(guild ->
-            guild.isMemberOrFakePlayer(player.getUUID()) || guild.isAllied(player.getUUID())).orElse(false);
+            guild.isMemberOrFakePlayer(player.getId()) || guild.isAllied(player.getId())).orElse(false);
     }
 
     @Override
-    public Set<UUID> getTeams(Player player) {
-        return GuildApi.API.getPlayerGuild(player).map(guild -> Set.of(guild.id())).orElse(Set.of());
+    public Set<UUID> getTeams(Level level, GameProfile gameProfile) {
+        return GuildApi.API.getPlayerGuild(level, gameProfile.getId()).map(guild -> Set.of(guild.id())).orElse(Set.of());
     }
 
     @Override
-    public boolean canModifySettings(Player player, UUID uuid) {
-         return GuildApi.API.get(player.level(), uuid)
-            .map(guild -> guild.canManageSettings(player.getUUID())).orElse(false);
+    public boolean canModifySettings(Level level, UUID teamId, GameProfile player) {
+         return GuildApi.API.get(level, teamId)
+            .map(guild -> guild.canManageSettings(player.getId())).orElse(false);
     }
 
     @Override
