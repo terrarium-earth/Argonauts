@@ -1,10 +1,13 @@
 package earth.terrarium.argonauts.common.compat.cadmus;
 
+import com.mojang.authlib.GameProfile;
 import com.teamresourceful.resourcefullib.common.color.Color;
+import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.teams.guild.Guild;
 import earth.terrarium.argonauts.api.teams.guild.GuildApi;
-import earth.terrarium.cadmus.api.teams.Team;
+import earth.terrarium.cadmus.api.teams.TeamProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -12,7 +15,14 @@ import net.minecraft.world.level.Level;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ArgonautsTeam implements Team {
+public class ArgonautsTeam implements TeamProvider {
+    public static final ResourceLocation ID = Argonauts.id("team");
+    public static final ArgonautsTeam INSTANCE = new ArgonautsTeam();
+
+    @Override
+    public ResourceLocation id() {
+        return ID;
+    }
 
     @Override
     public Optional<Component> getName(Level level, UUID id) {
@@ -31,20 +41,20 @@ public class ArgonautsTeam implements Team {
     }
 
     @Override
-    public boolean isMember(Level level, UUID id, Player player) {
+    public boolean isMember(Level level, UUID id, GameProfile player) {
         return GuildApi.API.get(level, id).map(guild ->
-            guild.isMemberOrFakePlayer(player.getUUID()) || guild.isAllied(player.getUUID())).orElse(false);
+            guild.isMemberOrFakePlayer(player.getId()) || guild.isAllied(player.getId())).orElse(false);
     }
 
     @Override
-    public Optional<UUID> getId(Player player) {
-        return GuildApi.API.getPlayerGuild(player).map(Guild::id);
+    public Set<UUID> getTeams(Level level, GameProfile gameProfile) {
+        return GuildApi.API.getPlayerGuild(level, gameProfile.getId()).map(guild -> Set.of(guild.id())).orElse(Set.of());
     }
 
     @Override
-    public boolean canModifySettings(Player player) {
-        return GuildApi.API.getPlayerGuild(player)
-            .map(guild -> guild.canManageSettings(player.getUUID())).orElse(false);
+    public boolean canModifySettings(Level level, UUID teamId, GameProfile player) {
+         return GuildApi.API.get(level, teamId)
+            .map(guild -> guild.canManageSettings(player.getId())).orElse(false);
     }
 
     @Override

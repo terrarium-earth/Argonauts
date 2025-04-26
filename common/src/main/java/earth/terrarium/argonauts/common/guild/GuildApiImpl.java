@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.common.guild;
 
+import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.Argonauts;
 import earth.terrarium.argonauts.api.events.ArgonautsEvents;
 import earth.terrarium.argonauts.api.teams.MemberStatus;
@@ -113,11 +114,6 @@ public class GuildApiImpl implements GuildApi {
     @Override
     public Optional<Guild> getPlayerGuild(Level level, UUID playerId) {
         return Optional.ofNullable(GuildSaveData.read(level).guildsByPlayer().get(playerId));
-    }
-
-    @Override
-    public Optional<Guild> getPlayerGuild(Player player) {
-        return this.getPlayerGuild(player.level(), player.getUUID());
     }
 
     @Override

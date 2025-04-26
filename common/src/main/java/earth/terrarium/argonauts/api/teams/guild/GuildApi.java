@@ -1,5 +1,6 @@
 package earth.terrarium.argonauts.api.teams.guild;
 
+import com.mojang.authlib.GameProfile;
 import earth.terrarium.argonauts.api.ApiHelper;
 import earth.terrarium.argonauts.api.teams.MemberStatus;
 import earth.terrarium.argonauts.api.teams.settings.Setting;
@@ -104,7 +105,9 @@ public interface GuildApi {
      * @param player the player
      * @return the guild, or empty if the player is not in a guild
      */
-    Optional<Guild> getPlayerGuild(Player player);
+    default Optional<Guild> getPlayerGuild(Player player) {
+        return getPlayerGuild(player.level(), player.getUUID());
+    }
 
     /**
      * Gets all guilds.
