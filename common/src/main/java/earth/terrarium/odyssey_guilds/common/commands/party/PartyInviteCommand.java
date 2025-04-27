@@ -42,10 +42,10 @@ public final class PartyInviteCommand {
 
         PartyApi.API.modifyMember(source.getLevel(), party, targetPlayer.getUUID(), MemberStatus.INVITED);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.invite", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.party_invited", player.getName(), party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.invite", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.party_invited", player.getName(), party.displayName()), false);
         targetPlayer.displayClientMessage(ConstantComponents.CLICK_TO_ACCEPT.copy().withStyle(Style.EMPTY
-            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ModUtils.translatableWithStyle("command.odyssey_guilds.join", party.displayName())))
+            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ModUtils.translatableWithStyle("command.argonauts.join", party.displayName())))
             .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/party join " + player.getGameProfile().getName()))), false);
     }
 }

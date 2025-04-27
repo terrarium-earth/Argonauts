@@ -1,4 +1,4 @@
-package earth.terrarium.odyssey_guilds.common.compat.quests;
+package earth.terrarium.odyssey_guilds.common.compat.heracles;
 
 import earth.terrarium.odyssey_guilds.api.teams.guild.Guild;
 import earth.terrarium.odyssey_guilds.api.teams.guild.GuildApi;
@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
-public class GuildTeamProvider implements TeamProvider {
+public class ArgonautsTeamProvider implements TeamProvider {
 
     public static BiConsumer<ServerLevel, UUID> changer;
 

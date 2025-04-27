@@ -1,38 +1,38 @@
 modLoader = "javafml"
 loaderVersion = "[1,)"
 license = "MIT"
-issueTrackerURL = "https://github.com/terrarium-earth/odyssey_guilds/issues"
+issueTrackerURL = "https://github.com/terrarium-earth/argonauts/issues"
 
 [[mods]]
-modId = "odyssey_guilds"
+modId = "argonauts"
 version = "${version}"
-displayName = "Odyssey Guilds"
+displayName = "Argonauts"
 updateJSONURL="https://api.modrinth.com/updates/bb2EpKpx/forge_updates.json"
-displayURL = "https://modrinth.com/mod/odyssey_guilds"
+displayURL = "https://modrinth.com/mod/argonauts"
 logoFile = "icon.png"
-authors = "Alex Nijjar, ThatGravyBoat, CodexAdrian"
+authors = "Alex Nijjar, ThatGravyBoat"
 credits = ""
 description = "A guild and party mod to work and play together with your teammates on a server!"
 displayTest="IGNORE_ALL_VERSION"
 
 [[mixins]]
-config = "odyssey_guilds-common.mixins.json"
+config = "argonauts-common.mixins.json"
 
-[[dependencies.odyssey_guilds]]
+[[dependencies.argonauts]]
 modId = "neoforge"
 type="required"
 versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.odyssey_guilds]]
+[[dependencies.argonauts]]
 modId = "minecraft"
 type="required"
 versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.odyssey_guilds]]
+[[dependencies.argonauts]]
 modId = "resourcefullib"
 type="required"
 versionRange = "[3.0.0,)"

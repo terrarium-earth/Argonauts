@@ -1,6 +1,6 @@
 package earth.terrarium.odyssey_guilds.client.compat.prometheus;
 
-import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsOptions;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsOptions;
 import earth.terrarium.odyssey_guilds.common.constants.ConstantComponents;
 import earth.terrarium.olympus.client.components.Widgets;
 import earth.terrarium.olympus.client.utils.State;
@@ -11,18 +11,18 @@ import earth.terrarium.prometheus.common.menus.content.RoleEditContent;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.Layout;
 
-public class OdysseyGuildsOptionsPage implements Page {
+public class ArgonautsOptionsPage implements Page {
 
     private final RoleEditContent content;
 
     private final State<Integer> maxClaimsBox;
     private final State<Integer> maxChunkLoaded;
 
-    public OdysseyGuildsOptionsPage(RoleEditContent content, Runnable ignored) {
+    public ArgonautsOptionsPage(RoleEditContent content, Runnable ignored) {
         this.content = content;
 
         Role role = content.selected();
-        OdysseyGuildsOptions options = role.getNonNullOption(OdysseyGuildsOptions.SERIALIZER);
+        ArgonautsOptions options = role.getNonNullOption(ArgonautsOptions.SERIALIZER);
 
         this.maxClaimsBox = State.of(options.maxGuildMembers());
         this.maxChunkLoaded = State.of(options.maxPartyMembers());
@@ -33,7 +33,7 @@ public class OdysseyGuildsOptionsPage implements Page {
         GridLayout layout = new GridLayout().rowSpacing(5);
 
         Role role = content.selected();
-        OdysseyGuildsOptions options = role.getNonNullOption(OdysseyGuildsOptions.SERIALIZER);
+        ArgonautsOptions options = role.getNonNullOption(ArgonautsOptions.SERIALIZER);
 
         UiUtils.addLine(
             layout, 0, width,
@@ -52,8 +52,8 @@ public class OdysseyGuildsOptionsPage implements Page {
 
     @Override
     public void save(Role role) {
-        OdysseyGuildsOptions options = role.getNonNullOption(OdysseyGuildsOptions.SERIALIZER);
-        OdysseyGuildsOptions newOptions = new OdysseyGuildsOptions(
+        ArgonautsOptions options = role.getNonNullOption(ArgonautsOptions.SERIALIZER);
+        ArgonautsOptions newOptions = new ArgonautsOptions(
             maxClaimsBox.get(),
             maxChunkLoaded.get()
         );

@@ -68,7 +68,7 @@ public final class GuildPermissionCommands {
 
         GuildApi.API.modifyPermission(source.getLevel(), guild, target.getUUID(), permission, value);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.permissions.set",
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.permissions.set",
             MemberPermissionsApi.API.getPermissionName(permission),
             value,
             target.getName()
@@ -82,7 +82,7 @@ public final class GuildPermissionCommands {
 
         boolean value = guild.hasPermission(target.getUUID(), permission);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.permissions.get",
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.permissions.get",
             MemberPermissionsApi.API.getPermissionName(permission),
             value,
             target.getName()
@@ -97,7 +97,7 @@ public final class GuildPermissionCommands {
         Object2BooleanMap<String> permissions = guild.getOrCreateMember(target.getUUID()).permissions();
 
         permissions.forEach((permission, value) -> source.sendSuccess(() ->
-            ModUtils.translatableWithStyle("command.odyssey_guilds.permissions.list",
+            ModUtils.translatableWithStyle("command.argonauts.permissions.list",
                 MemberPermissionsApi.API.getPermissionName(permission),
                 value
             ), false));

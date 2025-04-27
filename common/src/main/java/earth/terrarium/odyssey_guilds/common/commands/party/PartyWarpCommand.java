@@ -7,8 +7,8 @@ import earth.terrarium.odyssey_guilds.api.events.OdysseyGuildsEvents;
 import earth.terrarium.odyssey_guilds.api.teams.party.Party;
 import earth.terrarium.odyssey_guilds.api.teams.party.PartyApi;
 import earth.terrarium.odyssey_guilds.common.commands.TeamExceptions;
-import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsPermissions;
-import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsPermissions;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
 import earth.terrarium.odyssey_guilds.common.permissions.Permissions;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -32,7 +32,7 @@ public final class PartyWarpCommand {
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
         if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
         if (!party.hasPermission(player.getUUID(), Permissions.TELEPORT_MEMBERS)) throw TeamExceptions.NO_PERMISSION_TELEPORT_MEMBERS.create();
-        if (OdysseyGuilds.IS_ROLES_LOADED && !RolesCompat.hasPermission(player, OdysseyGuildsPermissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
+        if (OdysseyGuilds.IS_ROLES_LOADED && !PrometheusCompat.hasPermission(player, ArgonautsPermissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
 
         party.onlineMembers(source.getLevel())
             .stream()

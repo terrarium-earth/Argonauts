@@ -73,16 +73,16 @@ public class GuildAdminCommands {
             guild.onlineMembers(source.getLevel())
                 .stream()
                 .filter(member -> !member.getUUID().equals(player.getUUID()))
-                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.joined_guild", player.getName()), false));
+                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.joined_guild", player.getName()), false));
         }
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.join_guild", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.join_guild", guild.displayName()), false);
     }
 
     private static void disband(CommandSourceStack source, UUID id) throws CommandSyntaxException {
         Guild guild = GuildApi.API.get(source.getLevel(), id).orElse(null);
         if (guild == null) throw TeamExceptions.GUILD_DOES_NOT_EXIST.create();
         GuildApi.API.disband(source.getLevel(), guild);
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.guild_disband", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.guild_disband", guild.displayName()), false);
     }
 
     private static void disbandAll(CommandSourceStack source) {
@@ -92,7 +92,7 @@ public class GuildAdminCommands {
             data.guilds().clear();
             data.guildsByPlayer().clear();
             data.setDirty();
-            source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.guild_disband", guild.displayName()), false);
+            source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.guild_disband", guild.displayName()), false);
         });
     }
 }

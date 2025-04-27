@@ -3,9 +3,9 @@ package earth.terrarium.odyssey_guilds;
 import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 import earth.terrarium.odyssey_guilds.api.teams.guild.GuildApi;
 import earth.terrarium.odyssey_guilds.api.teams.party.PartyApi;
-import earth.terrarium.odyssey_guilds.common.compat.claims.ClaimsCompat;
-import earth.terrarium.odyssey_guilds.common.compat.quests.QuestsCompat;
-import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
+import earth.terrarium.odyssey_guilds.common.compat.cadmus.ClaimsCompat;
+import earth.terrarium.odyssey_guilds.common.compat.heracles.HeraclesCompat;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
 import earth.terrarium.odyssey_guilds.common.constants.ConstantComponents;
 import earth.terrarium.odyssey_guilds.common.network.NetworkHandler;
 import earth.terrarium.odyssey_guilds.common.network.packets.ClientboundSyncGuildsPacket;
@@ -35,8 +35,8 @@ public class OdysseyGuilds {
         Settings.init();
         Permissions.init();
         if (IS_CLAIMS_LOADED) ClaimsCompat.init();
-        if (IS_ROLES_LOADED) RolesCompat.init();
-        if (IS_QUESTS_LOADED) QuestsCompat.init();
+        if (IS_ROLES_LOADED) PrometheusCompat.init();
+        if (IS_QUESTS_LOADED) HeraclesCompat.init();
     }
 
     public static ResourceLocation id(String path) {

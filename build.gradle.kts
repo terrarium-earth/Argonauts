@@ -137,7 +137,7 @@ subprojects {
                 from(components["java"])
 
                 pom {
-                    name.set("Odyssey Guilds $modLoader")
+                    name.set("Argonauts $modLoader")
                     url.set("https://github.com/terrarium-earth/$modId")
 
                     scm {

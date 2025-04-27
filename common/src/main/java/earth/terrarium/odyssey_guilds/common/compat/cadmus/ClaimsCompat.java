@@ -1,4 +1,4 @@
-package earth.terrarium.odyssey_guilds.common.compat.claims;
+package earth.terrarium.odyssey_guilds.common.compat.cadmus;
 
 import earth.terrarium.odyssey_guilds.api.events.OdysseyGuildsEvents;
 import earth.terrarium.cadmus.api.teams.TeamApi;

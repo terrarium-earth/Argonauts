@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.level.GameRules;
 
-public class OdysseyGuildsGameRulesImpl {
+public class ArgonautsGameRulesImpl {
 
     public static <T extends GameRules.Value<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type) {
         return GameRuleRegistry.register(name, category, type);

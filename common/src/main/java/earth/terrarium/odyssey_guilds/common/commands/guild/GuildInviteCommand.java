@@ -42,10 +42,10 @@ public final class GuildInviteCommand {
 
         GuildApi.API.modifyMember(source.getLevel(), guild, targetPlayer.getUUID(), MemberStatus.INVITED);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.invite", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.guild_invited", player.getName(), guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.invite", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.guild_invited", player.getName(), guild.displayName()), false);
         targetPlayer.displayClientMessage(ConstantComponents.CLICK_TO_ACCEPT.copy().withStyle(Style.EMPTY
-            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ModUtils.translatableWithStyle("command.odyssey_guilds.join", guild.displayName())))
+            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ModUtils.translatableWithStyle("command.argonauts.join", guild.displayName())))
             .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/guild join " + player.getGameProfile().getName()))), false);
     }
 }

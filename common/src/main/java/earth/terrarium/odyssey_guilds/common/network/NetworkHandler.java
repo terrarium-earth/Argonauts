@@ -32,7 +32,7 @@ public class NetworkHandler {
     }
 
     /**
-     * Sends to all clients that have Odyssey Guilds installed
+     * Sends to all clients that have Argonauts installed
      */
     public static <T extends Packet<T>> void sendToAllClientPlayers(T packet, MinecraftServer server) {
         server.getPlayerList().getPlayers().forEach(player -> {

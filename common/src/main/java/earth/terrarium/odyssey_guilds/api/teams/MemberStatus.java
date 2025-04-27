@@ -32,7 +32,7 @@ public enum MemberStatus {
     }
 
     public Component getDisplayName() {
-        return CommonUtils.serverTranslatable("team.odyssey_guilds.member_status." + this.name().toLowerCase());
+        return CommonUtils.serverTranslatable("team.argonauts.member_status." + this.name().toLowerCase());
     }
 
     public static final ByteCodec<MemberStatus> BYTE_CODEC = ByteCodec.ofEnum(MemberStatus.class);

@@ -43,8 +43,8 @@ public final class PartyJoinCommand {
             party.onlineMembers(source.getLevel())
                 .stream()
                 .filter(member -> !member.getUUID().equals(player.getUUID()))
-                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.joined_party", player.getName()), false));
+                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.joined_party", player.getName()), false));
         }
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.join_party", party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.join_party", party.displayName()), false);
     }
 }

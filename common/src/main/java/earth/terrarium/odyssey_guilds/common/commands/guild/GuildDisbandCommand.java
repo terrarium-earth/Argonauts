@@ -30,6 +30,6 @@ public final class GuildDisbandCommand {
         if (!guild.isOwner(player.getUUID())) throw TeamExceptions.NOT_GUILD_OWNER.create();
 
         GuildApi.API.disband(source.getLevel(), guild);
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.guild_disband", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.guild_disband", guild.displayName()), false);
     }
 }

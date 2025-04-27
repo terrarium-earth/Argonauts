@@ -1,4 +1,4 @@
-package earth.terrarium.odyssey_guilds.common.compat.claims;
+package earth.terrarium.odyssey_guilds.common.compat.cadmus;
 
 import com.mojang.authlib.GameProfile;
 import com.teamresourceful.resourcefullib.common.color.Color;

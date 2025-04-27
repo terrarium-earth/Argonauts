@@ -42,7 +42,7 @@ public final class GuildKickCommand {
 
         GuildApi.API.leave(source.getLevel(), guild, targetPlayer.getUUID());
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.kick", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.guild_kicked", player.getName(), guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.kick", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.guild_kicked", player.getName(), guild.displayName()), false);
     }
 }

@@ -7,8 +7,8 @@ import earth.terrarium.odyssey_guilds.api.events.OdysseyGuildsEvents;
 import earth.terrarium.odyssey_guilds.api.teams.guild.Guild;
 import earth.terrarium.odyssey_guilds.api.teams.guild.GuildApi;
 import earth.terrarium.odyssey_guilds.common.commands.TeamExceptions;
-import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsPermissions;
-import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsPermissions;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
 import earth.terrarium.odyssey_guilds.common.permissions.Permissions;
 import earth.terrarium.odyssey_guilds.common.settings.Settings;
 import net.minecraft.commands.CommandSourceStack;
@@ -41,7 +41,7 @@ public final class GuildHeadquartersCommand {
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
         if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
         if (!guild.hasPermission(player.getUUID(), Permissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
-        if (OdysseyGuilds.IS_ROLES_LOADED && !RolesCompat.hasPermission(player, OdysseyGuildsPermissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
+        if (OdysseyGuilds.IS_ROLES_LOADED && !PrometheusCompat.hasPermission(player, ArgonautsPermissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
 
         GlobalPos hq = Settings.HEADQUARTERS.get(guild).orElse(null);
         if (hq == null) throw TeamExceptions.HEADQUARTERS_NOT_SET.create();

@@ -46,8 +46,8 @@ public class SettingsScreen extends BaseScreen {
 
         this.settings.forEach((id, setting) -> {
             if (!setting.hidden()) {
-                Component title = Component.translatable("setting.odyssey_guilds." + id);
-                Component description = Component.translatable("setting.odyssey_guilds." + id + ".description");
+                Component title = Component.translatable("setting.argonauts." + id);
+                Component description = Component.translatable("setting.argonauts." + id + ".description");
 
                 if (setting instanceof BooleanSetting) {
                     list.addEntry(new BooleanEntry(

@@ -74,7 +74,7 @@ public final class GuildFakePlayerCommands {
 
         GuildApi.API.modifyMember(source.getLevel(), guild, fakePlayerId, MemberStatus.FAKE_PLAYER);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.add_fake_player", fakePlayerId), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.add_fake_player", fakePlayerId), false);
     }
 
     private static void remove(CommandSourceStack source, UUID fakePlayerId) throws CommandSyntaxException {
@@ -86,7 +86,7 @@ public final class GuildFakePlayerCommands {
 
         GuildApi.API.leave(source.getLevel(), guild, fakePlayerId);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.remove_fake_player", fakePlayerId), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.remove_fake_player", fakePlayerId), false);
     }
 
     private static void list(CommandSourceStack source) throws CommandSyntaxException {
@@ -100,7 +100,7 @@ public final class GuildFakePlayerCommands {
         guild.members().forEach((id, member) -> {
             if (member.status() == MemberStatus.FAKE_PLAYER) {
                 profileCache.get(id).ifPresent(profile -> source.sendSuccess(() ->
-                    ModUtils.translatableWithStyle("command.odyssey_guilds.list_fake_player", profile.getName()), false));
+                    ModUtils.translatableWithStyle("command.argonauts.list_fake_player", profile.getName()), false));
             }
         });
     }

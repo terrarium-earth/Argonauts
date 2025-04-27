@@ -74,8 +74,8 @@ public final class GuildAllyCommands {
 
         GuildApi.API.modifyMember(source.getLevel(), guild, targetPlayer.getUUID(), MemberStatus.ALLIED);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.add_ally", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.now_allied", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.add_ally", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.now_allied", guild.displayName()), false);
     }
 
     public static void remove(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
@@ -87,8 +87,8 @@ public final class GuildAllyCommands {
 
         GuildApi.API.leave(source.getLevel(), guild, targetPlayer.getUUID());
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.remove_ally", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.no_longer_allied", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.remove_ally", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.no_longer_allied", guild.displayName()), false);
     }
 
     private static void list(CommandSourceStack source) throws CommandSyntaxException {
@@ -102,7 +102,7 @@ public final class GuildAllyCommands {
         guild.members().forEach((id, member) -> {
             if (member.status() == MemberStatus.ALLIED) {
                 profileCache.get(id).ifPresent(profile -> source.sendSuccess(() ->
-                    ModUtils.translatableWithStyle("command.odyssey_guilds.list_ally", profile.getName()), false));
+                    ModUtils.translatableWithStyle("command.argonauts.list_ally", profile.getName()), false));
             }
         });
     }

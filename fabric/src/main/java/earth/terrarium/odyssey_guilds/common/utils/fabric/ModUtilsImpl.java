@@ -2,7 +2,7 @@ package earth.terrarium.odyssey_guilds.common.utils.fabric;
 
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.utils.UnsafeUtils;
-import earth.terrarium.odyssey_guilds.common.compat.placeholdersapi.PlaceholdersCompat;
+import earth.terrarium.odyssey_guilds.common.compat.placeholdersapi.ArgonautsPlaceholders;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,6 +32,6 @@ public class ModUtilsImpl {
     }
 
     public static Component getParsedComponent(Component component, ServerPlayer player) {
-        return PlaceholdersCompat.getPlaceholder(component, player);
+        return ArgonautsPlaceholders.getPlaceholder(component, player);
     }
 }

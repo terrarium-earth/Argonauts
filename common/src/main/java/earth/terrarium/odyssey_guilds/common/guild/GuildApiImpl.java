@@ -6,7 +6,7 @@ import earth.terrarium.odyssey_guilds.api.teams.MemberStatus;
 import earth.terrarium.odyssey_guilds.api.teams.guild.Guild;
 import earth.terrarium.odyssey_guilds.api.teams.guild.GuildApi;
 import earth.terrarium.odyssey_guilds.api.teams.settings.Setting;
-import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
 import earth.terrarium.odyssey_guilds.common.network.NetworkHandler;
 import earth.terrarium.odyssey_guilds.common.network.packets.*;
 import earth.terrarium.odyssey_guilds.common.utils.OdysseyGuildsGameRules;
@@ -128,7 +128,7 @@ public class GuildApiImpl implements GuildApi {
     public int getMaxGuildMembers(Level level, UUID ownerID) {
         int max = level.getGameRules().getInt(OdysseyGuildsGameRules.MAX_GUILD_MEMBERS);
         if (OdysseyGuilds.IS_ROLES_LOADED) {
-            max = Math.min(max, RolesCompat.getMaxGuildMembers(level, ownerID));
+            max = Math.min(max, PrometheusCompat.getMaxGuildMembers(level, ownerID));
         }
         return max;
     }

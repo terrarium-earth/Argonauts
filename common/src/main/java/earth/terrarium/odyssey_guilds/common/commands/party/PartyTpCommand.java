@@ -8,8 +8,8 @@ import earth.terrarium.odyssey_guilds.api.teams.party.Party;
 import earth.terrarium.odyssey_guilds.api.teams.party.PartyApi;
 import earth.terrarium.odyssey_guilds.common.commands.TeamExceptions;
 import earth.terrarium.odyssey_guilds.common.commands.TeamSuggestionProviders;
-import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsPermissions;
-import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsPermissions;
+import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
 import earth.terrarium.odyssey_guilds.common.permissions.Permissions;
 import earth.terrarium.odyssey_guilds.common.settings.Settings;
 import net.minecraft.commands.CommandSourceStack;
@@ -39,7 +39,7 @@ public final class PartyTpCommand {
         if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
         if (!party.hasPermission(player.getUUID(), Permissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
         if (!Settings.PASSIVE_TELEPORT.get(party)) throw TeamExceptions.PASSIVE_TELEPORT_DISABLED.create();
-        if (OdysseyGuilds.IS_ROLES_LOADED && !RolesCompat.hasPermission(player, OdysseyGuildsPermissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
+        if (OdysseyGuilds.IS_ROLES_LOADED && !PrometheusCompat.hasPermission(player, ArgonautsPermissions.TELEPORT)) throw TeamExceptions.NO_PERMISSION_TELEPORT.create();
 
         if (OdysseyGuildsEvents.OnTeleport.fire(player, target.blockPosition())) {
             player.teleportTo(target.serverLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
