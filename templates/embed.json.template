@@ -7,20 +7,20 @@
                     "type": 2,
                     "label": "Fabric",
                     "style": 5,
-                    "url": "https://modrinth.com/mod/argonauts/version/${fabric_link}"
+                    "url": "https://modrinth.com/mod/odyssey_guilds/version/${fabric_link}"
                 },
                 {
                     "type": 2,
                     "label": "NeoForge",
                     "style": 5,
-                    "url": "https://modrinth.com/mod/argonauts/version/${forge_link}"
+                    "url": "https://modrinth.com/mod/odyssey_guilds/version/${forge_link}"
                 }
             ]
         }
     ],
     "embeds": [
         {
-            "title": "Argonauts",
+            "title": "Odyssey Guilds",
             "description": "**Changelog:**\\n${changelog}",
             "color": 1846356,
             "fields": [
@@ -36,7 +36,7 @@
                 }
             ],
             "footer": {
-                "text": "Follow the project on Modrinth at mods.gay/argonauts",
+                "text": "Follow the project on Modrinth at mods.gay/odyssey_guilds",
                 "icon_url": "https://i.imgur.com/3hVj8nM.png"
             },
             "thumbnail": {

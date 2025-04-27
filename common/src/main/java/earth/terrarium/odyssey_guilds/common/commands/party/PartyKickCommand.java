@@ -38,7 +38,7 @@ public final class PartyKickCommand {
 
         PartyApi.API.leave(source.getLevel(), party, targetPlayer.getUUID());
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.kick", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.party_kicked", player.getName(), party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.kick", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.party_kicked", player.getName(), party.displayName()), false);
     }
 }

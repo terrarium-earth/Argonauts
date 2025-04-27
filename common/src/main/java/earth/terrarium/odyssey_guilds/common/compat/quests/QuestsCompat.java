@@ -1,4 +1,4 @@
-package earth.terrarium.odyssey_guilds.common.compat.heracles;
+package earth.terrarium.odyssey_guilds.common.compat.quests;
 
 import earth.terrarium.odyssey_guilds.OdysseyGuilds;
 import earth.terrarium.odyssey_guilds.api.events.OdysseyGuildsEvents;
@@ -8,12 +8,12 @@ import net.minecraft.server.level.ServerLevel;
 
 import java.util.UUID;
 
-public class HeraclesCompat {
+public class QuestsCompat {
 
-    public static final ResourceLocation ARGONAUTS_ID = OdysseyGuilds.id(OdysseyGuilds.MOD_ID);
+    public static final ResourceLocation ODYSSEY_GUILDS_ID = OdysseyGuilds.id(OdysseyGuilds.MOD_ID);
 
     public static void init() {
-        TeamProviders.register(ARGONAUTS_ID, new ArgonautsTeamProvider());
+        TeamProviders.register(ODYSSEY_GUILDS_ID, new GuildTeamProvider());
 
         OdysseyGuildsEvents.CreateGuildEvent.register((level, guild) -> {
             if (level instanceof ServerLevel serverLevel) {
@@ -35,6 +35,6 @@ public class HeraclesCompat {
     }
 
     public static void updateChanger(ServerLevel level, UUID player) {
-        ArgonautsTeamProvider.changed(level, player);
+        GuildTeamProvider.changed(level, player);
     }
 }

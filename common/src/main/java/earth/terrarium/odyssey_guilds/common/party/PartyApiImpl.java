@@ -6,7 +6,7 @@ import earth.terrarium.odyssey_guilds.api.teams.MemberStatus;
 import earth.terrarium.odyssey_guilds.api.teams.party.Party;
 import earth.terrarium.odyssey_guilds.api.teams.party.PartyApi;
 import earth.terrarium.odyssey_guilds.api.teams.settings.Setting;
-import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
+import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
 import earth.terrarium.odyssey_guilds.common.network.NetworkHandler;
 import earth.terrarium.odyssey_guilds.common.network.packets.*;
 import earth.terrarium.odyssey_guilds.common.utils.OdysseyGuildsGameRules;
@@ -122,7 +122,7 @@ public class PartyApiImpl implements PartyApi {
     public int getMaxPartyMembers(Level level, UUID ownerID) {
         int max = level.getGameRules().getInt(OdysseyGuildsGameRules.MAX_PARTY_MEMBERS);
         if (OdysseyGuilds.IS_ROLES_LOADED) {
-            max = Math.min(max, PrometheusCompat.getMaxPartyMembers(level, ownerID));
+            max = Math.min(max, RolesCompat.getMaxPartyMembers(level, ownerID));
         }
         return max;
     }

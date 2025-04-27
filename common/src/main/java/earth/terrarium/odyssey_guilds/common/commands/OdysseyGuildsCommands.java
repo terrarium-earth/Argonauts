@@ -5,7 +5,7 @@ import earth.terrarium.odyssey_guilds.common.commands.guild.*;
 import earth.terrarium.odyssey_guilds.common.commands.party.*;
 import net.minecraft.commands.CommandSourceStack;
 
-public class ArgonautsCommands {
+public class OdysseyGuildsCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         GuildCreateCommand.register(dispatcher);

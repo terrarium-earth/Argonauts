@@ -1,17 +1,17 @@
 package earth.terrarium.odyssey_guilds.client.compat.prometheus;
 
-import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsOptions;
-import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsPermissions;
+import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsOptions;
+import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsPermissions;
 import earth.terrarium.prometheus.api.permissions.PermissionApi;
 import earth.terrarium.prometheus.api.roles.client.PageApi;
 
 public class PrometheusClientCompat {
 
     public static void init() {
-        PageApi.API.register(ArgonautsOptions.SERIALIZER.id(), ArgonautsOptionsPage::new);
+        PageApi.API.register(OdysseyGuildsOptions.SERIALIZER.id(), OdysseyGuildsOptionsPage::new);
 
-        PermissionApi.API.addAutoComplete(ArgonautsPermissions.TELEPORT);
-        PermissionApi.API.addAutoComplete(ArgonautsPermissions.CREATE_PARTY);
-        PermissionApi.API.addAutoComplete(ArgonautsPermissions.CREATE_GUILD);
+        PermissionApi.API.addAutoComplete(OdysseyGuildsPermissions.TELEPORT);
+        PermissionApi.API.addAutoComplete(OdysseyGuildsPermissions.CREATE_PARTY);
+        PermissionApi.API.addAutoComplete(OdysseyGuildsPermissions.CREATE_GUILD);
     }
 }

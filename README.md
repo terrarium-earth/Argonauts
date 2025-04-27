@@ -1,4 +1,4 @@
-# Argonauts
+# Odyssey Guilds
 
 To add this library to your project, do the following:
 
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    modImplementation(group = "earth.terrarium.odyssey_guilds", name = "argonauts-$modLoader-$minecraftVersion", version = argonautsVersion)
+    modImplementation(group = "earth.terrarium", name = "odyssey_guilds-$modLoader-$minecraftVersion", version = guildsVersion)
 }
 ```
 
@@ -22,6 +22,6 @@ repositories {
 }
 
 dependencies {
-    modImplementation group: "earth.terrarium.odyssey_guilds", name: "argonauts-$modLoader-$minecraftVersion", version: argonautsVersion
+    modImplementation group: "earth.terrarium", name: "odyssey_guilds-$modLoader-$minecraftVersion", version: guildsVersion
 }
 ```

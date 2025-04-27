@@ -35,8 +35,8 @@ public final class PartyLeaveCommand {
             party.onlineMembers(source.getLevel())
                 .stream()
                 .filter(member -> !member.getUUID().equals(player.getUUID()))
-                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.left_party", player.getName()), false));
+                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.left_party", player.getName()), false));
         }
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.leave_party", party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.leave_party", party.displayName()), false);
     }
 }

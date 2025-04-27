@@ -42,7 +42,7 @@ public final class PartyTransferCommand {
         PartyApi.API.modifyPermission(source.getLevel(), party, player.getUUID(), Permissions.OPERATOR, true);
         PartyApi.API.modifyMember(source.getLevel(), party, targetPlayer.getUUID(), MemberStatus.OWNER);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.transfer_party", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.now_party_owner", party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.transfer_party", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.now_party_owner", party.displayName()), false);
     }
 }

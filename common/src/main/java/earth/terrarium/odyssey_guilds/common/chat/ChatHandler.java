@@ -19,7 +19,7 @@ public class ChatHandler {
 
     private static final Map<UUID, Set<ChatMessage>> CHANNELS = new HashMap<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("Argonauts Chat");
+    private static final Logger LOGGER = LoggerFactory.getLogger("Odyssey Guilds Chat");
 
     public static Set<ChatMessage> getChannel(UUID teamId) {
         return CHANNELS.computeIfAbsent(teamId, id -> new LinkedHashSet<>());
@@ -47,7 +47,7 @@ public class ChatHandler {
             ClientboundSendMessagePacket packet = new ClientboundSendMessagePacket(team.id(), message);
             team.onlineMembers(level).forEach(member -> {
                 if (team.isMember(member.getUUID())) {
-                    Component messageComponent = CommonUtils.serverTranslatable("chat.argonauts.message",
+                    Component messageComponent = CommonUtils.serverTranslatable("chat.odyssey_guilds.message",
                         team.displayName().plainCopy().withColor(team.color().getValue()),
                         ChatType.bind(ChatType.CHAT, member).name(),
                         message.message()

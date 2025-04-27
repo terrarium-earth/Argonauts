@@ -86,7 +86,7 @@ public class GuildSaveData extends SaveHandler {
     }
 
     public static GuildSaveData read(Level level) {
-        return read(level, HandlerType.create(CLIENT_SIDE, GuildSaveData::new), "argonauts_guilds");
+        return read(level, HandlerType.create(CLIENT_SIDE, GuildSaveData::new), "odyssey_guilds_guilds");
     }
 
     public Map<UUID, Guild> guilds() {

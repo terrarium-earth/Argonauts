@@ -45,7 +45,7 @@ public final class GuildSettingsCommand {
 
         Setting<?> oldSettingValue = TeamSettingsApi.API.getSetting(guild, settingId);
         GuildApi.API.modifySetting(source.getLevel(), guild, setting, settingId);
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.setting.set", Component.translatable("setting.argonauts." + settingId), oldSettingValue, setting), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.setting.set", Component.translatable("setting.odyssey_guilds." + settingId), oldSettingValue, setting), false);
     }
 
     private static void get(CommandSourceStack source, String settingId) throws CommandSyntaxException {
@@ -53,6 +53,6 @@ public final class GuildSettingsCommand {
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
         if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
         Setting<?> value = TeamSettingsApi.API.getSetting(guild, settingId);
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.setting.get", settingId, value), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.setting.get", settingId, value), false);
     }
 }

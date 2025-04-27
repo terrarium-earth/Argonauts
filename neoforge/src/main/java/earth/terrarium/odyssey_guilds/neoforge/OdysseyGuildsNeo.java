@@ -1,7 +1,7 @@
 package earth.terrarium.odyssey_guilds.neoforge;
 
 import earth.terrarium.odyssey_guilds.OdysseyGuilds;
-import earth.terrarium.odyssey_guilds.common.commands.ArgonautsCommands;
+import earth.terrarium.odyssey_guilds.common.commands.OdysseyGuildsCommands;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
@@ -9,13 +9,13 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 @Mod(OdysseyGuilds.MOD_ID)
-public class ArgonautsNeoForge {
+public class OdysseyGuildsNeo {
 
-    public ArgonautsNeoForge() {
+    public OdysseyGuildsNeo() {
         OdysseyGuilds.init();
-        NeoForge.EVENT_BUS.addListener(ArgonautsNeoForge::onPlayerLoggedIn);
-        NeoForge.EVENT_BUS.addListener(ArgonautsNeoForge::onPlayerLoggedOut);
-        NeoForge.EVENT_BUS.addListener(ArgonautsNeoForge::registerCommands);
+        NeoForge.EVENT_BUS.addListener(OdysseyGuildsNeo::onPlayerLoggedIn);
+        NeoForge.EVENT_BUS.addListener(OdysseyGuildsNeo::onPlayerLoggedOut);
+        NeoForge.EVENT_BUS.addListener(OdysseyGuildsNeo::registerCommands);
     }
 
     private static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -31,6 +31,6 @@ public class ArgonautsNeoForge {
     }
 
     private static void registerCommands(RegisterCommandsEvent event) {
-        ArgonautsCommands.register(event.getDispatcher());
+        OdysseyGuildsCommands.register(event.getDispatcher());
     }
 }

@@ -80,7 +80,7 @@ public class ChatScreen extends BaseScreen {
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         graphics.drawString(this.font, title, this.titleLabelX, this.titleLabelY, 0x404040, false);
         int online = this.usernames.size();
-        graphics.drawString(this.font, Component.translatable("gui.argonauts.online_members", online, this.maxUsers), 198, this.titleLabelY, 0x404040, false);
+        graphics.drawString(this.font, Component.translatable("gui.odyssey_guilds.online_members", online, this.maxUsers), 198, this.titleLabelY, 0x404040, false);
         String charCount = ClientUtils.getSmallNumber(ChatMessage.MAX_MESSAGE_LENGTH - box.getValue().length());
         graphics.drawString(this.font, charCount, 191 - this.font.width(charCount), 137, 0x404040, false);
     }

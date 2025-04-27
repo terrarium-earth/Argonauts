@@ -68,7 +68,7 @@ public final class PartyPermissionCommands {
 
         PartyApi.API.modifyPermission(source.getLevel(), party, target.getUUID(), permission, value);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.permissions.set",
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.permissions.set",
             MemberPermissionsApi.API.getPermissionName(permission),
             value,
             target.getName()
@@ -82,7 +82,7 @@ public final class PartyPermissionCommands {
 
         boolean value = party.hasPermission(target.getUUID(), permission);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.permissions.get",
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.permissions.get",
             MemberPermissionsApi.API.getPermissionName(permission),
             value,
             target.getName()
@@ -97,7 +97,7 @@ public final class PartyPermissionCommands {
         Object2BooleanMap<String> permissions = party.getOrCreateMember(target.getUUID()).permissions();
 
         permissions.forEach((permission, value) -> source.sendSuccess(() ->
-            ModUtils.translatableWithStyle("command.argonauts.permissions.list",
+            ModUtils.translatableWithStyle("command.odyssey_guilds.permissions.list",
                 MemberPermissionsApi.API.getPermissionName(permission),
                 value
             ), false));

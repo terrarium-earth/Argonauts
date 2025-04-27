@@ -1,0 +1,172 @@
+{
+    "key.categories.project_odyssey": "Project Odyssey",
+    "key.odyssey_guilds.open_party_chat": "Open Party Chat",
+    "key.odyssey_guilds.open_guild_chat": "Open Guild Chat",
+
+    "team.odyssey_guilds.member_status.owner": "§dOwner",
+    "team.odyssey_guilds.member_status.member": "§aMember",
+    "team.odyssey_guilds.member_status.invited": "§eInvited",
+    "team.odyssey_guilds.member_status.allied": "§bAllied",
+    "team.odyssey_guilds.member_status.fake_player": "§cFake Player",
+
+    "permission.odyssey_guilds.operator": "Operator",
+    "permission.odyssey_guilds.manageMembers": "Manage Members",
+    "permission.odyssey_guilds.manageSettings": "Manage Settings",
+    "permission.odyssey_guilds.managePermissions": "Manage Permissions",
+    "permission.odyssey_guilds.teleport": "Teleport",
+    "permission.odyssey_guilds.teleportMembers": "Teleport Members",
+
+    "permission.odyssey_guilds.operator.description": "Grants the member all permissions",
+    "permission.odyssey_guilds.manageMembers.description": "Allows the member to invite, remove, and modify members",
+    "permission.odyssey_guilds.manageSettings.description": "Allows the member to change settings",
+    "permission.odyssey_guilds.managePermissions.description": "Allows the member to modify member permissions",
+    "permission.odyssey_guilds.teleport.description": "Allows the member to use teleport commands",
+    "permission.odyssey_guilds.teleportMembers.description": "Allows the member to teleport other members",
+
+    "setting.odyssey_guilds.displayName": "Display Name",
+    "setting.odyssey_guilds.color": "Color",
+    "setting.odyssey_guilds.public": "Public",
+    "setting.odyssey_guilds.friendlyFire": "Friendly Fire",
+    "setting.odyssey_guilds.announceJoin": "Announce Join",
+    "setting.odyssey_guilds.announceLeave": "Announce Leave",
+    "setting.odyssey_guilds.passiveTeleport": "Passive Teleport",
+    "setting.odyssey_guilds.motd": "MOTD",
+    "setting.odyssey_guilds.headquarters": "Headquarters",
+
+    "setting.odyssey_guilds.displayName.description": "The display name of the guild",
+    "setting.odyssey_guilds.color.description": "The color of the guild",
+    "setting.odyssey_guilds.public.description": "If anyone can join without an invitation",
+    "setting.odyssey_guilds.friendlyFire.description": "If members can damage each other",
+    "setting.odyssey_guilds.announceJoin.description": "If new members should be announced in chat",
+    "setting.odyssey_guilds.announceLeave.description": "If members leaving should be announced in chat",
+    "setting.odyssey_guilds.passiveTeleport.description": "If members can teleport to each other",
+    "setting.odyssey_guilds.motd.description": "Displays a Message of the Day when a member joins the game",
+    "setting.odyssey_guilds.headquarters.description": "The location of the guild headquarters",
+
+    "motd.odyssey_guilds.title": "Message of the Day",
+    "motd.odyssey_guilds.header": "§m       §7[§6MOTD§7]§m       ",
+    "motd.odyssey_guilds.line": "                      ",
+
+    "chat.odyssey_guilds.message": "[%s] <%s> %s",
+
+    "command.odyssey_guilds.guild_name": "%s's Guild",
+    "command.odyssey_guilds.party_name": "%s's Party",
+
+    "command.odyssey_guilds.guild_create": "§7Created Guild %s",
+    "command.odyssey_guilds.party_create": "§7Created Party %s",
+    "command.odyssey_guilds.guild_disband": "§7Disbanded Guild %s",
+    "command.odyssey_guilds.party_disband": "§7Disbanded Party %s",
+
+    "command.odyssey_guilds.add_ally": "§b%s §7is now allied to your guild",
+    "command.odyssey_guilds.remove_ally": "§b%s §7is no longer allied to your guild",
+    "command.odyssey_guilds.list_ally": "§b%s",
+    "command.odyssey_guilds.now_allied": "§7You are now allied to §b%s",
+    "command.odyssey_guilds.no_longer_allied": "§7You are no longer allied to §b%s",
+
+    "command.odyssey_guilds.transfer_guild": "§7Transferred guild ownership to §b%s",
+    "command.odyssey_guilds.now_guild_owner": "§7You are now the owner of %s",
+    "command.odyssey_guilds.transfer_party": "§7Transferred party leadership to §b%s",
+    "command.odyssey_guilds.now_party_owner": "§7You are now the leader of %s",
+
+    "command.odyssey_guilds.invite": "§7You've invited §b%s",
+    "command.odyssey_guilds.guild_invited": "§b%s §7has invited you to join guild %s",
+    "command.odyssey_guilds.party_invited": "§b%s §7has invited you to join party %s",
+    "command.odyssey_guilds.click_to_accept": "§bClick to accept",
+    "command.odyssey_guilds.join": "§7Join %s",
+
+    "command.odyssey_guilds.join_guild": "§7You've joined guild §b%s",
+    "command.odyssey_guilds.join_party": "§7You've joined party §b%s",
+
+    "command.odyssey_guilds.joined_guild": "§b%s §7has joined your guild",
+    "command.odyssey_guilds.joined_party": "§b%s §7has joined your party",
+
+    "command.odyssey_guilds.leave_guild": "§7You've left guild §b%s",
+    "command.odyssey_guilds.leave_party": "§7You've left party §b%s",
+
+    "command.odyssey_guilds.left_guild": "§b%s §7has left your guild",
+    "command.odyssey_guilds.left_party": "§b%s §7has left your party",
+
+    "command.odyssey_guilds.kick": "§7Kicked §b%s",
+    "command.odyssey_guilds.guild_kicked": "§b%s §7has kicked you from guild %s",
+    "command.odyssey_guilds.party_kicked": "§b%s §7has kicked you from party %s",
+
+    "command.odyssey_guilds.add_fake_player": "§7Added fake player §b%s",
+    "command.odyssey_guilds.remove_fake_player": "§7Removed fake player §b%s",
+    "command.odyssey_guilds.list_fake_player": "§b%s",
+
+    "command.odyssey_guilds.list_member":  "§b%s §6[%s§6]",
+
+    "command.odyssey_guilds.permissions.set": "§7Set permission §b%s§7 to §b%s§7 for §6%s",
+    "command.odyssey_guilds.permissions.get": "§7Permissions §b%s§7 is set to §b%s§7 for §6%s",
+    "command.odyssey_guilds.permissions.list": "§b%s: §6%s",
+
+    "command.odyssey_guilds.setting.set": "§7Set setting§b %s§7 from §6%s§7 to §6%s",
+    "command.odyssey_guilds.setting.get": "§b%s§7 is set to §b%s",
+
+    "command.odyssey_guilds.exception.already_in_guild": "You are already in a guild.",
+    "command.odyssey_guilds.exception.not_in_guild": "You are not in a guild.",
+    "command.odyssey_guilds.exception.player_not_in_guild": "This player is not in your guild.",
+    "command.odyssey_guilds.exception.player_is_guild_member": "This player is already in your guild.",
+    "command.odyssey_guilds.exception.not_guild_owner": "You are not the owner of the guild.",
+    "command.odyssey_guilds.exception.headquarters_not_set": "The guild headquarters is not set.",
+    "command.odyssey_guilds.exception.cant_ally_yourself": "You can't ally yourself.",
+    "command.odyssey_guilds.exception.not_ally": "This player is not allied to your guild.",
+    "command.odyssey_guilds.exception.player_already_ally": "This player is already allied to your guild.",
+    "command.odyssey_guilds.exception.not_invited_to_guild": "You are not invited to this guild.",
+    "command.odyssey_guilds.exception.guild_full": "This guild is full.",
+    "command.odyssey_guilds.exception.fake_player_already_in_guild": "This fake player is already in your guild.",
+    "command.odyssey_guilds.exception.fake_player_not_in_guild": "This fake player is not in your guild.",
+    "command.odyssey_guilds.exception.guild_does_not_exist": "This guild does not exist.",
+
+    "command.odyssey_guilds.exception.already_in_party": "You are already in a party.",
+    "command.odyssey_guilds.exception.not_in_party": "You are not in a party.",
+    "command.odyssey_guilds.exception.player_not_in_party": "This player is not in your party.",
+    "command.odyssey_guilds.exception.player_is_party_member": "This player is already in your party.",
+    "command.odyssey_guilds.exception.not_party_owner": "You are not the leader of the party.",
+    "command.odyssey_guilds.exception.not_invited_to_party": "You are not invited to this party.",
+    "command.odyssey_guilds.exception.party_full": "This party is full.",
+
+    "command.odyssey_guilds.exception.cant_transfer_to_yourself": "You can't transfer to yourself.",
+    "command.odyssey_guilds.exception.cant_invite_yourself": "You can't invite yourself.",
+    "command.odyssey_guilds.exception.cant_kick_yourself": "You can't kick yourself.",
+
+    "command.odyssey_guilds.exception.no_permission_manage_members": "You don't have permission to manage members.",
+    "command.odyssey_guilds.exception.no_permission_manage_settings": "You don't have permission to manage settings.",
+    "command.odyssey_guilds.exception.no_permission_manage_permissions": "You don't have permission to manage permissions.",
+    "command.odyssey_guilds.exception.no_permission_teleport": "You don't have permission to teleport.",
+    "command.odyssey_guilds.exception.no_permission_teleport_members": "You don't have permission to teleport other members.",
+    "command.odyssey_guilds.exception.no_permission_create_guild": "You don't have permission to create a guild.",
+    "command.odyssey_guilds.exception.no_permission_create_party": "You don't have permission to create a party.",
+    "command.odyssey_guilds.exception.passive_teleport_disabled": "Passive teleport is disabled.",
+
+    "gamerule.maxGuildMembers": "Max Guild Members",
+    "gamerule.maxPartyMembers": "Max Party Members",
+
+    "gamerule.maxGuildMembers.description": "Max Guild Members",
+    "gamerule.maxPartyMembers.description": "Max Party Members",
+
+    "option.prometheus.odyssey_guilds/v1": "odyssey_guilds",
+
+    "gui.odyssey_guilds.party_chat.title": "Party Chat",
+    "gui.odyssey_guilds.party_members.title": "Party Members",
+    "gui.odyssey_guilds.party_settings.title": "Party Settings",
+    "gui.odyssey_guilds.guild_chat.title": "Guild Chat",
+    "gui.odyssey_guilds.guild_members.title": "Guild Members",
+    "gui.odyssey_guilds.guild_settings.title": "Guild Settings",
+
+    "gui.odyssey_guilds.online_members": "%s/%s Online",
+    "gui.odyssey_guilds.member_status": "Member Status",
+    "gui.odyssey_guilds.member_permissions": "Permissions",
+    "gui.odyssey_guilds.member_actions": "Actions",
+    "gui.odyssey_guilds.settings": "Settings",
+
+    "gui.odyssey_guilds.remove_member": "Remove Member",
+    "gui.odyssey_guilds.remove": "Remove",
+
+    "gui.odyssey_guilds.max_guild_members": "Max Guild Members",
+    "gui.odyssey_guilds.max_party_members": "Max Party Members",
+
+    "rei.sections.project_odyssey": "Project Odyssey",
+    "rei.odyssey_guilds.party_chat.tooltip": "Open Party Chat",
+    "rei.odyssey_guilds.party_management.tooltip": "Open Party Management"
+}

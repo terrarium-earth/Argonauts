@@ -51,6 +51,6 @@ public class MemberPermissionsApiImpl implements MemberPermissionsApi {
 
     @Override
     public Component getPermissionName(String permission) {
-        return CommonUtils.serverTranslatable("permission.argonauts." + permission);
+        return CommonUtils.serverTranslatable("permission.odyssey_guilds." + permission);
     }
 }

@@ -35,8 +35,8 @@ public final class GuildLeaveCommand {
             guild.onlineMembers(source.getLevel())
                 .stream()
                 .filter(member -> !member.getUUID().equals(player.getUUID()))
-                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.left_guild", player.getName()), false));
+                .forEach(member -> member.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.left_guild", player.getName()), false));
         }
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.leave_guild", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.leave_guild", guild.displayName()), false);
     }
 }

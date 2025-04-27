@@ -40,6 +40,6 @@ public final class PartyMemberCommands {
 
         party.members().forEach((id, member) ->
             profileCache.get(id).ifPresent(profile -> source.sendSuccess(() ->
-                ModUtils.translatableWithStyle("command.argonauts.list_member", profile.getName(), member.status().getDisplayName()), false)));
+                ModUtils.translatableWithStyle("command.odyssey_guilds.list_member", profile.getName(), member.status().getDisplayName()), false)));
     }
 }

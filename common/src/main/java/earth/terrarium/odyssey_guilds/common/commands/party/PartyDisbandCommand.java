@@ -31,6 +31,6 @@ public final class PartyDisbandCommand {
         if (!party.isOwner(player.getUUID())) throw TeamExceptions.NOT_PARTY_OWNER.create();
 
         PartyApi.API.disband(source.getLevel(), party);
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.party_disband", party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.party_disband", party.displayName()), false);
     }
 }

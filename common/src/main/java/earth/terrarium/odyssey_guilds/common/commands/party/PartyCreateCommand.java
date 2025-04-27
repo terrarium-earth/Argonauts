@@ -7,8 +7,8 @@ import earth.terrarium.odyssey_guilds.OdysseyGuilds;
 import earth.terrarium.odyssey_guilds.api.teams.party.Party;
 import earth.terrarium.odyssey_guilds.api.teams.party.PartyApi;
 import earth.terrarium.odyssey_guilds.common.commands.TeamExceptions;
-import earth.terrarium.odyssey_guilds.common.compat.prometheus.ArgonautsPermissions;
-import earth.terrarium.odyssey_guilds.common.compat.prometheus.PrometheusCompat;
+import earth.terrarium.odyssey_guilds.common.compat.roles.OdysseyGuildsPermissions;
+import earth.terrarium.odyssey_guilds.common.compat.roles.RolesCompat;
 import earth.terrarium.odyssey_guilds.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -26,7 +26,7 @@ public final class PartyCreateCommand {
                         return 1;
                     }))
                 .executes(context -> {
-                    String name = ModUtils.translatableWithStyle("command.argonauts.party_name", context.getSource().getPlayerOrException().getName()).getString();
+                    String name = ModUtils.translatableWithStyle("command.odyssey_guilds.party_name", context.getSource().getPlayerOrException().getName()).getString();
                     create(context.getSource(), name);
                     return 1;
                 })
@@ -37,11 +37,11 @@ public final class PartyCreateCommand {
     private static void create(CommandSourceStack source, String name) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         if (PartyApi.API.getPlayerParty(player).isPresent()) throw TeamExceptions.ALREADY_IN_PARTY.create();
-        if (OdysseyGuilds.IS_ROLES_LOADED && !PrometheusCompat.hasPermission(player, ArgonautsPermissions.CREATE_PARTY)) throw TeamExceptions.NO_PERMISSION_CREATE_PARTY.create();
+        if (OdysseyGuilds.IS_ROLES_LOADED && !RolesCompat.hasPermission(player, OdysseyGuildsPermissions.CREATE_PARTY)) throw TeamExceptions.NO_PERMISSION_CREATE_PARTY.create();
 
         Party party = new Party(player.getUUID(), name);
         PartyApi.API.create(source.getLevel(), party);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.party_create", party.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.party_create", party.displayName()), false);
     }
 }

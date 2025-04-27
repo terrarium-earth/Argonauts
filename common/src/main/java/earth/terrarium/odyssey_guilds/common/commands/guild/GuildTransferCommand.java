@@ -42,7 +42,7 @@ public final class GuildTransferCommand {
         GuildApi.API.modifyPermission(source.getLevel(), guild, player.getUUID(), Permissions.OPERATOR, true);
         GuildApi.API.modifyMember(source.getLevel(), guild, targetPlayer.getUUID(), MemberStatus.OWNER);
 
-        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.argonauts.transfer_guild", targetPlayer.getName()), false);
-        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.argonauts.now_guild_owner", guild.displayName()), false);
+        source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_guilds.transfer_guild", targetPlayer.getName()), false);
+        targetPlayer.displayClientMessage(ModUtils.translatableWithStyle("command.odyssey_guilds.now_guild_owner", guild.displayName()), false);
     }
 }

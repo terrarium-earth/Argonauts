@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Objects;
 
-public class ArgonautsPlaceholders {
+public class PlaceholdersCompat {
     public static void init() {
         Placeholders.register(OdysseyGuilds.id("guild"), (ctx, arg) -> {
             if (!ctx.hasPlayer()) return PlaceholderResult.invalid("No Player");

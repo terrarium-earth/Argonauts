@@ -77,8 +77,8 @@ public class MembersScreen extends BaseScreen {
         list.addEntry(new DividerEntry(ConstantComponents.MEMBER_PERMISSIONS));
 
         this.permissions.forEach(permission -> {
-            Component title = Component.translatable("permission.argonauts." + permission);
-            Component description = Component.translatable("permission.argonauts." + permission + ".description");
+            Component title = Component.translatable("permission.odyssey_guilds." + permission);
+            Component description = Component.translatable("permission.odyssey_guilds." + permission + ".description");
 
             list.addEntry(new BooleanEntry(
                     title,

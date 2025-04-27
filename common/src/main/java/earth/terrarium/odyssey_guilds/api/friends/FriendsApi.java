@@ -10,7 +10,6 @@ import java.util.Set;
 public interface FriendsApi {
     FriendsApi API = ApiHelper.load(FriendsApi.class);
 
-
     /**
      * Gets the friends of the player.
      *
@@ -58,7 +57,6 @@ public interface FriendsApi {
      * @param target    the target
      */
     void sendFriendRequest(Level level, GameProfile requester, GameProfile target);
-
 
     /**
      * Gets the friend requests of the player.

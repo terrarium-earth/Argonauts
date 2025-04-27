@@ -20,7 +20,7 @@ public abstract class PlayerMixin extends Entity {
     }
 
     @Inject(method = "canHarmPlayer", at = @At("HEAD"), cancellable = true)
-    public void argonauts$canHarmPlayer(Player other, CallbackInfoReturnable<Boolean> cir) {
+    public void odyssey_guilds$canHarmPlayer(Player other, CallbackInfoReturnable<Boolean> cir) {
         if (this.level().isClientSide()) return;
 
         PartyApi.API.getPlayerParty(this.getUUID()).ifPresent(party -> {
