@@ -10,10 +10,10 @@ import java.util.UUID;
 
 public class QuestsCompat {
 
-    public static final ResourceLocation ARGONAUTS_ID = OdysseyAllies.id(OdysseyAllies.MOD_ID);
+    public static final ResourceLocation ODYSSEY_ALLIES_ID = OdysseyAllies.id(OdysseyAllies.MOD_ID);
 
     public static void init() {
-        TeamProviders.register(ARGONAUTS_ID, new GuildQuestTeam());
+        TeamProviders.register(ODYSSEY_ALLIES_ID, new GuildQuestTeam());
 
         AlliesEvents.CreateGuildEvent.register((level, guild) -> {
             if (level instanceof ServerLevel serverLevel) {
