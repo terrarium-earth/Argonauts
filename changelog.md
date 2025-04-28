@@ -31,7 +31,7 @@
 - Removed the `GuildClientApi` and `PartyClientApi`. Use the `GuildApi` and `PartyApi` instead, which can now be used on the client and server.
 - Added the `Member Permission API`. It allows you to register permissions for guilds and parties, which are applied to each member of the team.
 - Added the `Team Settings API`. It allows you to register guild and party settings. You can also create custom setting types.
-- Argonauts no longer use mod-loader-specific events.
+- Odyssey Allies no longer use mod-loader-specific events.
 - Added the following events:
     - `CreateGuildEvent`
     - `RemoveGuildEvent`
