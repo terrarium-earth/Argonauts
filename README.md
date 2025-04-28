@@ -1,4 +1,4 @@
-# Argonauts
+# Odyssey Allies
 
 To add this library to your project, do the following:
 
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    modImplementation(group = "earth.terrarium.argonauts", name = "argonauts-$modLoader-$minecraftVersion", version = argonautsVersion)
+    modImplementation(group = "earth.terrarium", name = "odyssey_allies-$modLoader-$minecraftVersion", version = alliesVersion)
 }
 ```
 
@@ -22,6 +22,6 @@ repositories {
 }
 
 dependencies {
-    modImplementation group: "earth.terrarium.argonauts", name: "argonauts-$modLoader-$minecraftVersion", version: argonautsVersion
+    modImplementation group: "earth.terrarium", name: "odyssey_allies-$modLoader-$minecraftVersion", version: alliesVersion
 }
 ```
