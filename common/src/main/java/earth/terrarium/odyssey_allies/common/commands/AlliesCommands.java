@@ -1,6 +1,9 @@
 package earth.terrarium.odyssey_allies.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import earth.terrarium.odyssey_allies.common.commands.friends.FriendAcceptDenyCommands;
+import earth.terrarium.odyssey_allies.common.commands.friends.FriendRequestCommand;
+import earth.terrarium.odyssey_allies.common.commands.friends.FriendListCommand;
 import earth.terrarium.odyssey_allies.common.commands.guild.*;
 import earth.terrarium.odyssey_allies.common.commands.party.*;
 import net.minecraft.commands.CommandSourceStack;
@@ -38,5 +41,9 @@ public class AlliesCommands {
         PartyPermissionCommands.register(dispatcher);
         PartyTpCommand.register(dispatcher);
         PartyWarpCommand.register(dispatcher);
+
+        FriendAcceptDenyCommands.register(dispatcher);
+        FriendListCommand.register(dispatcher);
+        FriendRequestCommand.register(dispatcher);
     }
 }

@@ -7,7 +7,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import earth.terrarium.odyssey_allies.api.teams.MemberStatus;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -22,7 +22,7 @@ public final class GuildAllyCommands {
     public static final SuggestionProvider<CommandSourceStack> CURRENT_GUILD_ALLIES_SUGGESTION_PROVIDER = (context, builder) -> {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
         return SharedSuggestionProvider.suggest(guild.allies(player.level())
             .stream()
             .map(Player::getGameProfile)
@@ -66,11 +66,11 @@ public final class GuildAllyCommands {
     private static void add(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.CANT_ALLY_YOURSELF.create();
-        if (guild.isAllied(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_ALREADY_ALLY.create();
-        if (guild.isMember(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_IS_GUILD_MEMBER.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.CANT_ALLY_YOURSELF.create();
+        if (guild.isAllied(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_ALREADY_ALLY.create();
+        if (guild.isMember(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_IS_GUILD_MEMBER.create();
 
         GuildApi.API.modifyMember(source.getLevel(), guild, targetPlayer.getUUID(), MemberStatus.ALLIED);
 
@@ -81,9 +81,9 @@ public final class GuildAllyCommands {
     public static void remove(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (!guild.isAllied(targetPlayer.getUUID())) throw TeamExceptions.NOT_ALLY.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (!guild.isAllied(targetPlayer.getUUID())) throw AlliesExcepetions.NOT_ALLY.create();
 
         GuildApi.API.leave(source.getLevel(), guild, targetPlayer.getUUID());
 
@@ -94,7 +94,7 @@ public final class GuildAllyCommands {
     private static void list(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
 
         GameProfileCache profileCache = source.getServer().getProfileCache();
         if (profileCache == null) return;

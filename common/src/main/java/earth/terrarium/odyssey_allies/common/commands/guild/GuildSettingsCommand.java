@@ -6,7 +6,7 @@ import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
 import earth.terrarium.odyssey_allies.api.teams.settings.Setting;
 import earth.terrarium.odyssey_allies.api.teams.settings.TeamSettingsApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -40,8 +40,8 @@ public final class GuildSettingsCommand {
     private static void set(CommandSourceStack source, Setting<?> setting, String settingId) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.canManageSettings(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_SETTINGS.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.canManageSettings(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_SETTINGS.create();
 
         Setting<?> oldSettingValue = TeamSettingsApi.API.getSetting(guild, settingId);
         GuildApi.API.modifySetting(source.getLevel(), guild, setting, settingId);
@@ -51,7 +51,7 @@ public final class GuildSettingsCommand {
     private static void get(CommandSourceStack source, String settingId) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
         Setting<?> value = TeamSettingsApi.API.getSetting(guild, settingId);
         source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_allies.setting.get", settingId, value), false);
     }

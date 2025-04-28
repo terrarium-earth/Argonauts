@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.MemberStatus;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.constants.ConstantComponents;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
@@ -34,11 +34,11 @@ public final class GuildInviteCommand {
     private static void invite(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.CANT_INVITE_YOURSELF.create();
-        if (!guild.isPublic() && !guild.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (guild.isMember(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_IS_GUILD_MEMBER.create();
-        if (guild.realMembersCount() >= GuildApi.API.getMaxGuildMembers(source.getLevel(), player.getUUID())) throw TeamExceptions.GUILD_FULL.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.CANT_INVITE_YOURSELF.create();
+        if (!guild.isPublic() && !guild.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (guild.isMember(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_IS_GUILD_MEMBER.create();
+        if (guild.realMembersCount() >= GuildApi.API.getMaxGuildMembers(source.getLevel(), player.getUUID())) throw AlliesExcepetions.GUILD_FULL.create();
 
         GuildApi.API.modifyMember(source.getLevel(), guild, targetPlayer.getUUID(), MemberStatus.INVITED);
 

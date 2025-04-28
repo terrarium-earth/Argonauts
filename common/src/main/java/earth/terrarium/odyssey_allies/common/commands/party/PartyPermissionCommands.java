@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.party.Party;
 import earth.terrarium.odyssey_allies.api.teams.party.PartyApi;
 import earth.terrarium.odyssey_allies.api.teams.permissions.MemberPermissionsApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
@@ -63,8 +63,8 @@ public final class PartyPermissionCommands {
     private static void set(CommandSourceStack source, ServerPlayer target, String permission, boolean value) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
-        if (!party.canManagePermissions(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_PERMISSIONS.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
+        if (!party.canManagePermissions(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_PERMISSIONS.create();
 
         PartyApi.API.modifyPermission(source.getLevel(), party, target.getUUID(), permission, value);
 
@@ -78,7 +78,7 @@ public final class PartyPermissionCommands {
     private static void get(CommandSourceStack source, ServerPlayer target, String permission) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
 
         boolean value = party.hasPermission(target.getUUID(), permission);
 
@@ -92,7 +92,7 @@ public final class PartyPermissionCommands {
     private static void list(CommandSourceStack source, ServerPlayer target) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
 
         Object2BooleanMap<String> permissions = party.getOrCreateMember(target.getUUID()).permissions();
 

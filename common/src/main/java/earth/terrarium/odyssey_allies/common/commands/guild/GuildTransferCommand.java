@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.MemberStatus;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.permissions.Permissions;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
@@ -33,10 +33,10 @@ public final class GuildTransferCommand {
     private static void transfer(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.isOwner(player.getUUID())) throw TeamExceptions.NOT_GUILD_OWNER.create();
-        if (!guild.isMember(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_NOT_IN_GUILD.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.CANT_TRANSFER_TO_YOURSELF.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.isOwner(player.getUUID())) throw AlliesExcepetions.NOT_GUILD_OWNER.create();
+        if (!guild.isMember(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_NOT_IN_GUILD.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.CANT_TRANSFER_TO_YOURSELF.create();
 
         GuildApi.API.modifyMember(source.getLevel(), guild, player.getUUID(), MemberStatus.MEMBER);
         GuildApi.API.modifyPermission(source.getLevel(), guild, player.getUUID(), Permissions.OPERATOR, true);

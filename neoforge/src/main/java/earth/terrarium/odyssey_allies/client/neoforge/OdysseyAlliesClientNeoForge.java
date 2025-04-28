@@ -7,7 +7,7 @@ import earth.terrarium.odyssey_allies.client.OdysseyAlliesClient;
 import earth.terrarium.odyssey_allies.client.screens.chat.ChatScreen;
 import earth.terrarium.odyssey_allies.client.screens.members.MembersScreen;
 import earth.terrarium.odyssey_allies.client.screens.settings.SettingsScreen;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.Commands;
 import net.neoforged.api.distmarker.Dist;
@@ -45,41 +45,41 @@ public class OdysseyAlliesClientNeoForge {
 
     public static void onRegisterClientCommands(RegisterClientCommandsEvent event) {
         event.getDispatcher().register((Commands.literal("guild").then(Commands.literal("chat").executes(context -> {
-            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_GUILD.create();
+            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_GUILD.create();
             ChatScreen.openGuild();
             return 0;
         }))));
 
         event.getDispatcher().register((Commands.literal("party").then(Commands.literal("chat").executes(context -> {
-            if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_PARTY.create();
+            if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_PARTY.create();
             ChatScreen.openParty();
             return 0;
         }))));
 
         event.getDispatcher().register(Commands.literal("gc").executes(context -> {
-            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_GUILD.create();
+            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_GUILD.create();
             ChatScreen.openGuild();
             return 0;
         }));
 
         event.getDispatcher().register((Commands.literal("guild").then(Commands.literal("members").executes(context -> {
-            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_GUILD.create();
+            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_GUILD.create();
             MembersScreen.openGuild();
             return 0;
         }))));
         event.getDispatcher().register((Commands.literal("party").then(Commands.literal("members").executes(context -> {
-            if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_PARTY.create();
+            if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_PARTY.create();
             MembersScreen.openParty();
             return 0;
         }))));
 
         event.getDispatcher().register((Commands.literal("guild").then(Commands.literal("settings").executes(context -> {
-            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_GUILD.create();
+            if (GuildApi.API.getPlayerGuild(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_GUILD.create();
             SettingsScreen.openGuild();
             return 0;
         }))));
         event.getDispatcher().register((Commands.literal("party").then(Commands.literal("settings").executes(context -> {
-            if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw TeamExceptions.NOT_IN_PARTY.create();
+            if (PartyApi.API.getPlayerParty(Minecraft.getInstance().player).isEmpty()) throw AlliesExcepetions.NOT_IN_PARTY.create();
             SettingsScreen.openParty();
             return 0;
         }))));

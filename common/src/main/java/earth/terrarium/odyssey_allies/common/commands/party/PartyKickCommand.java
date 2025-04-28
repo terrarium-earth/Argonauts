@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.party.Party;
 import earth.terrarium.odyssey_allies.api.teams.party.PartyApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
@@ -31,10 +31,10 @@ public final class PartyKickCommand {
     private static void kick(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
-        if (!party.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (!party.isMember(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_NOT_IN_PARTY.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.CANT_KICK_YOURSELF.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
+        if (!party.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (!party.isMember(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_NOT_IN_PARTY.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.CANT_KICK_YOURSELF.create();
 
         PartyApi.API.leave(source.getLevel(), party, targetPlayer.getUUID());
 

@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.guild.GuildSaveData;
 import earth.terrarium.odyssey_allies.common.permissions.Permissions;
 import earth.terrarium.odyssey_allies.common.settings.Settings;
@@ -63,8 +63,8 @@ public class GuildAdminCommands {
     private static void join(CommandSourceStack source, UUID id) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.get(source.getLevel(), id).orElse(null);
-        if (guild == null) throw TeamExceptions.GUILD_DOES_NOT_EXIST.create();
-        if (GuildApi.API.getPlayerGuild(player).isPresent()) throw TeamExceptions.ALREADY_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.GUILD_DOES_NOT_EXIST.create();
+        if (GuildApi.API.getPlayerGuild(player).isPresent()) throw AlliesExcepetions.ALREADY_IN_GUILD.create();
 
         GuildApi.API.join(source.getLevel(), guild, id);
         GuildApi.API.modifyPermission(source.getLevel(), guild, player.getUUID(), Permissions.OPERATOR, true);
@@ -80,7 +80,7 @@ public class GuildAdminCommands {
 
     private static void disband(CommandSourceStack source, UUID id) throws CommandSyntaxException {
         Guild guild = GuildApi.API.get(source.getLevel(), id).orElse(null);
-        if (guild == null) throw TeamExceptions.GUILD_DOES_NOT_EXIST.create();
+        if (guild == null) throw AlliesExcepetions.GUILD_DOES_NOT_EXIST.create();
         GuildApi.API.disband(source.getLevel(), guild);
         source.sendSuccess(() -> ModUtils.translatableWithStyle("command.odyssey_allies.guild_disband", guild.displayName()), false);
     }

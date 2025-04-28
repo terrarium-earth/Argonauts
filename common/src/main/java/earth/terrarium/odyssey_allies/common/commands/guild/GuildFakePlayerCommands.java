@@ -7,7 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import earth.terrarium.odyssey_allies.api.teams.MemberStatus;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -26,7 +26,7 @@ public final class GuildFakePlayerCommands {
     private static final SuggestionProvider<CommandSourceStack> CURRENT_FAKE_PLAYERS_SUGGESTION_PROVIDER = (context, builder) -> {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
         return SharedSuggestionProvider.suggest(guild.getFakePlayers().stream().map(UUID::toString), builder);
     };
 
@@ -68,9 +68,9 @@ public final class GuildFakePlayerCommands {
     private static void add(CommandSourceStack source, UUID fakePlayerId) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (guild.isMemberOrFakePlayer(fakePlayerId)) throw TeamExceptions.FAKE_PLAYER_ALREADY_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (guild.isMemberOrFakePlayer(fakePlayerId)) throw AlliesExcepetions.FAKE_PLAYER_ALREADY_IN_GUILD.create();
 
         GuildApi.API.modifyMember(source.getLevel(), guild, fakePlayerId, MemberStatus.FAKE_PLAYER);
 
@@ -80,9 +80,9 @@ public final class GuildFakePlayerCommands {
     private static void remove(CommandSourceStack source, UUID fakePlayerId) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (!guild.isMemberOrFakePlayer(fakePlayerId)) throw TeamExceptions.FAKE_PLAYER_NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (!guild.isMemberOrFakePlayer(fakePlayerId)) throw AlliesExcepetions.FAKE_PLAYER_NOT_IN_GUILD.create();
 
         GuildApi.API.leave(source.getLevel(), guild, fakePlayerId);
 
@@ -92,7 +92,7 @@ public final class GuildFakePlayerCommands {
     private static void list(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
 
         GameProfileCache profileCache = source.getServer().getProfileCache();
         if (profileCache == null) return;

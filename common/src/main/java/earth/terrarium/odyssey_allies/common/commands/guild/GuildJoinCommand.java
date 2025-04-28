@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.settings.Settings;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
@@ -32,10 +32,10 @@ public final class GuildJoinCommand {
     private static void join(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(targetPlayer).orElse(null);
-        if (guild == null) throw TeamExceptions.PLAYER_NOT_IN_GUILD.create();
-        if (GuildApi.API.getPlayerGuild(player).isPresent()) throw TeamExceptions.ALREADY_IN_GUILD.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.isPublic() && !guild.isInvited(player.getUUID())) throw TeamExceptions.NOT_INVITED_TO_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.PLAYER_NOT_IN_GUILD.create();
+        if (GuildApi.API.getPlayerGuild(player).isPresent()) throw AlliesExcepetions.ALREADY_IN_GUILD.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.isPublic() && !guild.isInvited(player.getUUID())) throw AlliesExcepetions.NOT_INVITED_TO_GUILD.create();
 
         GuildApi.API.join(source.getLevel(), guild, player.getUUID());
 

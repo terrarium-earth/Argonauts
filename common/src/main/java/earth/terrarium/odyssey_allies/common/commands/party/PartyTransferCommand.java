@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.MemberStatus;
 import earth.terrarium.odyssey_allies.api.teams.party.Party;
 import earth.terrarium.odyssey_allies.api.teams.party.PartyApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.permissions.Permissions;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
@@ -33,10 +33,10 @@ public final class PartyTransferCommand {
     private static void transfer(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
-        if (!party.isOwner(player.getUUID())) throw TeamExceptions.NOT_PARTY_OWNER.create();
-        if (!party.isMember(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_NOT_IN_PARTY.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.CANT_TRANSFER_TO_YOURSELF.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
+        if (!party.isOwner(player.getUUID())) throw AlliesExcepetions.NOT_PARTY_OWNER.create();
+        if (!party.isMember(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_NOT_IN_PARTY.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.CANT_TRANSFER_TO_YOURSELF.create();
 
         PartyApi.API.modifyMember(source.getLevel(), party, player.getUUID(), MemberStatus.MEMBER);
         PartyApi.API.modifyPermission(source.getLevel(), party, player.getUUID(), Permissions.OPERATOR, true);

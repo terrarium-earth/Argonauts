@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
 import earth.terrarium.odyssey_allies.api.teams.permissions.MemberPermissionsApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
@@ -63,8 +63,8 @@ public final class GuildPermissionCommands {
     private static void set(CommandSourceStack source, ServerPlayer target, String permission, boolean value) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
-        if (!guild.canManagePermissions(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_PERMISSIONS.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
+        if (!guild.canManagePermissions(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_PERMISSIONS.create();
 
         GuildApi.API.modifyPermission(source.getLevel(), guild, target.getUUID(), permission, value);
 
@@ -78,7 +78,7 @@ public final class GuildPermissionCommands {
     private static void get(CommandSourceStack source, ServerPlayer target, String permission) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
 
         boolean value = guild.hasPermission(target.getUUID(), permission);
 
@@ -92,7 +92,7 @@ public final class GuildPermissionCommands {
     private static void list(CommandSourceStack source, ServerPlayer target) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
 
         Object2BooleanMap<String> permissions = guild.getOrCreateMember(target.getUUID()).permissions();
 

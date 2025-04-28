@@ -7,7 +7,7 @@ import earth.terrarium.odyssey_allies.api.teams.guild.Guild;
 import earth.terrarium.odyssey_allies.api.teams.guild.GuildApi;
 import earth.terrarium.odyssey_allies.common.chat.ChatHandler;
 import earth.terrarium.odyssey_allies.common.chat.ChatMessage;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,7 +40,7 @@ public final class GuildChatCommand {
     private static void sendMessage(CommandSourceStack source, String message) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Guild guild = GuildApi.API.getPlayerGuild(player).orElse(null);
-        if (guild == null) throw TeamExceptions.NOT_IN_GUILD.create();
+        if (guild == null) throw AlliesExcepetions.NOT_IN_GUILD.create();
         ChatHandler.sendMessage(source.getLevel(), guild, new ChatMessage(player.getGameProfile(), message, Instant.now()));
     }
 }

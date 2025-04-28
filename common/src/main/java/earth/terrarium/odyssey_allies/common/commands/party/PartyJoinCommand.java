@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.party.Party;
 import earth.terrarium.odyssey_allies.api.teams.party.PartyApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.commands.TeamSuggestionProviders;
 import earth.terrarium.odyssey_allies.common.settings.Settings;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
@@ -32,10 +32,10 @@ public final class PartyJoinCommand {
     private static void join(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(targetPlayer).orElse(null);
-        if (party == null) throw TeamExceptions.PLAYER_NOT_IN_PARTY.create();
-        if (PartyApi.API.getPlayerParty(player).isPresent()) throw TeamExceptions.ALREADY_IN_PARTY.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.NOT_IN_PARTY.create();
-        if (!party.isPublic() && !party.isInvited(player.getUUID())) throw TeamExceptions.NOT_INVITED_TO_PARTY.create();
+        if (party == null) throw AlliesExcepetions.PLAYER_NOT_IN_PARTY.create();
+        if (PartyApi.API.getPlayerParty(player).isPresent()) throw AlliesExcepetions.ALREADY_IN_PARTY.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.NOT_IN_PARTY.create();
+        if (!party.isPublic() && !party.isInvited(player.getUUID())) throw AlliesExcepetions.NOT_INVITED_TO_PARTY.create();
 
         PartyApi.API.join(source.getLevel(), party, player.getUUID());
 

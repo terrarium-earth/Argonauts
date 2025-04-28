@@ -5,7 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import earth.terrarium.odyssey_allies.api.teams.MemberStatus;
 import earth.terrarium.odyssey_allies.api.teams.party.Party;
 import earth.terrarium.odyssey_allies.api.teams.party.PartyApi;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import earth.terrarium.odyssey_allies.common.constants.ConstantComponents;
 import earth.terrarium.odyssey_allies.common.utils.ModUtils;
 import net.minecraft.commands.CommandSourceStack;
@@ -34,11 +34,11 @@ public final class PartyInviteCommand {
     private static void invite(CommandSourceStack source, ServerPlayer targetPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
-        if (player.getUUID().equals(targetPlayer.getUUID())) throw TeamExceptions.CANT_INVITE_YOURSELF.create();
-        if (!party.isPublic() && !party.canManageMembers(player.getUUID())) throw TeamExceptions.NO_PERMISSION_MANAGE_MEMBERS.create();
-        if (party.isMember(targetPlayer.getUUID())) throw TeamExceptions.PLAYER_IS_PARTY_MEMBER.create();
-        if (party.realMembersCount() >= PartyApi.API.getMaxPartyMembers(source.getLevel(), player.getUUID())) throw TeamExceptions.PARTY_FULL.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
+        if (player.getUUID().equals(targetPlayer.getUUID())) throw AlliesExcepetions.CANT_INVITE_YOURSELF.create();
+        if (!party.isPublic() && !party.canManageMembers(player.getUUID())) throw AlliesExcepetions.NO_PERMISSION_MANAGE_MEMBERS.create();
+        if (party.isMember(targetPlayer.getUUID())) throw AlliesExcepetions.PLAYER_IS_PARTY_MEMBER.create();
+        if (party.realMembersCount() >= PartyApi.API.getMaxPartyMembers(source.getLevel(), player.getUUID())) throw AlliesExcepetions.PARTY_FULL.create();
 
         PartyApi.API.modifyMember(source.getLevel(), party, targetPlayer.getUUID(), MemberStatus.INVITED);
 

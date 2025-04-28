@@ -3,7 +3,7 @@ package earth.terrarium.odyssey_allies.common.commands;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.teamresourceful.resourcefullib.common.utils.CommonUtils;
 
-public class TeamExceptions {
+public class AlliesExcepetions {
 
     public static final SimpleCommandExceptionType ALREADY_IN_GUILD = create("command.odyssey_allies.exception.already_in_guild");
     public static final SimpleCommandExceptionType NOT_IN_GUILD = create("command.odyssey_allies.exception.not_in_guild");
@@ -40,6 +40,10 @@ public class TeamExceptions {
     public static final SimpleCommandExceptionType NO_PERMISSION_CREATE_GUILD = create("command.odyssey_allies.exception.no_permission_create_guild");
     public static final SimpleCommandExceptionType NO_PERMISSION_CREATE_PARTY = create("command.odyssey_allies.exception.no_permission_create_party");
     public static final SimpleCommandExceptionType PASSIVE_TELEPORT_DISABLED = create("command.odyssey_allies.exception.passive_teleport_disabled");
+
+    public static final SimpleCommandExceptionType ALREADY_FRIENDS = create("command.odyssey_allies.exception.already_friends");
+    public static final SimpleCommandExceptionType ALREADY_SENT_FRIEND_REQUEST = create("command.odyssey_allies.exception.already_sent_friend_request");
+    public static final SimpleCommandExceptionType NO_PENDING_REQUEST = create("command.odyssey_allies.exception.no_pending_request");
 
     private static SimpleCommandExceptionType create(String translationKey) {
         return new SimpleCommandExceptionType(CommonUtils.serverTranslatable(translationKey));

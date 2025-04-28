@@ -7,7 +7,7 @@ import earth.terrarium.odyssey_allies.api.teams.party.Party;
 import earth.terrarium.odyssey_allies.api.teams.party.PartyApi;
 import earth.terrarium.odyssey_allies.common.chat.ChatHandler;
 import earth.terrarium.odyssey_allies.common.chat.ChatMessage;
-import earth.terrarium.odyssey_allies.common.commands.TeamExceptions;
+import earth.terrarium.odyssey_allies.common.commands.AlliesExcepetions;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,7 +32,7 @@ public final class PartyChatCommand {
     private static void sendMessage(CommandSourceStack source, String message) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         Party party = PartyApi.API.getPlayerParty(player).orElse(null);
-        if (party == null) throw TeamExceptions.NOT_IN_PARTY.create();
+        if (party == null) throw AlliesExcepetions.NOT_IN_PARTY.create();
         ChatHandler.sendMessage(source.getLevel(), party, new ChatMessage(player.getGameProfile(), message, Instant.now()));
     }
 }

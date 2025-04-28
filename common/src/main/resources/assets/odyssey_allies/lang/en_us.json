@@ -139,6 +139,17 @@
     "command.odyssey_allies.exception.no_permission_create_party": "You don't have permission to create a party.",
     "command.odyssey_allies.exception.passive_teleport_disabled": "Passive teleport is disabled.",
 
+    "command.odyssey_allies.exception.already_friends": "You are already friends with this player.",
+    "command.odyssey_allies.exception.already_sent_friend_request": "You have already sent a friend request to this player.",
+    "command.odyssey_allies.sent_friend_request": "You have sent a friend request to %s",
+    "command.odyssey_allies.received_friend_request": "You have received a friend request from %s",
+    "command.odyssey_allies.accept_friend_request": "Accept %s's friend request",
+    "command.odyssey_allies.accepted_friend_request": "You are now friends with %s!",
+    "command.odyssey_allies.denied_friend_request": "You denied %s's friend request",
+    "command.odyssey_allies.rejected_friend_request": "%s rejected your friend request",
+    "command.odyssey_allies.exception.no_pending_request": "You have no outgoing requests to this player.",
+    "command.odyssey_allies.friends_list": "Friends:",
+
     "gamerule.maxGuildMembers": "Max Guild Members",
     "gamerule.maxPartyMembers": "Max Party Members",
 
