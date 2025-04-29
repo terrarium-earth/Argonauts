@@ -46,7 +46,7 @@ public class FriendRequestCommand {
             targetPlayer.displayClientMessage(ConstantComponents.CLICK_TO_ACCEPT.copy().withStyle(Style.EMPTY
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, ModUtils.translatableWithStyle("command.odyssey_allies.accept_friend_request", playerName(player))))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends accept " + player.getGameProfile().getName()))), false);
-            source.sendSuccess(() -> ConstantComponents.FRIEND_REQUEST_SENT, true);
+            source.sendSuccess(() -> Component.translatable("command.odyssey_allies.sent_friend_request", playerName(targetPlayer)), true);
         }
     }
 

@@ -36,8 +36,7 @@ public class FriendAcceptDenyCommands {
 
     private static void add(CommandSourceStack source, ServerPlayer targetPlayer, boolean accept) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
-        // Implement the logic to send a friend request to the target player
-        // This is a placeholder for the actual implementation
+        if (player.getUUID() == targetPlayer.getUUID()) throw AlliesExcepetions.CANT_ADD_YOURSELF.create();
         if (FriendsApi.API.areFriends(source.getLevel(), player.getGameProfile(), targetPlayer.getGameProfile())) throw AlliesExcepetions.ALREADY_FRIENDS.create();
         if (!FriendsApi.API.getPendingRequests(player).contains(targetPlayer.getGameProfile())) throw AlliesExcepetions.NO_PENDING_REQUEST.create();
         String lang = accept ? "command.odyssey_allies.accepted_friend_request" : "command.odyssey_allies.denied_friend_request";

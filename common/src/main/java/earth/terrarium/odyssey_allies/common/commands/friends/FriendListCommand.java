@@ -26,8 +26,6 @@ public class FriendListCommand {
 
     private static void list(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
-        // Implement the logic to list friends for the player
-        // This is a placeholder for the actual implementation
         source.sendSuccess(() -> ConstantComponents.FRIEND_LIST, true);
         var friends = FriendsApi.API.getFriends(player);
         var list = CommonComponents.EMPTY.copy();

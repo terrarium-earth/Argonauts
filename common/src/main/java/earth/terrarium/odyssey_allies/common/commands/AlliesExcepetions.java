@@ -44,6 +44,7 @@ public class AlliesExcepetions {
     public static final SimpleCommandExceptionType ALREADY_FRIENDS = create("command.odyssey_allies.exception.already_friends");
     public static final SimpleCommandExceptionType ALREADY_SENT_FRIEND_REQUEST = create("command.odyssey_allies.exception.already_sent_friend_request");
     public static final SimpleCommandExceptionType NO_PENDING_REQUEST = create("command.odyssey_allies.exception.no_pending_request");
+    public static final SimpleCommandExceptionType CANT_ADD_YOURSELF = create("command.odyssey_allies.exception.cant_add_yourself");
 
     private static SimpleCommandExceptionType create(String translationKey) {
         return new SimpleCommandExceptionType(CommonUtils.serverTranslatable(translationKey));

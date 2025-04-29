@@ -42,6 +42,5 @@ public class ConstantComponents {
     public static final Component MAX_GUILD_MEMBERS = Component.translatable("gui.odyssey_allies.max_guild_members");
     public static final Component MAX_PARTY_MEMBERS = Component.translatable("gui.odyssey_allies.max_party_members");
 
-    public static final Component FRIEND_REQUEST_SENT = CommonUtils.serverTranslatable("command.odyssey_allies.friend_request_sent");
-    public static final Component FRIEND_LIST = CommonUtils.serverTranslatable("command.odyssey_allies.friends_list");
+    public static final Component FRIEND_LIST = CommonUtils.serverTranslatable("command.odyssey_allies.list_friends");
 }
