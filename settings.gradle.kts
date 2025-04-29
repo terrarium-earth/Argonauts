@@ -1,16 +1,9 @@
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "odyssey_allies"
+rootProject.name = "odyssey-allies"
 
 pluginManagement {
     repositories {
-        maven(url = "https://maven.architectury.dev/")
-        maven(url = "https://maven.neoforged.net/releases/")
-        maven(url = "https://maven.teamresourceful.com/repository/maven-public/")
+        maven(url = "https://maven.msrandom.net/repository/cloche")
+
         gradlePluginPortal()
     }
 }
-
-include("common")
-include("fabric")
-include("neoforge")

@@ -1,188 +1,65 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import dev.architectury.plugin.ArchitectPluginExtension
-import groovy.json.StringEscapeUtils
-import net.fabricmc.loom.api.LoomGradleExtensionAPI
-import net.fabricmc.loom.task.RemapJarTask
-
 plugins {
-    java
-    id("maven-publish")
-    id("com.teamresourceful.resourcefulgradle") version "0.0.+"
-    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
-    id("architectury-plugin") version "3.4-SNAPSHOT"
-    id("com.github.johnrengelman.shadow") version "7.1.2" apply false
+    id("earth.terrarium.cloche") version "0.9.4"
 }
 
-architectury {
-    val minecraftVersion: String by project
-    minecraft = minecraftVersion
-}
+group = "earth.terrarium"
+version = "2.0.0-alpha.5+1.21"
 
-subprojects {
-    apply(plugin = "maven-publish")
-    apply(plugin = "dev.architectury.loom")
-    apply(plugin = "architectury-plugin")
-    apply(plugin = "com.github.johnrengelman.shadow")
+repositories {
+    cloche.librariesMinecraft()
+    mavenCentral()
+    cloche.mavenNeoforged()
 
-    val minecraftVersion: String by project
-    val modLoader = project.name
-    val modId = rootProject.name
-    val isCommon = modLoader == rootProject.projects.common.name
+    cloche {
+        main()
 
-    base {
-        archivesName.set("$modId-$modLoader-$minecraftVersion")
-    }
-
-    configure<LoomGradleExtensionAPI> {
-        silentMojangMappingsLicense()
-    }
-
-    repositories {
-        maven(url = "https://maven.teamresourceful.com/repository/maven-public/")
-        maven(url = "https://maven.neoforged.net/releases/")
-        maven(url = "https://api.modrinth.com/maven/")
-        mavenLocal()
-    }
-
-    dependencies {
-        val resourcefulLibVersion: String by project
-        val cadmusVersion: String by project
-        val prometheusVersion: String by project
-        val heraclesVersion: String by project
-        val reiVersion: String by project
-
-        "minecraft"("::$minecraftVersion")
-
-        @Suppress("UnstableApiUsage")
-        "mappings"(project.the<LoomGradleExtensionAPI>().layered {
-            val parchmentVersion: String by project
-
-            officialMojangMappings()
-
-            parchment(create(group = "org.parchmentmc.data", name = "parchment-1.21", version = parchmentVersion))
-        })
-
-        "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-$minecraftVersion", version = resourcefulLibVersion)
-        val olympus = "modImplementation"(group = "earth.terrarium.olympus", name = "olympus-$modLoader-$minecraftVersion", version = "latest.release") {
-            isTransitive = false
-        }
-
-        "modCompileOnly"(group = "earth.terrarium.cadmus", name = "cadmus-$modLoader-$minecraftVersion", version = cadmusVersion) {
-            isTransitive = false
-        }
-
-        if (isCommon) {
-            "modCompileOnly"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion) {
-                isTransitive = false
-            }
-
-            "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-$minecraftVersion", version = prometheusVersion) {
-                isTransitive = false
-            }
-
-            "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-api", version = reiVersion)
-            "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-default-plugin", version = reiVersion)
-        } else {
-            "modCompileOnly"(group = "earth.terrarium.prometheus", name = "prometheus-$modLoader-$minecraftVersion", version = prometheusVersion) {
-                isTransitive = false
-            }
-//            "modLocalRuntime"(group = "earth.terrarium.heracles", name = "heracles-$modLoader-1.20.1", version = heraclesVersion)
-
-            "modRuntimeOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-$modLoader", version = reiVersion)
-            "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-api-$modLoader", version = reiVersion)
-            "modCompileOnly"(group = "me.shedaniel", name = "RoughlyEnoughItems-default-plugin-$modLoader", version = reiVersion)
-            "include"(olympus)
-        }
-    }
-
-    java {
-        withSourcesJar()
-    }
-
-    tasks.jar {
-        archiveClassifier.set("dev")
-    }
-
-    tasks.named<RemapJarTask>("remapJar") {
-        archiveClassifier.set(null as String?)
-    }
-
-    if (!isCommon) {
-        configure<ArchitectPluginExtension> {
-            platformSetupLoomIde()
-        }
-
-        val shadowCommon by configurations.creating {
-            isCanBeConsumed = false
-            isCanBeResolved = true
-        }
-
-        tasks {
-            "shadowJar"(ShadowJar::class) {
-                archiveClassifier.set("dev-shadow")
-                configurations = listOf(shadowCommon)
-            }
-
-            "remapJar"(RemapJarTask::class) {
-                dependsOn("shadowJar")
-                inputFile.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
-            }
-        }
-    }
-
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                artifactId = "$modId-$modLoader-$minecraftVersion"
-                from(components["java"])
-
-                pom {
-                    name.set("Odyssey Allies $modLoader")
-                    url.set("https://github.com/terrarium-earth/$modId")
-
-                    scm {
-                        connection.set("git:https://github.com/terrarium-earth/$modId.git")
-                        developerConnection.set("git:https://github.com/terrarium-earth/$modId.git")
-                        url.set("https://github.com/terrarium-earth/$modId")
-                    }
-
-                    licenses {
-                        license {
-                            name.set("MIT")
-                        }
-                    }
-                }
-            }
-        }
-        repositories {
-            maven {
-                setUrl("https://maven.teamresourceful.com/repository/terrarium/")
-                credentials {
-                    username = System.getenv("MAVEN_USER")
-                    password = System.getenv("MAVEN_PASS")
-                }
-            }
-        }
+        // mavenNeoforgedMeta()
+        maven(url = "https://maven.neoforged.net/mojang-meta")
+        mavenFabric()
     }
 }
 
-resourcefulGradle {
-    templates {
-        register("embed") {
-            val minecraftVersion: String by project
-            val version: String by project
-            val changelog: String = file("changelog.md").readText(Charsets.UTF_8)
-            val fabricLink: String? = System.getenv("FABRIC_RELEASE_URL")
-            val forgeLink: String? = System.getenv("FORGE_RELEASE_URL")
+cloche {
+    minecraftVersion = "1.21"
 
-            source.set(file("templates/embed.json.template"))
-            injectedValues.set(mapOf(
-                    "minecraft" to minecraftVersion,
-                    "version" to version,
-                    "changelog" to StringEscapeUtils.escapeJava(changelog),
-                    "fabric_link" to fabricLink,
-                    "forge_link" to forgeLink,
-            ))
+    metadata {
+        modId = "odyssey_allies"
+        name = "Odyssey Allies"
+        license = "MIT"
+        description = "Form a guild to live and work together with your friends. Form a party to fight and adventure together with allies. Chat with your guild, party or friends list in a neat UI"
+    }
+
+    neoforge {
+        loaderVersion = "21.0.167"
+
+        data()
+
+        runs {
+            server()
+            client()
+
+            data()
+        }
+    }
+
+    fabric {
+        loaderVersion = "0.16.10"
+
+        metadata {
+            entrypoint("main", "org.example.fabric.FabricExampleMod::initialize")
+        }
+
+        data()
+        client()
+
+        dependencies {
+            fabricApi("0.102.0")
+        }
+
+        runs {
+            server()
+            client()
+            data()
         }
     }
 }
