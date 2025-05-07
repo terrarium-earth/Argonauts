@@ -1,0 +1,172 @@
+{
+    "key.categories.project_odyssey": "Proyecto Odisea",
+    "key.argonauts.open_party_chat": "Abrir Chat de Grupo",
+    "key.argonauts.open_guild_chat": "Abrir Chat de Gremio",
+
+    "team.argonauts.member_status.owner": "§dPropietario",
+    "team.argonauts.member_status.member": "§aMiembro",
+    "team.argonauts.member_status.invited": "§eInvitado",
+    "team.argonauts.member_status.allied": "§bAliado",
+    "team.argonauts.member_status.fake_player": "§cJugador Falso",
+
+    "permission.argonauts.operator": "Operador",
+    "permission.argonauts.manageMembers": "Administrar Miembros",
+    "permission.argonauts.manageSettings": "Administrar Configuraciones",
+    "permission.argonauts.managePermissions": "Administrar Permisos",
+    "permission.argonauts.teleport": "Teletransporte",
+    "permission.argonauts.teleportMembers": "Teletransportar Miembros",
+
+    "permission.argonauts.operator.description": "Otorga al miembro todos los permisos",
+    "permission.argonauts.manageMembers.description": "Permite al miembro invitar, eliminar y modificar miembros",
+    "permission.argonauts.manageSettings.description": "Permite al miembro cambiar las configuraciones",
+    "permission.argonauts.managePermissions.description": "Permite al miembro modificar los permisos de otros miembros",
+    "permission.argonauts.teleport.description": "Permite al miembro usar comandos de teletransporte",
+    "permission.argonauts.teleportMembers.description": "Permite al miembro teletransportar a otros miembros",
+
+    "setting.argonauts.displayName": "Nombre para Mostrar",
+    "setting.argonauts.color": "Color",
+    "setting.argonauts.public": "Público",
+    "setting.argonauts.friendlyFire": "Fuego Amistoso",
+    "setting.argonauts.announceJoin": "Anunciar Ingreso",
+    "setting.argonauts.announceLeave": "Anunciar Salida",
+    "setting.argonauts.passiveTeleport": "Teletransporte Pasivo",
+    "setting.argonauts.motd": "MOTD",
+    "setting.argonauts.headquarters": "Sede",
+
+    "setting.argonauts.displayName.description": "El nombre para mostrar del gremio",
+    "setting.argonauts.color.description": "El color del gremio",
+    "setting.argonauts.public.description": "Si cualquiera puede unirse sin invitación",
+    "setting.argonauts.friendlyFire.description": "Si los miembros pueden dañarse entre sí",
+    "setting.argonauts.announceJoin.description": "Si se deben anunciar los nuevos miembros en el chat",
+    "setting.argonauts.announceLeave.description": "Si se deben anunciar los miembros que se van en el chat",
+    "setting.argonauts.passiveTeleport.description": "Si los miembros pueden teletransportarse entre sí",
+    "setting.argonauts.motd.description": "Muestra un Mensaje del Día cuando un miembro se une al juego",
+    "setting.argonauts.headquarters.description": "La ubicación de la sede del gremio",
+
+    "motd.argonauts.title": "Mensaje del Día",
+    "motd.argonauts.header": "§m       §7[§6MOTD§7]§m       ",
+    "motd.argonauts.line": "                      ",
+
+    "chat.argonauts.message": "[%s] <%s> %s",
+
+    "command.argonauts.guild_name": "Gremio de %s",
+    "command.argonauts.party_name": "Grupo de %s",
+
+    "command.argonauts.guild_create": "§7Se creó el gremio %s",
+    "command.argonauts.party_create": "§7Se creó el grupo %s",
+    "command.argonauts.guild_disband": "§7Se disolvió el gremio %s",
+    "command.argonauts.party_disband": "§7Se disolvió el grupo %s",
+
+    "command.argonauts.add_ally": "§b%s §7ahora es aliado de tu gremio",
+    "command.argonauts.remove_ally": "§b%s §7ya no es aliado de tu gremio",
+    "command.argonauts.list_ally": "§b%s",
+    "command.argonauts.now_allied": "§7Ahora eres aliado de §b%s",
+    "command.argonauts.no_longer_allied": "§7Ya no eres aliado de §b%s",
+
+    "command.argonauts.transfer_guild": "§7Se transfirió la propiedad del gremio a §b%s",
+    "command.argonauts.now_guild_owner": "§7Ahora eres el propietario de %s",
+    "command.argonauts.transfer_party": "§7Se transfirió el liderazgo del grupo a §b%s",
+    "command.argonauts.now_party_owner": "§7Ahora eres el líder de %s",
+
+    "command.argonauts.invite": "§7Has invitado a §b%s",
+    "command.argonauts.guild_invited": "§b%s §7te ha invitado a unirte al gremio %s",
+    "command.argonauts.party_invited": "§b%s §7te ha invitado a unirte al grupo %s",
+    "command.argonauts.click_to_accept": "§bHaz clic para aceptar",
+    "command.argonauts.join": "§7Unirse a %s",
+
+    "command.argonauts.join_guild": "§7Te has unido al gremio %s",
+    "command.argonauts.join_party": "§7Te has unido al grupo %s",
+
+    "command.argonauts.joined_guild": "§b%s §7se ha unido a tu gremio",
+    "command.argonauts.joined_party": "§b%s §7se ha unido a tu grupo",
+
+    "command.argonauts.leave_guild": "§7Has dejado el gremio %s",
+    "command.argonauts.leave_party": "§7Has dejado el grupo %s",
+
+    "command.argonauts.left_guild": "§b%s §7ha dejado tu gremio",
+    "command.argonauts.left_party": "§b%s §7ha dejado tu grupo",
+
+    "command.argonauts.kick": "§7Expulsado §b%s",
+    "command.argonauts.guild_kicked": "§b%s §7te ha expulsado del gremio %s",
+    "command.argonauts.party_kicked": "§b%s §7te ha expulsado del grupo %s",
+
+    "command.argonauts.add_fake_player": "§7Se agregó el jugador falso §b%s",
+    "command.argonauts.remove_fake_player": "§7Se eliminó el jugador falso §b%s",
+    "command.argonauts.list_fake_player": "§b%s",
+
+    "command.argonauts.list_member":  "§b%s §6[%s§6]",
+
+    "command.argonauts.permissions.set": "§7Se estableció el permiso §b%s§7 a §b%s§7 para §6%s",
+    "command.argonauts.permissions.get": "§7El permiso §b%s§7 está establecido en §b%s§7 para §6%s",
+    "command.argonauts.permissions.list": "§b%s: §6%s",
+
+    "command.argonauts.setting.set": "§7Se estableció la configuración§b %s§7 de §6%s§7 a §6%s",
+    "command.argonauts.setting.get": "§b%s§7 está configurado en §b%s",
+
+    "command.argonauts.exception.already_in_guild": "Ya estás en un gremio.",
+    "command.argonauts.exception.not_in_guild": "No estás en un gremio.",
+    "command.argonauts.exception.player_not_in_guild": "Este jugador no está en tu gremio.",
+    "command.argonauts.exception.player_is_guild_member": "Este jugador ya está en tu gremio.",
+    "command.argonauts.exception.not_guild_owner": "No eres el propietario del gremio.",
+    "command.argonauts.exception.headquarters_not_set": "La sede del gremio no está establecida.",
+    "command.argonauts.exception.cant_ally_yourself": "No puedes aliarte contigo mismo.",
+    "command.argonauts.exception.not_ally": "Este jugador no está aliado a tu gremio.",
+    "command.argonauts.exception.player_already_ally": "Este jugador ya está aliado a tu gremio.",
+    "command.argonauts.exception.not_invited_to_guild": "No estás invitado a este gremio.",
+    "command.argonauts.exception.guild_full": "Este gremio está lleno.",
+    "command.argonauts.exception.fake_player_already_in_guild": "Este jugador falso ya está en tu gremio.",
+    "command.argonauts.exception.fake_player_not_in_guild": "Este jugador falso no está en tu gremio.",
+    "command.argonauts.exception.guild_does_not_exist": "Este gremio no existe.",
+
+    "command.argonauts.exception.already_in_party": "Ya estás en un grupo.",
+    "command.argonauts.exception.not_in_party": "No estás en un grupo.",
+    "command.argonauts.exception.player_not_in_party": "Este jugador no está en tu grupo.",
+    "command.argonauts.exception.player_is_party_member": "Este jugador ya está en tu grupo.",
+    "command.argonauts.exception.not_party_owner": "No eres el líder del grupo.",
+    "command.argonauts.exception.not_invited_to_party": "No estás invitado a este grupo.",
+    "command.argonauts.exception.party_full": "Este grupo está lleno.",
+
+    "command.argonauts.exception.cant_transfer_to_yourself": "No puedes transferirte a ti mismo.",
+    "command.argonauts.exception.cant_invite_yourself": "No puedes invitarte a ti mismo.",
+    "command.argonauts.exception.cant_kick_yourself": "No puedes expulsarte a ti mismo.",
+
+    "command.argonauts.exception.no_permission_manage_members": "No tienes permiso para administrar miembros.",
+    "command.argonauts.exception.no_permission_manage_settings": "No tienes permiso para administrar configuraciones.",
+    "command.argonauts.exception.no_permission_manage_permissions": "No tienes permiso para administrar permisos.",
+    "command.argonauts.exception.no_permission_teleport": "No tienes permiso para teletransportarte.",
+    "command.argonauts.exception.no_permission_teleport_members": "No tienes permiso para teletransportar a otros miembros.",
+    "command.argonauts.exception.no_permission_create_guild": "No tienes permiso para crear un gremio.",
+    "command.argonauts.exception.no_permission_create_party": "No tienes permiso para crear un grupo.",
+    "command.argonauts.exception.passive_teleport_disabled": "El teletransporte pasivo está desactivado.",
+
+    "gamerule.maxGuildMembers": "Máximo de Miembros del Gremio",
+    "gamerule.maxPartyMembers": "Máximo de Miembros del Grupo",
+
+    "gamerule.maxGuildMembers.description": "Máximo de Miembros del Gremio",
+    "gamerule.maxPartyMembers.description": "Máximo de Miembros del Grupo",
+
+    "option.prometheus.argonauts/v1": "Argonauts",
+
+    "gui.argonauts.party_chat.title": "Chat del Grupo",
+    "gui.argonauts.party_members.title": "Miembros del Grupo",
+    "gui.argonauts.party_settings.title": "Configuraciones del Grupo",
+    "gui.argonauts.guild_chat.title": "Chat del Gremio",
+    "gui.argonauts.guild_members.title": "Miembros del Gremio",
+    "gui.argonauts.guild_settings.title": "Configuraciones del Gremio",
+
+    "gui.argonauts.online_members": "%s/%s en línea",
+    "gui.argonauts.member_status": "Estado del Miembro",
+    "gui.argonauts.member_permissions": "Permisos",
+    "gui.argonauts.member_actions": "Acciones",
+    "gui.argonauts.settings": "Configuraciones",
+
+    "gui.argonauts.remove_member": "Eliminar Miembro",
+    "gui.argonauts.remove": "Eliminar",
+
+    "gui.argonauts.max_guild_members": "Máximo de Miembros del Gremio",
+    "gui.argonauts.max_party_members": "Máximo de Miembros del Grupo",
+
+    "rei.sections.project_odyssey": "Proyecto Odisea",
+    "rei.argonauts.party_chat.tooltip": "Abrir Chat del Grupo",
+    "rei.argonauts.party_management.tooltip": "Abrir Administración del Grupo"
+}
