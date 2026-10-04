@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "odyssey_allies",
+    "id": "argonauts",
     "version": "${version}",
     "name": "Odyssey Allies",
     "description": "A guild and party mod to work and play together with your teammates on a server!",
@@ -21,17 +21,17 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "earth.terrarium.odyssey_allies.fabric.OdysseyAlliesFabric"
+            "earth.terrarium.argonauts.fabric.ArgonautsFabric"
         ],
         "client": [
-            "earth.terrarium.odyssey_allies.client.fabric.OdysseyAlliesClientFabric"
+            "earth.terrarium.argonauts.client.fabric.ArgonautsClientFabric"
         ],
         "rei_client": [
-            "earth.terrarium.odyssey_allies.client.compat.rei.AlliesREIClientPlugin"
+            "earth.terrarium.argonauts.client.compat.rei.ArgonautsREIClientPlugin"
         ]
     },
     "mixins": [
-        "odyssey_allies-common.mixins.json"
+        "argonauts-common.mixins.json"
     ],
     "depends": {
         "fabric-api": "*",

@@ -9,6 +9,12 @@ pluginManagement {
         maven(url = "https://maven.teamresourceful.com/repository/maven-public/")
         gradlePluginPortal()
     }
+    plugins {
+        kotlin("jvm") version "2.4.0"
+    }
+}
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
 include("common")
