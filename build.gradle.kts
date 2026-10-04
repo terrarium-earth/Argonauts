@@ -50,6 +50,7 @@ subprojects {
         val prometheusVersion: String by project
         val heraclesVersion: String by project
         val reiVersion: String by project
+        val olympusVersion: String by project
 
         "minecraft"("::$minecraftVersion")
 
@@ -63,7 +64,7 @@ subprojects {
         })
 
         "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-$minecraftVersion", version = resourcefulLibVersion)
-        val olympus = "modImplementation"(group = "earth.terrarium.olympus", name = "olympus-$modLoader-$minecraftVersion", version = "latest.release") {
+        val olympus = "modImplementation"(group = "earth.terrarium.olympus", name = "olympus-$modLoader-$minecraftVersion", version = olympusVersion) {
             isTransitive = false
         }
 

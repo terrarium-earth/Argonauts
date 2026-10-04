@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    modImplementation(group = "earth.terrarium", name = "odyssey_allies-$modLoader-$minecraftVersion", version = alliesVersion)
+    modImplementation(group = "earth.terrarium", name = "argonauts-$modLoader-$minecraftVersion", version = alliesVersion)
 }
 ```
 
@@ -22,6 +22,6 @@ repositories {
 }
 
 dependencies {
-    modImplementation group: "earth.terrarium", name: "odyssey_allies-$modLoader-$minecraftVersion", version: alliesVersion
+    modImplementation group: "earth.terrarium", name: "argonauts-$modLoader-$minecraftVersion", version: alliesVersion
 }
 ```

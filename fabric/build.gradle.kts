@@ -12,6 +12,15 @@ repositories {
     mavenLocal()
 }
 
+loom {
+    runs.getByName("client") {
+        programArgs.add("--username")
+        programArgs.add("CodexAdrian")
+        programArgs.add("--uuid")
+        programArgs.add("78a06298-7263-433f-8433-b4fe19d116f9")
+    }
+}
+
 dependencies {
     val minecraftVersion: String by project
     val fabricLoaderVersion: String by project

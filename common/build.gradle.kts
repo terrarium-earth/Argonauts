@@ -1,3 +1,6 @@
+plugins {
+    kotlin("jvm")
+}
 architectury {
     val enabledPlatforms: String by rootProject
     common(enabledPlatforms.split(","))
@@ -8,4 +11,11 @@ dependencies {
 
     modCompileOnly(group = "tech.thatgravyboat", name = "commonats", version = "2.0")
     modImplementation(group = "eu.pb4", name = "placeholder-api", version = placeholderApiVersion)
+    testImplementation(kotlin("test"))
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    jvmToolchain(21)
 }
